@@ -162,14 +162,14 @@
             <div>
                 <label for="startLocation">اختر الموقع الأول</label>
                 <select id="startLocation" disabled>
-                    <option value="">اختر موقع</option>
+                    <option value="موقعي الحالي">موقعي الحالي</option> <!-- إضافة خيار موقعي الحالي -->
                 </select>
             </div>
 
             <div>
                 <label for="endLocation">اختر الموقع الثاني</label>
                 <select id="endLocation" disabled>
-                    <option value="">اختر موقع</option>
+                    <option value="موقعي الحالي">موقعي الحالي</option> <!-- إضافة خيار موقعي الحالي -->
                 </select>
             </div>
         </div>
@@ -398,6 +398,7 @@
             // يمكنك إضافة المزيد من المناطق والمواقع هنا
         };
 
+
         const regionSelect = document.getElementById('regionSelect');
         const startLocationSelect = document.getElementById('startLocation');
         const endLocationSelect = document.getElementById('endLocation');
@@ -492,8 +493,11 @@
             const startSelect = document.getElementById('startLocation');
             const endSelect = document.getElementById('endLocation');
 
-            startSelect.innerHTML = '<option value="">اختر موقع</option>';
-            endSelect.innerHTML = '<option value="">اختر موقع</option>';
+            startSelect.innerHTML = ""; // إزالة الخيارات السابقة
+            endSelect.innerHTML = ""; // إزالة الخيارات السابقة
+            
+            startSelect.add(new Option("موقعي الحالي", "موقعي الحالي"));
+            endSelect.add(new Option("موقعي الحالي", "موقعي الحالي"));
 
             if (locationNames.length === 0) {
                 startSelect.disabled = true;
@@ -567,12 +571,32 @@
         });
 
         function calculateDistanceBetweenLocations(start, end) {
-            const latLngStart = locations[start];
-            const latLngEnd = locations[end];
-            const distance = google.maps.geometry.spherical.computeDistanceBetween(latLngStart, latLngEnd) / 1000; // Convert to km
-            document.getElementById('calculatedDistance').innerText = distance.toFixed(2);
-            drawRoute(latLngStart, latLngEnd);
+            if (start === "موقعي الحالي" || end === "موقعي الحالي") {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((position) => {
+                        const latLngCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                        const latLngStart = start === "موقعي الحالي" ? latLngCurrent : locations[start];
+                        const latLngEnd = end === "موقعي الحالي" ? latLngCurrent : locations[end];
+
+                        const distance = google.maps.geometry.spherical.computeDistanceBetween(latLngStart, latLngEnd) / 1000; // Convert to km
+                        document.getElementById('calculatedDistance').innerText = distance.toFixed(2);
+                        drawRoute(latLngStart, latLngEnd);
+                    }, (error) => {
+                        console.error("Error getting location: ", error);
+                        alert("فشل في الحصول على الموقع الحالي. تأكد من تفعيل GPS.");
+                    });
+                } else {
+                    alert("تدعم هذه الميزة المتصفحات التي تحتوي على خدمات الموقع.");
+                }
+            } else {
+                const latLngStart = locations[start];
+                const latLngEnd = locations[end];
+                const distance = google.maps.geometry.spherical.computeDistanceBetween(latLngStart, latLngEnd) / 1000; // Convert to km
+                document.getElementById('calculatedDistance').innerText = distance.toFixed(2);
+                drawRoute(latLngStart, latLngEnd);
+            }
         }
+
 
         function drawRoute(start, end) {
             const request = {
