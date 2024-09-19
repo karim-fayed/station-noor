@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خريطة جوجل - المناطق والمواقع</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            vertical-align: top;
+            word-wrap: break-word;
+        }
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .map-container {
+            width: 100%;
+            height: 400px;
+            position: relative;
+        }
+        .locations-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .locations-list li {
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+        .locations-list li.active {
+            font-weight: bold;
+            color: blue;
+        }
+        #loadingMessage {
+            font-size: 18px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingMessage">جارٍ تحميل البيانات...</div>
+    <h1>عرض المناطق والمواقع على خريطة جوجل</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>المنطقة</th>
+                <th>الموقع</th>
+                <th>المسافة</th>
+                <th>الخريطة</th>
+            </tr>
+        </thead>
+        <tbody id="regionsTable">
+            <!-- الصفوف ستُضاف هنا ديناميكياً -->
+        </tbody>
+    </table>
+
+    <div class="map-container" id="map"></div>
+
+    <!-- إدراج مكتبة Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry"></script>
+    <script>
+        let activeMarker = null;
+        let map = null;
+        let markers = {};
+        let locations = {};
+        const bluePinUrl = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+
+        function initMap() {
+            const regionsData = {
+                "Riyad": [
+                {name: "الصيعري", lat: 24.7136, lng: 46.6753},
+                {name: "العزيزية", lat: 24.6740, lng: 46.7219},
+                {name: "الملز", lat: 24.6920, lng: 46.7219},
+                {name: "أشبيليا", lat: 24.7235, lng: 46.6784},
+                {name: "المزاحمية", lat: 24.7512, lng: 46.7122},
+                {name: "المزاحمية2", lat: 24.7556, lng: 46.7154},
+                {name: "المزاحمية3", lat: 24.7627, lng: 46.7101},
+                {name: "الضرما", lat: 24.7181, lng: 46.6231},
+                {name: "الطويق", lat: 24.7054, lng: 46.7247},
+                {name: "النسيم", lat: 24.7512, lng: 46.7401},
+                {name: "ظهرة البديعة", lat: 24.6886, lng: 46.7176},
+                {name: "الرمال", lat: 24.7639, lng: 46.7151},
+                {name: "الجريفة", lat: 24.6905, lng: 46.7490},
+                {name: "اليروموك", lat: 24.7383, lng: 46.6916},
+                {name: "وادي الدواسر", lat: 22.4255, lng: 55.9608},
+                {name: "القصيم", lat: 26.3067, lng: 43.9730},
+                {name: "العويمر", lat: 24.7836, lng: 46.8416},
+                {name: "سعدي", lat: 24.7890, lng: 46.8119},
+                {name: "أجزاال", lat: 24.7860, lng: 46.7955},
+                {name: "الراية", lat: 24.8005, lng: 46.7878},
+                {name: "البقرية", lat: 24.7865, lng: 46.7731},
+                {name: "النايفات", lat: 24.7865, lng: 46.7703},
+                {name: "الخرج", lat: 24.7048, lng: 46.6936},
+                {name: "لبن", lat: 24.7136, lng: 46.6749},
+                {name: "الزير", lat: 24.7101, lng: 46.6763},
+                {name: "سهلة", lat: 24.7082, lng: 46.6768},
+                {name: "المنصوره", lat: 24.7266, lng: 46.6755},
+                {name: "طويق", lat: 24.7110, lng: 46.6810},
+                {name: "أبو بكر", lat: 24.7165, lng: 46.6769},
+                {name: "صالصل", lat: 24.7057, lng: 46.6815},
+                {name: "الخبر", lat: 26.2125, lng: 50.2157},
+                {name: "ظهران", lat: 26.2055, lng: 50.1971},
+                {name: "الشدي", lat: 26.1982, lng: 50.2155},
+                {name: "خضرية1", lat: 26.2111, lng: 50.1845},
+                {name: "خضرية2", lat: 26.2116, lng: 50.1921},
+                {name: "الحمادي", lat: 26.2130, lng: 50.1818},
+                {name: "أبو حدرية", lat: 26.2138, lng: 50.1864},
+                {name: "المشرقين", lat: 26.2155, lng: 50.1836},
+                {name: "أجياد", lat: 26.2110, lng: 50.1797},
+                {name: "جبيل2", lat: 26.2100, lng: 50.1825},
+                {name: "المباركية", lat: 26.2115, lng: 50.1814},
+                {name: "جبيل1", lat: 26.2092, lng: 50.1820},
+                {name: "عسكر", lat: 26.2099, lng: 50.1819},
+                {name: "سيهات", lat: 26.2081, lng: 50.1776},
+                {name: "الغدير", lat: 26.2135, lng: 50.1790},
+                {name: "اليرموك", lat: 26.2104, lng: 50.1782},
+                {name: "الحاسر", lat: 26.2080, lng: 50.1815},
+                {name: "النهدي", lat: 26.2078, lng: 50.1795},
+                {name: "الخوارزمي", lat: 26.2090, lng: 50.1755}
+            ],
+            "نجران Najran": [
+                {name: "العريسة", lat: 17.565, lng: 44.223},
+                {name: "الغثمة", lat: 17.575, lng: 44.233},
+                {name: "شرورة", lat: 17.485, lng: 44.243},
+                {name: "مكة", lat: 21.422, lng: 39.826},
+                {name: "حبونا", lat: 17.495, lng: 44.253},
+                {name: "الضباط", lat: 17.488, lng: 44.255},
+                {name: "الفيصلية", lat: 17.480, lng: 44.260},
+                {name: "حديقة المطار", lat: 17.470, lng: 44.250},
+                {name: "الحزام", lat: 17.485, lng: 44.245},
+                {name: "المطار", lat: 17.490, lng: 44.255},
+                {name: "صاغر", lat: 17.510, lng: 44.250},
+                {name: "الراية", lat: 17.525, lng: 44.245},
+                {name: "الامارات", lat: 17.540, lng: 44.260},
+                {name: "الغابة", lat: 17.550, lng: 44.270},
+                {name: "الحصينية", lat: 17.560, lng: 44.275},
+                {name: "دلة", lat: 17.575, lng: 44.280},
+                {name: "الملك سعود", lat: 17.580, lng: 44.290},
+                {name: "المستشفى العسكري", lat: 17.585, lng: 44.295},
+                {name: "رجالء", lat: 17.590, lng: 44.300},
+                {name: "نهوقة", lat: 17.595, lng: 44.305},
+                {name: "مفرق شرورة", lat: 17.600, lng: 44.310},
+                {name: "البهجة", lat: 17.605, lng: 44.315},
+                {name: "تصالل", lat: 17.610, lng: 44.320},
+                {name: "الشرى", lat: 17.615, lng: 44.325},
+                {name: "الفحص الدوري", lat: 17.620, lng: 44.330},
+                {name: "الحضن", lat: 17.625, lng: 44.335},
+                {name: "الأثايبة", lat: 17.630, lng: 44.340},
+                {name: "الجربة", lat: 17.635, lng: 44.345},
+                {name: "المشعلية", lat: 17.640, lng: 44.350},
+                {name: "الغويال", lat: 17.645, lng: 44.355},
+                {name: "الرديف", lat: 17.650, lng: 44.360},
+                {name: "الجامعة", lat: 17.655, lng: 44.365},
+                {name: "المحمدية", lat: 17.660, lng: 44.370},
+                {name: "الشالل", lat: 17.665, lng: 44.375},
+                {name: "الضيقة", lat: 17.670, lng: 44.380},
+                {name: "الضيقة أركان", lat: 17.675, lng: 44.385},
+                {name: "نقطة تفتيش بئر عسكر", lat: 17.680, lng: 44.390},
+                {name: "الفانوس", lat: 17.685, lng: 44.395},
+                {name: "الشرفة", lat: 17.690, lng: 44.400},
+                {name: "حي الفهد", lat: 17.695, lng: 44.405},
+                {name: "ثار", lat: 17.700, lng: 44.410},
+                {name: "الملك سلطان عبد الله", lat: 17.705, lng: 44.415},
+                {name: "حمى", lat: 17.710, lng: 44.420},
+                {name: "هدادة الخانق", lat: 17.715, lng: 44.425},
+                {name: "قطن", lat: 17.720, lng: 44.430},
+                {name: "المجمع", lat: 17.725, lng: 44.435},
+                {name: "حي الأمير خباش", lat: 17.730, lng: 44.440},
+                {name: "مشعل", lat: 17.735, lng: 44.445},
+                {name: "زهور الأخدود", lat: 17.740, lng: 44.450},
+                {name: "يدمة", lat: 17.745, lng: 44.455},
+                {name: "التعاون", lat: 17.750, lng: 44.460},
+                {name: "طيبة", lat: 17.755, lng: 44.465},
+                {name: "روابي المسعلية", lat: 17.760, lng: 44.470},
+                {name: "الراكه", lat: 17.765, lng: 44.475},
+                {name: "مفرق شرورة", lat: 17.770, lng: 44.480},
+                {name: "السبيل", lat: 17.775, lng: 44.485},
+                {name: "ظهران", lat: 17.780, lng: 44.490},
+                {name: "النخيل", lat: 17.785, lng: 44.495},
+                {name: "العرين", lat: 17.790, lng: 44.500}
+            ],
+            "عسير": [
+                {name: "المفجر", lat: 18.220, lng: 42.501},
+                {name: "الخميس", lat: 18.224, lng: 42.502},
+                {name: "الواديين", lat: 18.220, lng: 42.505},
+                {name: "الواديين ب7", lat: 18.225, lng: 42.508},
+                {name: "الواديين ب1", lat: 18.230, lng: 42.510},
+                {name: "الأمواه", lat: 18.240, lng: 42.515},
+                {name: "الخميس ب3", lat: 18.250, lng: 42.520},
+                {name: "الخميس ب9", lat: 18.260, lng: 42.525},
+                {name: "أبها ب5", lat: 18.265, lng: 42.530},
+                {name: "بيشة الشاكرين", lat: 18.275, lng: 42.535},
+                {name: "بيشة التعاون", lat: 18.280, lng: 42.540},
+                {name: "الحرجة", lat: 18.285, lng: 42.545}
+            ],
+            "جازان Jazan": [
+                {name: "أبو عريش", lat: 17.562, lng: 42.552},
+                {name: "الميناء", lat: 17.570, lng: 42.555},
+                {name: "الكواملة الورود", lat: 17.575, lng: 42.560},
+                {name: "العارضة", lat: 17.580, lng: 42.565},
+                {name: "الزرقاء", lat: 17.585, lng: 42.570},
+                {name: "بيشة RS", lat: 18.290, lng: 42.575}
+            ],
+            "مكة Makkah": [
+                {name: "العوالي", lat: 21.389, lng: 39.853},
+                {name: "المعيصم", lat: 21.397, lng: 39.867},
+                {name: "الفهد", lat: 21.400, lng: 39.870},
+                {name: "التربة", lat: 21.405, lng: 39.875},
+                {name: "الجواد", lat: 21.410, lng: 39.880}
+            ],
+            "جدة": [
+                {name: "مستورة حداء", lat: 21.541, lng: 39.176},
+                {name: "الشهراني", lat: 21.530, lng: 39.175},
+                {name: "المناره", lat: 21.522, lng: 39.175},
+                {name: "النورس", lat: 21.515, lng: 39.180},
+                {name: "أويل كاش", lat: 21.510, lng: 39.185},
+                {name: "الهدوء", lat: 21.505, lng: 39.190},
+                {name: "الجزيرة", lat: 21.500, lng: 39.195}
+            ],
+            "رنية": [
+                {name: "نقاء", lat: 21.485, lng: 39.195},
+                {name: "النهضة", lat: 21.480, lng: 39.200}
+            ],
+            "القنفذة": [
+                {name: "اسناد", lat: 20.415, lng: 41.765},
+                {name: "المحاميد", lat: 20.420, lng: 41.770}
+            ],
+            "الطائف": [
+                {name: "درب3", lat: 21.258, lng: 40.514},
+                {name: "درب5", lat: 21.265, lng: 40.520},
+                {name: "درب28", lat: 21.275, lng: 40.525},
+                {name: "درب23", lat: 21.280, lng: 40.530},
+                {name: "درب20", lat: 21.285, lng: 40.535}
+            ]
+                // أضف المناطق الأخرى هنا
+            };
+
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: {lat: 24.7136, lng: 46.6753} // مركز الخريطة الأولي
+            });
+
+            let locationsList = document.getElementById('regionsTable');
+            for (const [region, places] of Object.entries(regionsData)) {
+                places.forEach((place, index) => {
+                    const latLng = new google.maps.LatLng(place.lat, place.lng);
+
+                    // إضافة marker إلى الخريطة
+                    const marker = new google.maps.Marker({
+                        position: latLng,
+                        map: map,
+                        title: place.name,
+                        icon: bluePinUrl
+                    });
+
+                    // تخزين marker
+                    markers[place.name] = marker;
+
+                    // إضافة موقع إلى الجدول
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${region}</td>
+                        <td><a href="#" onclick="setActiveMarker('${place.name}')">${place.name}</a></td>
+                        <td id="distance-${index}"></td>
+                        <td><a href="#" onclick="showLocationOnMap(${place.lat}, ${place.lng})">عرض على الخريطة</a></td>
+                    `;
+                    locationsList.appendChild(row);
+
+                    locations[place.name] = latLng;
+                });
+            }
+
+            // حساب المسافات وعرضها
+            calculateDistances();
+        }
+
+        function setActiveMarker(name) {
+            if (activeMarker) {
+                activeMarker.setIcon(bluePinUrl);
+            }
+            activeMarker = markers[name];
+            activeMarker.setIcon('https://maps.google.com/mapfiles/ms/icons/red-dot.png');
+            map.setCenter(activeMarker.getPosition());
+            map.setZoom(14);
+        }
+
+        function showLocationOnMap(lat, lng) {
+            map.setCenter(new google.maps.LatLng(lat, lng));
+            map.setZoom(14);
+        }
+
+        function calculateDistances() {
+            const locationsArray = Object.entries(locations);
+            locationsArray.forEach(([name1, latLng1], index1) => {
+                locationsArray.forEach(([name2, latLng2], index2) => {
+                    if (index1 < index2) {
+                        const distance = google.maps.geometry.spherical.computeDistanceBetween(latLng1, latLng2) / 1000; // المسافة بالكيلومترات
+                        const distanceElement = document.getElementById(`distance-${index1}`);
+                        if (distanceElement) {
+                            distanceElement.textContent = `${distance.toFixed(2)} كم`;
+                        }
+                    }
+                });
+            });
+        }
+
+        window.onload = initMap;
+    </script>
+</body>
+</html>
