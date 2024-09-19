@@ -286,54 +286,7 @@
                 {name: "الحزام", lat: 17.532736998008108, lng: 44.201022202125166},
                 {name: "المطار", lat: 17.561596046443658, lng: 43.98207050125787},
                 {name: "صاغر", lat: 17.604823594472233, lng: 44.232469327614325},
-                {name: "الراية", lat: 17.525, lng: 44.245},
-                {name: "الامارات", lat: 17.540, lng: 44.260},
-                {name: "الغابة", lat: 17.550, lng: 44.270},
-                {name: "الحصينية", lat: 17.560, lng: 44.275},
-                {name: "دلة", lat: 17.575, lng: 44.280},
-                {name: "الملك سعود", lat: 17.580, lng: 44.290},
-                {name: "المستشفى العسكري", lat: 17.585, lng: 44.295},
-                {name: "رجالء", lat: 17.590, lng: 44.300},
-                {name: "نهوقة", lat: 17.595, lng: 44.305},
-                {name: "مفرق شرورة", lat: 17.600, lng: 44.310},
-                {name: "البهجة", lat: 17.605, lng: 44.315},
-                {name: "تصالل", lat: 17.610, lng: 44.320},
-                {name: "الشرى", lat: 17.615, lng: 44.325},
-                {name: "الفحص الدوري", lat: 17.620, lng: 44.330},
-                {name: "الحضن", lat: 17.625, lng: 44.335},
-                {name: "الأثايبة", lat: 17.630, lng: 44.340},
-                {name: "الجربة", lat: 17.635, lng: 44.345},
-                {name: "المشعلية", lat: 17.640, lng: 44.350},
-                {name: "الغويال", lat: 17.645, lng: 44.355},
-                {name: "الرديف", lat: 17.650, lng: 44.360},
-                {name: "الجامعة", lat: 17.655, lng: 44.365},
-                {name: "المحمدية", lat: 17.660, lng: 44.370},
-                {name: "الشالل", lat: 17.665, lng: 44.375},
-                {name: "الضيقة", lat: 17.670, lng: 44.380},
-                {name: "الضيقة أركان", lat: 17.675, lng: 44.385},
-                {name: "نقطة تفتيش بئر عسكر", lat: 17.680, lng: 44.390},
-                {name: "الفانوس", lat: 17.685, lng: 44.395},
-                {name: "الشرفة", lat: 17.690, lng: 44.400},
-                {name: "حي الفهد", lat: 17.695, lng: 44.405},
-                {name: "ثار", lat: 17.700, lng: 44.410},
-                {name: "الملك سلطان عبد الله", lat: 17.705, lng: 44.415},
-                {name: "حمى", lat: 17.710, lng: 44.420},
-                {name: "هدادة الخانق", lat: 17.715, lng: 44.425},
-                {name: "قطن", lat: 17.720, lng: 44.430},
-                {name: "المجمع", lat: 17.725, lng: 44.435},
-                {name: "حي الأمير خباش", lat: 17.730, lng: 44.440},
-                {name: "مشعل", lat: 17.735, lng: 44.445},
-                {name: "زهور الأخدود", lat: 17.740, lng: 44.450},
-                {name: "يدمة", lat: 17.745, lng: 44.455},
-                {name: "التعاون", lat: 17.750, lng: 44.460},
-                {name: "طيبة", lat: 17.755, lng: 44.465},
-                {name: "روابي المسعلية", lat: 17.760, lng: 44.470},
-                {name: "الراكه", lat: 17.765, lng: 44.475},
-                {name: "مفرق شرورة", lat: 17.770, lng: 44.480},
-                {name: "السبيل", lat: 17.775, lng: 44.485},
-                {name: "ظهران", lat: 17.780, lng: 44.490},
-                {name: "النخيل", lat: 17.785, lng: 44.495},
-                {name: "العرين", lat: 17.790, lng: 44.500}
+
             ],
             "عسير Asir": [
                 {name: "المفجر", lat: 18.220, lng: 42.501},
@@ -495,26 +448,28 @@
 
             startSelect.innerHTML = ""; // إزالة الخيارات السابقة
             endSelect.innerHTML = ""; // إزالة الخيارات السابقة
-            
-            startSelect.add(new Option("موقعي الحالي", "موقعي الحالي"));
-            endSelect.add(new Option("موقعي الحالي", "موقعي الحالي"));
 
-            if (locationNames.length === 0) {
+            if (locationNames.length > 0) {
+                startSelect.add(new Option("اختر موقع", ""));
+                endSelect.add(new Option("اختر موقع", ""));
+                startSelect.add(new Option("موقعي الحالي", "موقعي الحالي"));
+                endSelect.add(new Option("موقعي الحالي", "موقعي الحالي"));
+
+                locationNames.forEach(name => {
+                    startSelect.add(new Option(name, name));
+                    endSelect.add(new Option(name, name));
+                });
+
+                startSelect.disabled = false;
+                endSelect.disabled = false;
+            } else {
                 startSelect.disabled = true;
                 endSelect.disabled = true;
-                return;
             }
-
-            startSelect.disabled = false;
-            endSelect.disabled = false;
-
-            locationNames.forEach(name => {
-                startSelect.add(new Option(name, name));
-                endSelect.add(new Option(name, name));
-            });
 
             resetSelectedDistance();
         }
+
 
         function centerMap(lat, lng) {
             map.setCenter(new google.maps.LatLng(lat, lng));
@@ -573,6 +528,11 @@
         function calculateDistanceBetweenLocations(start, end) {
             if (start === "موقعي الحالي" || end === "موقعي الحالي") {
                 if (navigator.geolocation) {
+                    const options = {
+                        enableHighAccuracy: true, // تفعيل الدقة العالية
+                        maximumAge: 0,
+                        timeout: 10000 // زيادة الوقت المسموح به
+                    };
                     navigator.geolocation.getCurrentPosition((position) => {
                         const latLngCurrent = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                         const latLngStart = start === "موقعي الحالي" ? latLngCurrent : locations[start];
@@ -584,7 +544,7 @@
                     }, (error) => {
                         console.error("Error getting location: ", error);
                         alert("فشل في الحصول على الموقع الحالي. تأكد من تفعيل GPS.");
-                    });
+                    }, options);
                 } else {
                     alert("تدعم هذه الميزة المتصفحات التي تحتوي على خدمات الموقع.");
                 }
