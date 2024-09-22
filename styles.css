@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', Arial, sans-serif; /* دمج الخطوط */
+}
+
+body {
+    direction: rtl;
+    display: flex;
+    flex-direction: row;
+    background-image: url('./Wallpaper.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #6b073e; /* اللون الرمادي */
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.content {
+    text-align: center;
+}
+
+.content h5 {
+    font-size: 95px;
+    color: #fff;
+    margin-bottom: 50px;
+}
+
+.content a {
+    display: inline-block;
+    font-size: 23px;
+    color: #fff;
+    text-decoration: none;
+    border: 2px solid #fff;
+    padding: 15px 25px;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.content a:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.background-clip {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.map-container {
+    width: 700px; /* عرض الخريطة */
+    height: 800px; /* ارتفاع الخريطة */
+    position: fixed; /* اجعلها ثابتة أثناء التمرير */
+    top: 80px; /* المسافة من الأعلى */
+    left: 10px; /* المسافة من اليسار */
+    right: 10px; /* المسافة من اليمين */
+    border: 1px solid #ddd; /* حدود */
+    border-radius: 8px; /* زوايا دائرية */
+    overflow: hidden; /* إخفاء المحتوى الزائد */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ظل */
+    z-index: 1000; /* تأكد من أن الخريطة فوق العناصر الأخرى */
+}
+
+.main-content {
+    margin-left: 90px; /* اجعل المسافة أكبر لتجنب التداخل مع الخريطة */
+    margin-right: 25px; /* المسافة من اليمين */
+    border-radius: 8px; /* زوايا دائرية */
+    margin-top: 3px; /* المسافة من الأعلى */
+    padding: 10px; /* الحشوة داخل المحتوى */
+    width: calc(90% - 700px); /* ضبط العرض لتجنب التداخل */
+    background: rgba(255, 255, 255, 0.8); /* لون خلفية خفيف */
+    min-height: calc(100vh - 50vh); /* الحد الأدنى للارتفاع */
+    background-color: #c6c2ca00; /* لون الخلفية */
+}
+
+h1 {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.select-container {
+    display: flex; /* استخدام الفلكس لتوزيع القوائم */
+    gap: 15px; /* المسافة بين القوائم */
+    margin-bottom: 20px;
+}
+
+.select-container label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 5px;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin-top: 2px;
+    margin-left: -30px; /* إزاحة الجدول إلى اليسار بمقدار 20 بكسل */
+    margin-right: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    border: 1px solid #ddd;
+    padding: 8px ;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+}
+
+th {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.logo {
+    position: fixed;
+    top: 10px; /* اجعل الشعار في أعلى الصفحة */
+    left: 10px; /* اجعل الشعار في أقصى اليسار */
+    max-width: 70px; /* يمكنك تعديل الحجم هنا */
+    height: auto; /* الحفاظ على نسبة الطول إلى العرض */
+    z-index: 999; /* تأكد أن الشعار فوق العناصر الأخرى */
+    margin: 0; /* إزالة أي هوامش */
+    padding: 0; /* إزالة أي حشوات */
+}
+
+img {
+    position: absolute; /* تحديد موضع مطلق */
+    top: 15px; /* المسافة من الأعلى */
+    left: 15px; /* المسافة من اليسار */
+    max-width: 50px; /* تحديد عرض الشعار */
+    height: auto; /* الحفاظ على نسبة الطول إلى العرض */
+    z-index: 1001; /* التأكد من أن الشعار فوق العناصر الأخرى */
+}
+
+/* تنسيق القائمة المنسدلة */
+.select-container select {
+    width: 185px; /* عرض ثابت للقوائم */
+    padding: 10px 40px 10px 15px; /* زيادة مساحة السهم */
+    font-size: 16px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    appearance: none; /* إزالة التنسيق الافتراضي */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20"><path fill="%23333" d="M5.516 7.548l4.484 4.484 4.484-4.484-1.06-1.06-3.424 3.424-3.424-3.424z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-right: 5px;
+}
+
+.select-container select:hover {
+    border-color: #999;
+}
+
+.select-container select:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 5px rgba(102, 102, 102, 0.5);
+}
+
+.show-map-button {
+    color: #fff;
+    border: 2px solid #fff;
+    background-color: #3a6cf4;
+    text-decoration: none;
+    font-size: 0.91em;
+    font-weight: 8;
+    display: inline-block;
+    padding: 0.7em 0.875em;
+    letter-spacing: 1px;
+    border-radius: 15px;
+    margin-bottom: 5px;
+    transition: 0.7s ease;
+}
+
+.show-map-button:hover {
+    background-color: #10c210;
+    color: #000;
+    transform: scale(1.1);
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+#loadingMessage {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+@media (min-aspect-ratio: 16/9) {
+    .background-clip {
+        width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-aspect-ratio: 16/9) {
+    .background-clip {
+        width: auto;
+        height: 100%;
+    }
+}
+
+/* استعلامات الوسائط لتغيير الأبعاد على الهاتف */
+@media (max-width: 868px) {
+    .map-container {
+        width: 400px;
+        height: 400px;
+        position: relative; /* تغيير إلى نسبي ليتناسب مع التنسيق الجديد */
+        margin: 0 auto; /* المركز */
+        margin-bottom: 20px; /* إضافة مسافة أسفل الخريطة */
+    }
+
+    .main-content {
+        width: 100%; /* تغيير العرض ليتناسب مع الشاشة */
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .select-container {
+        flex-direction: column; /* تغيير الاتجاه إلى عمودي */
+        align-items: flex-start; /* محاذاة إلى اليسار */
+    }
+}
