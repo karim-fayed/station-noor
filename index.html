@@ -11,11 +11,10 @@
 <body>
     <img src="logo1.png" alt="شعار" class="logo">
     <div class="container">
-        <video id="backgroundVideo" autoplay loop  playsinline class="background-clip">
+        <video id="backgroundVideo" autoplay loop playsinline muted class="background-clip">
             <source src="https://raw.githubusercontent.com/karim-fayed/station-Noor/78e85c826644680d20b27a8e4f86bb2952545845/images/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-        
         
         <div class="content">
             <h1>Explore More</h1>
@@ -33,9 +32,12 @@
 
     <footer class="footer">
         <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
-
     </footer>
 
-
+    <script>
+        // تأكد من إزالة كتم الصوت
+        const video = document.getElementById('backgroundVideo');
+        video.muted = false; // قم بتعديل هذه القيمة حسب الحاجة
+    </script>
 </body>
 </html>
