@@ -145,15 +145,11 @@ video {
 
 @media (max-width: 641px) {
     video {
-        height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
+        height: 100vh; /* Ensure full screen height on mobile */
     }
-}
 
-@media (max-width: 300px) {
     .content h1 {
-        font-size: 60px; /* حجم النص على الشاشات الصغيرة */
-    }
-    .main-btn {
-        font-size: 18px; /* حجم الزر على الشاشات الصغيرة */
+        font-size: 60px; /* Adjust heading size for smaller screens */
+        margin-bottom: 30px; /* Adjust margin for better spacing */
     }
 }
