@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <title>محطات نور خوي</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap"></script>
+    <script src="map.js" defer></script>
+</head>
+<body>
+    <img src="../logo1.png" alt="شعار" class="logo">
+    <div class="map-container" id="map"></div>
+    <div class="main-content">
+        <div id="loadingMessage" aria-live="polite">جارٍ تحميل البيانات...</div>
+        <p>عرض المناطق والمواقع محطات نور خوي</p>
+
+        <div class="select-container">
+            <div>
+                <label for="regionSelect">اختر منطقة</label>
+                <select id="regionSelect">
+                    <option value="">اختر منطقة</option>
+                </select>
+            </div>
+            <div>
+                <label for="startLocation">اختر الموقع الأول</label>
+                <select id="startLocation" disabled>
+                    <option value="موقعي الحالي">موقعي الحالي</option>
+                </select>
+            </div>
+            <div>
+                <label for="endLocation">اختر الموقع الثاني</label>
+                <select id="endLocation" disabled>
+                    <option value="موقعي الحالي">موقعي الحالي</option>
+                </select>
+            </div>
+            <div>
+                <button id="resetButton">إعادة تعيين</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <h3>المناطق والمواقع</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المنطقة</th>
+                        <th>الموقع</th>
+                        <th>المسافة المتوسطة (كم)</th>
+                        <th>الخريطة</th>
+                    </tr>
+                </thead>
+                <tbody id="regionsTable"></tbody>
+            </table>
+        </div>
+        
+        <div class="table-container">
+            <h4>حساب المسافة بين موقعين</h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>الموقع الأول</th>
+                        <th>الموقع الثاني</th>
+                        <th>المسافة (كم)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="selectedStart">---</td>
+                        <td id="selectedEnd">---</td>
+                        <td id="calculatedDistance">---</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <footer class="footer">
+        <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
+    </footer>
+</body>
+</html>
