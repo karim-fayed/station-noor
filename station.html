@@ -7,15 +7,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <title>محطات نور خوي</title>
-    <link rel="preload" href="https://docs.google.com/static/spreadsheets2/client/css/14854370-waffle_k_ltr.css" as="style">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap" async defer></script>
+    <script src="script.js" defer></script>
 </head>
 <body>
     <img src="logo1.png" alt="شعار" class="logo">
     <div class="map-container" id="map"></div>
     <div class="main-content">
         <div id="loadingMessage">جارٍ تحميل البيانات...</div>
-        <h1>عرض المناطق والمواقع محطات نور خوي</h1>
+        <p>عرض المناطق والمواقع محطات نور خوي</p>
 
         <div class="select-container">
             <div>
@@ -36,9 +39,13 @@
                     <option value="موقعي الحالي">موقعي الحالي</option>
                 </select>
             </div>
+            <div>
+                <button id="resetButton">إعادة تعيين</button>
+            </div>
         </div>
+
         <div class="table-container">
-            <h2>المناطق والمواقع</h2>
+            <h3>المناطق والمواقع</h3>
             <table>
                 <thead>
                     <tr>
@@ -51,8 +58,9 @@
                 <tbody id="regionsTable"></tbody>
             </table>
         </div>
+        
         <div class="table-container">
-            <h2>حساب المسافة بين موقعين</h2>
+            <h4>حساب المسافة بين موقعين</h4>
             <table>
                 <thead>
                     <tr>
@@ -71,8 +79,11 @@
             </table>
         </div>
     </div>
+    
+    <footer class="footer">
+        <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
+    </footer>
+    
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap" async defer></script>
-    <script src="script.js"></script>
 </body>
 </html>

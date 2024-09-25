@@ -1,12 +1,227 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
-* {
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'Poppins', Arial, sans-serif; /* دمج الخطوط */
+
+#favicon {
+    animation: spin 5s linear infinite; /* تعديل سرعة الدوران هنا */
+}
+body {
+    direction: rtl;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #6b073e;
 }
 
+.logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    max-width: 70px;
+    height: auto;
+    z-index: 999;
+}
+
+.container {
+    flex: 1;
+    display: flex;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.content {
+    text-align: center;
+    position: relative; 
+    z-index: 1; 
+}
+
+.content h1 {
+    font-size: 95px; /* الحفاظ على الحجم الأصلي للنص */
+    color: #fff;
+    margin-bottom: 50px; 
+    transition: top 0.5s, opacity 0.5s; 
+}
+
+.main-btn {
+    font-size: 23px; 
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: inline-block;
+    border: 2px solid #fff;
+    padding: 0.9375em 2.1875em;
+    border-radius: 50px;
+    transition: 0.9s ease; 
+}
+
+.main-btn:hover {
+    background-color: #1bad0d;
+    color: #000;
+    transform: scale(1.05); 
+}
+
+.download-buttons {
+    display: flex;
+    justify-content: center;
+    position: absolute; /* تجعل الأزرار فوق الفيديو */
+    bottom: 20px; /* المسافة من الأسفل */
+    left: 50%; /* لتحريكها للوسط */
+    transform: translateX(-50%); /* لتوسيع الأزرار إلى الوسط */
+    z-index: 1; /* للتأكد من ظهورها فوق الفيديو */
+    margin: 22px 0; /* الهامش العلوي والسفلي */
+    
+}
+
+.download-buttons .btn {
+    margin: 0 10px; /* تباعد 10 بكسل بين الأزرار */
+    display: inline-flex; /* تغيير إلى inline-flex لتسهيل تنسيق الأزرار */
+    font-size: 15px; 
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border: 2px solid #ffffff2f;
+    padding: 0.9375em 2.1875em;
+    border-radius: 50px;
+    transition: 0.9s ease; 
+}
+
+.download-buttons a:hover .fab.fa-apple {
+    color: #34A853; /* اللون الأصلي اب استور */
+}
+.download-buttons a:hover .fab.fa-google-play {
+    color: #34A853; /* اللون الأصلي لجوجل بلاي */
+}
+.download-buttons a:hover img {
+    filter: brightness(0.7); /* تخفيف سطوع الصورة عند التمرير */
+}
+
+video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 0.8;
+
+    width: calc(100% ); /* تقليص 20 بكسل من كل جانب */
+    height: calc(100% ); /* تقليص 20 بكسل من الأعلى والأسفل (اختياري) */
+
+    object-fit: cover; /* يضمن تغطية الشاشة بالكامل مع الحفاظ على نسبة العرض إلى الارتفاع */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; 
+}
+
+
+
+.background-clip {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; 
+    padding: 15px;
+    border-radius: 50px;
+}
+
+.social-icons a {
+    color: #fff;
+    font-size: 1.7em; 
+    margin: 0 15px; 
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: transparent; 
+}
+
+.footer {
+    position: fixed; 
+    bottom: 0; 
+    left: 0;
+    right: 0; 
+    background-color: #000016;
+    color: #fff;
+    padding: 15px; 
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    height: 10px; 
+    z-index: 999; 
+}
+
+.footer-title {
+    font-size: 1em; 
+    font-weight: 600;
+}
+
+.footer .social-icons {
+    display: flex;
+    gap: 15px; 
+}
+
+.footer .social-icons a {
+    font-size: 1em; 
+    color: #fff; 
+}
+
+.footer .social-icons a:hover {
+    color: #ee2f0e; 
+}
+
+
+
+
+/* تغيير لون الأيقونات عند التمرير */
+.social-icons a:hover {
+    color: transparent; /* اجعل اللون الأصلي غير مرئي */
+}
+
+/* تحديد الألوان الأصلية لكل أيقونة */
+.social-icons a:hover .fab.fa-whatsapp {
+    color: #25D366; /* واتساب */
+}
+
+.social-icons a:hover .fab.fa-facebook {
+    color: #3b5998; /* فيسبوك */
+}
+
+.social-icons a:hover .fab.fa-twitter {
+    color: #1DA1F2; /* تويتر */
+}
+
+.social-icons a:hover .fab.fa-snapchat {
+    color: #FFFC00; /* سناب شات */
+}
+
+.social-icons a:hover .fab.fa-instagram {
+    color: #C13584; /* إنستغرام */
+}
+
+.social-icons a:hover .fab.fa-youtube {
+    color: #FF0000; /* يوتيوب */
+}
+
+#favicon {
+    animation: spin 5s linear infinite; /* تعديل سرعة الدوران هنا */
+}
 body {
     direction: rtl;
     display: flex;
@@ -16,6 +231,7 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-color: #6b073e; /* اللون الرمادي */
+    align-items: flex-start;
 }
 
 .container {
@@ -27,91 +243,108 @@ body {
     justify-content: center;
 }
 
-.content {
-    text-align: center;
-}
-
-.content h5 {
-    font-size: 95px;
-    color: #fff;
-    margin-bottom: 50px;
-}
-
-.content a {
-    display: inline-block;
-    font-size: 23px;
-    color: #fff;
-    text-decoration: none;
-    border: 2px solid #fff;
-    padding: 15px 25px;
-    border-radius: 50px;
-    transition: 0.3s;
-}
-
-.content a:hover {
-    background-color: #fff;
-    color: #000;
-}
 
 .background-clip {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
+#resetButton {
+    background-color: #7c0872; /* لون خلفية الزر */
+    color: white; /* لون النص */
+    border: 2px solid #faf8f8; /* حدود */
+    padding: 10px 10px; /* الحشوة */
+    text-align: center; /* محاذاة النص إلى المنتصف */
+    
+    right: 10px; /* المسافة من اليمين */
+    text-decoration: none; /* إزالة التسطير */
+    display: inline-block; /* لعرض الزر بشكل مناسب */
+    font-size: 16px; /* حجم الخط */
+    margin: 5px 0; /* الهوامش */
+    cursor: pointer; /* تغيير شكل المؤشر عند التمرير فوق الزر */
+    border-radius: 200px; /* زوايا مدورة */
+    transition: 0.9s ease; /* تأثير التغير في الخلفية */
+}
 
+/* تأثير عند التمرير فوق الزر */
+#resetButton:hover {
+    background-color: #d22f0b; /* لون خلفية مختلف عند التمرير */
+    color: #f3e9e9;
+    transform: scale(1.1); 
+}
 
 .map-container {
-    width: 700px; /* عرض الخريطة */
-    height: 800px; /* ارتفاع الخريطة */
-    position: fixed; /* اجعلها ثابتة أثناء التمرير */
-    top: 80px; /* المسافة من الأعلى */
-    left: 10px; /* المسافة من اليسار */
-    right: 10px; /* المسافة من اليمين */
-    border: 1px solid #ddd; /* حدود */
-    border-radius: 8px; /* زوايا دائرية */
-    overflow: hidden; /* إخفاء المحتوى الزائد */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ظل */
-    z-index: 1000; /* تأكد من أن الخريطة فوق العناصر الأخرى */
+    width: 700px;
+    height: 700px;
+    position: fixed;
+    top: 20px;
+    left: 10px;
+    right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 .main-content {
-    margin-left: 90px; /* اجعل المسافة أكبر لتجنب التداخل مع الخريطة */
-    margin-right: 25px; /* المسافة من اليمين */
-    border-radius: 8px; /* زوايا دائرية */
-    margin-top: 3px; /* المسافة من الأعلى */
-    padding: 10px; /* الحشوة داخل المحتوى */
-    width: calc(90% - 700px); /* ضبط العرض لتجنب التداخل */
-    background: rgba(255, 255, 255, 0.8); /* لون خلفية خفيف */
-    min-height: calc(100vh - 50vh); /* الحد الأدنى للارتفاع */
-    background-color: #c6c2ca00; /* لون الخلفية */
+    margin-left: 90px;
+    margin-right: 25px;
+    margin-top: 20px;
+    padding: 5px;
+    width: calc(100% - 650px);
+    background: rgba(255, 255, 255, 0.8);
+    min-height: calc(100vh - 60px); /* تأكد من تخصيص مساحة للـ footer */
+    border-radius: 8px;
+    overflow-y: auto; /* إضافة التمرير العمودي */
+    padding-bottom: 70px; /* إضافة حشوة سفلية لتجنب تغطية المحتوى */
 }
 
 h1 {
     text-align: center;
+    margin-top: 6px;
+}
+p {
+    display: block;
+    text-align: center;
+    margin-top: 2px;
+    margin-bottom: 2px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 6px;
+} 
+h3 {
+    text-align: center;
+    margin-top: 0px;
+    padding: 10px;
+}
+h4 {
+    text-align: center;
+    margin-top: 6px;
+    padding: 10px ;
+}
+.select-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
     margin-top: 10px;
+    align-items: center;
 }
 
-.select-container {
-    display: flex; /* استخدام الفلكس لتوزيع القوائم */
-    gap: 15px; /* المسافة بين القوائم */
-    margin-bottom: 20px;
-}
 
 .select-container label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     font-weight: bold;
     font-size: 15px;
-    margin-right: 5px;
+    margin-right: 6px;
+    
 }
 
 .table-container {
     width: 100%;
-    max-width: 100%;
-    overflow-x: auto;
-    margin-top: 2px;
-    margin-left: -30px; /* إزاحة الجدول إلى اليسار بمقدار 20 بكسل */
-    margin-right: 5px;
+    margin-top: 5px;
+    
 }
 
 table {
@@ -119,33 +352,17 @@ table {
     border-collapse: collapse;
 }
 
-td {
+td, th {
     border: 1px solid #ddd;
-    padding: 8px ;
+    padding: 3px;
     text-align: center;
-    font-weight: bold;
-    font-size: 13px;
+    display: table-cell;
 }
 
 th {
     background-color: #f2f2f2;
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 15px;
 }
 
-.logo {
-    position: fixed;
-    top: 10px; /* اجعل الشعار في أعلى الصفحة */
-    left: 10px; /* اجعل الشعار في أقصى اليسار */
-    max-width: 70px; /* يمكنك تعديل الحجم هنا */
-    height: auto; /* الحفاظ على نسبة الطول إلى العرض */
-    z-index: 999; /* تأكد أن الشعار فوق العناصر الأخرى */
-    margin: 0; /* إزالة أي هوامش */
-    padding: 0; /* إزالة أي حشوات */
-}
 
 img {
     position: absolute; /* تحديد موضع مطلق */
@@ -158,7 +375,7 @@ img {
 
 /* تنسيق القائمة المنسدلة */
 .select-container select {
-    width: 185px; /* عرض ثابت للقوائم */
+    width: 150px; /* عرض ثابت للقوائم */
     padding: 10px 40px 10px 15px; /* زيادة مساحة السهم */
     font-size: 16px;
     color: #333;
@@ -176,7 +393,8 @@ img {
 }
 
 .select-container select:hover {
-    border-color: #999;
+    border-color: #918f8f;
+    box-shadow: 5px #333;
 }
 
 .select-container select:focus {
@@ -215,6 +433,7 @@ img {
     margin-bottom: 20px;
 }
 
+
 @media (min-aspect-ratio: 16/9) {
     .background-clip {
         width: 100%;
@@ -234,19 +453,30 @@ img {
     .map-container {
         width: 400px;
         height: 400px;
-        position: relative; /* تغيير إلى نسبي ليتناسب مع التنسيق الجديد */
-        margin: 0 auto; /* المركز */
-        margin-bottom: 20px; /* إضافة مسافة أسفل الخريطة */
+        margin: 0 auto;
+        margin-bottom: 20px;
     }
-
     .main-content {
-        width: 100%; /* تغيير العرض ليتناسب مع الشاشة */
+        width: 100%;
         margin-left: 0;
         margin-right: 0;
     }
-
     .select-container {
-        flex-direction: column; /* تغيير الاتجاه إلى عمودي */
-        align-items: flex-start; /* محاذاة إلى اليسار */
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+@media (max-width: 641px) {
+    video {
+        height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
+    }
+}
+
+@media (max-width: 300px) {
+    .content h1 {
+        font-size: 60px; /* حجم النص على الشاشات الصغيرة */
+    }
+    .main-btn {
+        font-size: 18px; /* حجم الزر على الشاشات الصغيرة */
     }
 }

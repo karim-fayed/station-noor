@@ -4,17 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style1.css">
+    <link rel="stylesheet" href="styles.css">
     <title>محطات نور خوي</title>
+
 </head>
 <body>
     <img src="logo1.png" alt="شعار" class="logo">
     <div class="container">
-        <video id="backgroundVideo" autoplay loop playsinline muted class="background-clip">
+        <video id="backgroundVideo" autoplay loop playsinline class="background-clip">
             <source src="https://raw.githubusercontent.com/karim-fayed/station-Noor/78e85c826644680d20b27a8e4f86bb2952545845/images/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+    <script>
+            // إضافة أيقونة متحركة في الشريط العلوي
+        const favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.href = 'favicon.png'; // تأكد من استخدام المسار الصحيح
+        document.head.appendChild(favicon);
+    </script>    
         
         <div class="content">
             <h1>Explore More</h1>
@@ -30,10 +39,53 @@
         </div>
     </div>
 
+    <div class="download-buttons">
+        <a href="https://play.google.com/store/apps/details?id=com.atiaf.nour_khoy_client&pcampaignid=web_share" class="btn play-store"  target="_blank">
+            <i class="fab fa-google-play">Google Play</i>
+        </a>
+        <a href=https://apps.apple.com/lb/app/noor-khoy-%D9%86%D9%88%D8%B1-%D8%AE%D9%88%D9%8A/id1570127609 class="btn app-store" target="_blank"><i class="fab fa-apple">App Store</i>
+             
+        </a>
+    </div>
     <footer class="footer">
         <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
-    </footer>
 
-    
+    </footer>
+    <script>
+        const video = document.getElementById('backgroundVideo');
+
+        video.addEventListener('canplaythrough', () => {
+            video.volume = 1.0; // تعيين مستوى الصوت إلى 100%
+            video.play(); // تشغيل الفيديو
+        });
+
+
+        // طلب إذن الوصول إلى الموقع الحالي
+        navigator.geolocation.getCurrentPosition(success, error);
+
+        function success(position) {
+            const { latitude, longitude } = position.coords;
+            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        }
+
+        function error() {
+            console.log('Unable to retrieve your location');
+        }
+
+        // طلب إذن الإشعارات
+        if ('Notification' in window) {
+            Notification.requestPermission().then(permission => {
+                if (permission === 'granted') {
+                    new Notification('إشعار!', { body: 'شكرًا لتفعيل الإشعارات!' });
+                }
+            });
+        }
+
+
+        // إدارة ملفات الكوكيز
+        document.cookie = "userConsent=true; path=/";
+    </script>
+
+
 </body>
 </html>

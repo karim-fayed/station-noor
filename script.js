@@ -1,144 +1,179 @@
-let map = null;
 let markers = {};
 let locations = {};
-const bluePinUrl = 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png';
-const redPinUrl = 'https://maps.google.com/mapfiles/ms/icons/red-dot.png';
+const pinUrls = {
+    blue: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    red: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+    green: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
+};
 let activeMarker = null;
-let directionsService;
-let directionsRenderer;
-
+let map, directionsService, directionsRenderer;
+let cityCenters = {};
 const regionsData = {};
-const cities = []; // مصفوفة المدن
+const cities = [];
 
-// دالة لتحميل بيانات المناطق من ملف الإكسل
-function loadRegionsData() {
-    const url = './data.xlsx'; // تأكد من المسار الصحيح للملف
-    fetch(url)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+async function loadRegionsData() {
+    const url = 'data.xlsx';
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('خطأ في تحميل البيانات. تأكد من المسار الصحيح.');
+        const data = await response.arrayBuffer();
+        const workbook = XLSX.read(data, { type: 'array' });
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+
+        const jsonData = XLSX.utils.sheet_to_json(worksheet);
+        console.log(jsonData);
+
+        jsonData.forEach(item => {
+            const region = item['المنطقة'];
+            if (!cities.includes(region)) {
+                cities.push(region);
             }
-            return response.arrayBuffer();
-        })
-        .then(data => {
-            const workbook = XLSX.read(data, { type: 'array' });
-            const sheetName = workbook.SheetNames[0];
-            const worksheet = workbook.Sheets[sheetName];
 
-            const jsonData = XLSX.utils.sheet_to_json(worksheet);
-            console.log(jsonData); // لفحص البيانات
+            const location = {
+                name: item['الموقع'],
+                lat: parseFloat(item['خط العرض']),
+                lng: parseFloat(item['خط الطول'])
+            };
 
-            jsonData.forEach(item => {
-                const region = item['المنطقة'];
-                if (!cities.includes(region)) {
-                    cities.push(region); // إضافة المنطقة إلى المصفوفة إذا لم تكن موجودة
-                }
-
-                const location = {
-                    name: item['الموقع'],
-                    lat: item['خط العرض'],
-                    lng: item['خط الطول']
-                };
-
-                if (!regionsData[region]) {
-                    regionsData[region] = [];
-                }
-                regionsData[region].push(location);
-            });
-
-            populateRegionSelect();
-            document.getElementById('loadingMessage').style.display = 'none';
-        })
-        .catch(error => {
-            console.error('Error loading regions data:', error);
+            if (!regionsData[region]) {
+                regionsData[region] = [];
+            }
+            regionsData[region].push(location);
         });
+
+        populateRegionSelect();
+    } catch (error) {
+        alert('حدث خطأ أثناء تحميل بيانات المناطق: ' + error.message);
+        console.error('Error loading regions data:', error);
+    } finally {
+        document.getElementById('loadingMessage').style.display = 'none';
+    }
 }
+
+async function loadCityCenters() {
+    try {
+        const response = await fetch('cityCenters.json');
+        if (!response.ok) throw new Error('خطأ في تحميل بيانات مراكز المدن.');
+        cityCenters = await response.json(); // تخزين البيانات هنا
+        console.log(cityCenters);
+    } catch (error) {
+        console.error('Error loading city centers:', error);
+    }
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', loadCityCenters);
 
 const regionSelect = document.getElementById('regionSelect');
 const startLocationSelect = document.getElementById('startLocation');
 const endLocationSelect = document.getElementById('endLocation');
 const regionsTable = document.getElementById('regionsTable');
-const loadingMessage = document.getElementById('loadingMessage');
-const selectedStart = document.getElementById('selectedStart');
-const selectedEnd = document.getElementById('selectedEnd');
-const calculatedDistance = document.getElementById('calculatedDistance');
 
 function initMap() {
+    console.log('initMap called');
     const defaultLocation = { lat: 24.7136, lng: 46.6753 };
     map = new google.maps.Map(document.getElementById('map'), {
         center: defaultLocation,
         zoom: 10,
-        scrollwheel: true,
         mapTypeId: 'hybrid'
     });
+    
+    map.setOptions({ scrollwheel: true });
+    loadRegionsData();
 
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
-    document.getElementById('loadingMessage').style.display = 'none';
+
+    if (regionSelect) {
+        for (const region in regionsData) {
+            const option = new Option(region, region);
+            regionSelect.add(option);
+        }
+
+        regionSelect.addEventListener('change', (event) => {
+            updateLocations();
+        });
+    }
 }
 
+// Call initMap only after the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    initMap();
+});
+
 function updateLocations() {
-    const selectedRegion = document.getElementById('regionSelect').value;
-    console.log('Updating locations for region:', selectedRegion);
+    const selectedRegion = regionSelect.value;
     regionsTable.innerHTML = '';
     if (!selectedRegion) {
         populateLocationSelects([]);
         return;
     }
 
-    // Clear old markers and directions
     for (const marker of Object.values(markers)) {
         marker.setMap(null);
     }
     markers = {};
     locations = {};
-    directionsRenderer.setMap(null); // إزالة المسار السابق
+    directionsRenderer.setMap(null);
 
     const regionLocations = regionsData[selectedRegion];
-    console.log('Region Locations:', regionLocations);
-
     if (regionLocations) {
-        const bounds = new google.maps.LatLngBounds(); // لتحديد نطاق الخريطة
+        const bounds = new google.maps.LatLngBounds();
+        const addedLocations = new Set();
+
         regionLocations.forEach((location) => {
-            const latLng = new google.maps.LatLng(location.lat, location.lng);
-            bounds.extend(latLng); // توسيع نطاق الخريطة لتشمل جميع المواقع
-            
-            const marker = new google.maps.Marker({
-                position: latLng,
-                map: map,
-                title: location.name,
-                icon: bluePinUrl
-            });
+            if (!addedLocations.has(location.name)) {
+                const latLng = new google.maps.LatLng(location.lat, location.lng);
+                const marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: location.name,
+                    icon: pinUrls.blue,
+                    draggable: true // جعل العلامة قابلة للسحب
+                });
 
-            marker.addListener('click', () => {
-                if (activeMarker) {
-                    activeMarker.setIcon(bluePinUrl);
-                }
-                marker.setIcon(redPinUrl);
-                activeMarker = marker;
-                map.setCenter(marker.getPosition());
-                map.setZoom(12);
-            });
+                marker.addListener('click', () => {
+                    if (activeMarker) {
+                        activeMarker.setIcon(pinUrls.blue);
+                    }
+                    marker.setIcon(pinUrls.red);
+                    activeMarker = marker;
+                    map.setCenter(marker.getPosition());
+                    map.setZoom(12);
+                });
 
-            markers[location.name] = marker;
-            locations[location.name] = latLng;
+                marker.addListener('dragend', (event) => {
+                    const newLatLng = {
+                        lat: event.latLng.lat(),
+                        lng: event.latLng.lng()
+                    };
+                    console.log(`Marker moved to: ${newLatLng.lat}, ${newLatLng.lng}`);
+                });
 
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${selectedRegion}</td><td>${location.name}</td><td id="distance-${selectedRegion}-${location.name}">---</td><td><button class="show-map-button" onclick="centerMap(${location.lat}, ${location.lng})">عرض على الخريطة</button></td>`;
-            regionsTable.appendChild(row);
+                markers[location.name] = marker;
+                locations[location.name] = latLng;
+
+                bounds.extend(latLng);
+
+                const row = document.createElement('tr');
+                row.innerHTML = `<td>${selectedRegion}</td><td>${location.name}</td><td id="distance-${selectedRegion}-${location.name}">---</td><td><button class="show-map-button" onclick="centerMap(${location.lat}, ${location.lng})">عرض على الخريطة</button></td>`;
+                regionsTable.appendChild(row);
+
+                addedLocations.add(location.name);
+            }
         });
 
-        map.fitBounds(bounds); // ضبط نطاق الخريطة
+        map.fitBounds(bounds);
         calculateAverageDistances(selectedRegion);
         populateLocationSelects(regionLocations.map(loc => loc.name));
     }
 }
 
-
 function populateRegionSelect() {
     const regionSelect = document.getElementById('regionSelect');
-    regionSelect.innerHTML = ''; // إعادة تعيين القائمة
+    regionSelect.innerHTML = '';
 
     cities.forEach(city => {
         const option = new Option(city, city);
@@ -146,13 +181,14 @@ function populateRegionSelect() {
     });
 }
 
-
 function populateLocationSelects(locationNames) {
     const startSelect = document.getElementById('startLocation');
     const endSelect = document.getElementById('endLocation');
 
-    startSelect.innerHTML = ""; // إزالة الخيارات السابقة
-    endSelect.innerHTML = ""; // إزالة الخيارات السابقة
+    startSelect.innerHTML = ""; 
+    endSelect.innerHTML = ""; 
+
+    const addedOptions = new Set();
 
     if (locationNames.length > 0) {
         startSelect.add(new Option("اختر موقع", ""));
@@ -161,8 +197,11 @@ function populateLocationSelects(locationNames) {
         endSelect.add(new Option("موقعي الحالي", "موقعي الحالي"));
 
         locationNames.forEach(name => {
-            startSelect.add(new Option(name, name));
-            endSelect.add(new Option(name, name));
+            if (!addedOptions.has(name)) {
+                startSelect.add(new Option(name, name));
+                endSelect.add(new Option(name, name));
+                addedOptions.add(name);
+            }
         });
 
         startSelect.disabled = false;
@@ -182,34 +221,35 @@ function centerMap(lat, lng) {
 
 function calculateAverageDistances(region) {
     const locationsArray = regionsData[region];
-    locationsArray.forEach((location1, index1) => {
-        let totalDistance = 0;
-        locationsArray.forEach((location2, index2) => {
-            if (index1 !== index2) {
-                const latLng1 = new google.maps.LatLng(location1.lat, location1.lng);
-                const latLng2 = new google.maps.LatLng(location2.lat, location2.lng);
-                const distance = google.maps.geometry.spherical.computeDistanceBetween(latLng1, latLng2) / 1000; // Convert to km
-                totalDistance += distance;
-                document.getElementById(`distance-${region}-${location2.name}`).innerText = distance.toFixed(2);
-            }
+    const cityCenter = cityCenters[region]; // تأكد من وجود مركز المدينة للمنطقة
+
+    if (cityCenter) {
+        const latLngCityCenter = new google.maps.LatLng(cityCenter.lat, cityCenter.lng);
+
+        locationsArray.forEach(location => {
+            const latLngLocation = new google.maps.LatLng(location.lat, location.lng);
+            const distanceToCenter = google.maps.geometry.spherical.computeDistanceBetween(latLngLocation, latLngCityCenter) / 1000;
+            document.getElementById(`distance-${region}-${location.name}`).innerText = distanceToCenter.toFixed(2);
         });
-    });
+    }
 }
+
+
 
 function resetSelectedDistance() {
     document.getElementById('selectedStart').innerText = '---';
     document.getElementById('selectedEnd').innerText = '---';
     document.getElementById('calculatedDistance').innerText = '---';
-    directionsRenderer.setMap(null); // إزالة المسار السابق
+    directionsRenderer.setMap(null);
 }
 
-document.getElementById('regionSelect').addEventListener('change', () => {
+regionSelect.addEventListener('change', () => {
     updateLocations();
 });
 
-document.getElementById('startLocation').addEventListener('change', () => {
-    const startLocation = document.getElementById('startLocation').value;
-    const endLocation = document.getElementById('endLocation').value;
+startLocationSelect.addEventListener('change', () => {
+    const startLocation = startLocationSelect.value;
+    const endLocation = endLocationSelect.value;
     document.getElementById('selectedStart').innerText = startLocation || '---';
     if (startLocation && endLocation) {
         calculateDistanceBetweenLocations(startLocation, endLocation);
@@ -218,9 +258,9 @@ document.getElementById('startLocation').addEventListener('change', () => {
     }
 });
 
-document.getElementById('endLocation').addEventListener('change', () => {
-    const startLocation = document.getElementById('startLocation').value;
-    const endLocation = document.getElementById('endLocation').value;
+endLocationSelect.addEventListener('change', () => {
+    const startLocation = startLocationSelect.value;
+    const endLocation = endLocationSelect.value;
     document.getElementById('selectedEnd').innerText = endLocation || '---';
     if (startLocation && endLocation) {
         calculateDistanceBetweenLocations(startLocation, endLocation);
@@ -229,6 +269,20 @@ document.getElementById('endLocation').addEventListener('change', () => {
     }
 });
 
+function resetSelections() {
+    regionSelect.selectedIndex = 0;
+    startLocationSelect.selectedIndex = 0;
+    endLocationSelect.selectedIndex = 0;
+
+    for (const marker of Object.values(markers)) {
+        marker.setMap(null);
+    }
+    markers = {};
+    locations = {};
+
+    directionsRenderer.setMap(null);
+    resetSelectedDistance();
+}
 
 function calculateDistanceBetweenLocations(start, end) {
     if (start === "موقعي الحالي" || end === "موقعي الحالي") {
@@ -245,20 +299,20 @@ function calculateDistanceBetweenLocations(start, end) {
 
                 const distance = google.maps.geometry.spherical.computeDistanceBetween(latLngStart, latLngEnd) / 1000; // Convert to km
                 document.getElementById('calculatedDistance').innerText = distance.toFixed(2);
-                drawRoute(latLngStart, latLngEnd); // رسم المسار بين النقطتين
+                drawRoute(latLngStart, latLngEnd);
             }, (error) => {
-                console.error("Error getting location: ", error);
-                alert("فشل في الحصول على الموقع الحالي. تأكد من تفعيل GPS.");
-            }, options);
+                alert('فشل الحصول على الموقع الحالي: ' + error.message);
+                console.error('Geolocation error:', error);
+            });
         } else {
-            alert("تدعم هذه الميزة المتصفحات التي تحتوي على خدمات الموقع.");
+            alert("المتصفح لا يدعم تحديد الموقع الجغرافي.");
         }
     } else {
         const latLngStart = locations[start];
         const latLngEnd = locations[end];
         const distance = google.maps.geometry.spherical.computeDistanceBetween(latLngStart, latLngEnd) / 1000; // Convert to km
         document.getElementById('calculatedDistance').innerText = distance.toFixed(2);
-        drawRoute(latLngStart, latLngEnd); // رسم المسار بين النقطتين
+        drawRoute(latLngStart, latLngEnd);
     }
 }
 
@@ -266,41 +320,42 @@ function drawRoute(start, end) {
     const request = {
         origin: start,
         destination: end,
-        travelMode: 'DRIVING',
-        provideRouteAlternatives: true // تقديم خيارات بديلة للطرق
+        travelMode: google.maps.TravelMode.DRIVING
     };
 
-    directionsService.route(request, (result, status) => {
-        if (status === 'OK') {
+    directionsService.route(request, function(result, status) {
+        if (status == google.maps.DirectionsStatus.OK) {
             directionsRenderer.setMap(map);
             directionsRenderer.setDirections(result);
-            directionsRenderer.setOptions({
-                polylineOptions: {
-                    strokeColor: 'blue',
-                    strokeWeight: 5,
-                    strokeOpacity: 0.7
-                },
-                suppressMarkers: true
-            });
-
-            // ضبط الخريطة لتظهر المسار بشكل أفضل
-            const bounds = new google.maps.LatLngBounds();
-            result.routes[0].legs[0].steps.forEach(step => {
-                bounds.extend(step.end_location);
-                bounds.extend(step.start_location); // إضافة نقطة البداية للنطاق
-            });
-            map.fitBounds(bounds); // ضبط نطاق الخريطة ليتناسب مع المسار
         } else {
             console.error('Error fetching directions:', status);
-            alert("حدث خطأ أثناء محاولة رسم المسار.");
         }
     });
 }
 
-
-
-
 window.onload = function() {
-    initMap();
+    document.getElementById('loadingMessage').style.display = 'block';
     loadRegionsData();
+    initMap();
 };
+
+document.getElementById('resetButton').addEventListener('click', () => {
+    resetSelectedDistance();
+    regionSelect.selectedIndex = 0;
+    startLocationSelect.selectedIndex = 0;
+    endLocationSelect.selectedIndex = 0;
+    for (const marker of Object.values(markers)) {
+        marker.setMap(null);
+    }
+    markers = {};
+    locations = {};
+});
+
+function checkMobileCompatibility() {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    if (isMobile) {
+        console.log('تطبيق متوافق مع الأجهزة المحمولة');
+    }
+}
+
+checkMobileCompatibility();
