@@ -1,28 +1,34 @@
 const video = document.getElementById('backgroundVideo');
 
-function requestAudioPermission() {
+function requestNotificationPermission() {
     Notification.requestPermission().then(permission => {
         if (permission === 'granted') {
-            video.muted = false; 
-            video.play().catch(error => {
-                console.error('Error playing video:', error);
-            });
+            requestAudioPermission(); // إذا تم منح الإذن، اطلب إذن الصوت
         } else {
-            alert('يرجى السماح بالإشعارات لتشغيل الصوت.');
+            alert('يرجى السماح بالإشعارات لتفعيل الميزات.');
         }
     });
 }
 
-document.getElementById('unmuteButton')?.addEventListener('click', requestAudioPermission);
+function requestAudioPermission() {
+    video.muted = true; // كتم الصوت افتراضيًا
+    video.play().catch(error => {
+        console.error('Error playing video:', error);
+    });
+
+    document.getElementById('unmuteButton')?.addEventListener('click', () => {
+        video.muted = false; // إلغاء كتم الصوت
+        video.play().catch(error => {
+            console.error('Error playing video:', error);
+        });
+    });
+}
 
 // Initialize application on load
 window.onload = function() {
     document.getElementById('loadingMessage')?.style.display = 'block';
-    getLocation();
-    video.play().catch(error => {
-        console.error('Error playing video:', error);
-    });
-    requestAudioPermission();
+    getLocation(); // تأكد من وجود دالة getLocation
+    requestNotificationPermission(); // بدء طلب الإذن للإشعارات
 };
 
 // Reset data on button click
