@@ -13,11 +13,11 @@ function requestAudioPermission() {
     });
 }
 
-document.getElementById('unmuteButton').addEventListener('click', requestAudioPermission);
+document.getElementById('unmuteButton')?.addEventListener('click', requestAudioPermission);
 
 // Initialize application on load
 window.onload = function() {
-    document.getElementById('loadingMessage').style.display = 'block';
+    document.getElementById('loadingMessage')?.style.display = 'block';
     getLocation();
     video.play().catch(error => {
         console.error('Error playing video:', error);
@@ -26,7 +26,7 @@ window.onload = function() {
 };
 
 // Reset data on button click
-document.getElementById('resetButton').addEventListener('click', resetSelections);
+document.getElementById('resetButton')?.addEventListener('click', resetSelections);
 
 // Reset selections
 function resetSelections() {
