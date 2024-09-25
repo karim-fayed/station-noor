@@ -15,7 +15,7 @@ body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden; /* لإخفاء شريط التمرير */
+    overflow: auto; /* تأكد من وجود شريط تمرير عند الحاجة */
 }
 
 .logo {
@@ -298,10 +298,11 @@ body {
     padding: 5px;
     width: calc(100% - 650px);
     background: rgba(255, 255, 255, 0.8);
-    min-height: calc(100vh - 60px); /* تأكد من تخصيص مساحة للـ footer */
+    min-height: calc(100vh - 60px);
     border-radius: 8px;
     overflow-y: auto; /* إضافة التمرير العمودي */
-    padding-bottom: 70px; /* إضافة حشوة سفلية لتجنب تغطية المحتوى */
+    padding-bottom: 70px;
+    overflow-x: hidden; /* لمنع التمرير الأفقي إذا لم يكن مطلوبًا */
 }
 
 h1 {
