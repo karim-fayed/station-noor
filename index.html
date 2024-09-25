@@ -12,13 +12,22 @@
 <body>
     <img src="logo1.png" alt="شعار" class="logo">
     <div class="container">
-        <video id="backgroundVideo" loop playsinline class="background-clip">
+        <video id="backgroundVideo" autoplay loop playsinline class="background-clip">
             <source src="https://raw.githubusercontent.com/karim-fayed/station-Noor/78e85c826644680d20b27a8e4f86bb2952545845/images/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
+        
+        <div class="download-buttons">
+            <a href="https://www.apple.com/app-store/" class="btn">
+                <i class="fab fa-apple"></i> Apple
+            </a>
+            <a href="https://play.google.com/store" class="btn">
+                <i class="fab fa-google-play"></i> Google Play
+            </a>
+        </div>
         <div class="content">
             <h1>Explore More</h1>
-            <a href="station.html" class="main-btn">Show Stations</a>
+            <a href="data/station.html" class="main-btn">Show Stations</a>
             <div class="social-icons">
                 <a href="https://api.whatsapp.com/send?phone=966500702080" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
                 <a href="https://www.facebook.com/profile.php?id=100083210234910&mibextid=ZbWKwL" class="facebook"><i class="fab fa-facebook"></i></a>
@@ -33,21 +42,7 @@
     <footer class="footer">
         <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
     </footer>
-    
-    <script>
-        const video = document.getElementById('backgroundVideo');
 
-        function playVideo() {
-            video.play().catch(error => {
-                console.error('Error playing video:', error);
-            });
-        }
-
-        // تشغيل الفيديو عند تحميل الصفحة
-        window.addEventListener('load', playVideo);
-
-        // تشغيل الفيديو عند الضغط على أي مكان في الصفحة
-        document.addEventListener('click', playVideo);
-    </script>
+    <script src="video.js"></script>
 </body>
 </html>

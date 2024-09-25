@@ -10,14 +10,12 @@
     box-sizing: border-box;
     font-family: 'Poppins', Arial, sans-serif; /* دمج الخطوط */
 
-#favicon {
-    animation: spin 5s linear infinite; /* تعديل سرعة الدوران هنا */
-}
-body {
-    direction: rtl;
-    font-family: 'Poppins', sans-serif;
+
+body, html {
     margin: 0;
-    background-color: #6b073e;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* لإخفاء شريط التمرير */
 }
 
 .logo {
@@ -30,9 +28,8 @@ body {
 }
 
 .container {
-    flex: 1;
+    height: 100vh; /* تأكد من أن الحاوية تغطي الشاشة */
     display: flex;
-    background-color: rgba(0, 0, 0, 0.4);
     align-items: center;
     justify-content: center;
     position: relative;
@@ -72,36 +69,43 @@ body {
 .download-buttons {
     display: flex;
     justify-content: center;
-    position: absolute; /* تجعل الأزرار فوق الفيديو */
-    bottom: 20px; /* المسافة من الأسفل */
-    left: 50%; /* لتحريكها للوسط */
-    transform: translateX(-50%); /* لتوسيع الأزرار إلى الوسط */
-    z-index: 1; /* للتأكد من ظهورها فوق الفيديو */
-    margin: 22px 0; /* الهامش العلوي والسفلي */
-    
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    margin: 24px 0;
 }
 
 .download-buttons .btn {
     margin: 0 10px; /* تباعد 10 بكسل بين الأزرار */
-    display: inline-flex; /* تغيير إلى inline-flex لتسهيل تنسيق الأزرار */
-    font-size: 15px; 
+    display: flex; /* استخدام flex لتسهيل توسيط المحتوى */
+    justify-content: center; /* توسيط المحتوى داخل الزر */
+    align-items: center; /* محاذاة المحتوى عمودياً */
+    font-size: 14px; /* حجم الخط */
     color: #fff;
     text-decoration: none;
     letter-spacing: 1px;
-    border: 2px solid #ffffff2f;
-    padding: 0.9375em 2.1875em;
-    border-radius: 50px;
-    transition: 0.9s ease; 
+    border: 2px solid #fff; /* لون الحدود */
+    padding: 0.9375em; /* حشوة متساوية */
+    min-width: 150px; /* تحديد عرض أدنى لضمان تساوي الحجم */
+    border-radius: 50px; /* زوايا دائرية */
+    transition: 0.9s ease;
+    background-color: transparent; /* لون الخلفية شفاف */
 }
 
+
 .download-buttons a:hover .fab.fa-apple {
-    color: #34A853; /* اللون الأصلي اب استور */
+    color: #535151; /* اللون الأصلي اب ستور */
 }
+
 .download-buttons a:hover .fab.fa-google-play {
-    color: #34A853; /* اللون الأصلي لجوجل بلاي */
+    color:  #34A853; /* اللون الأصلي لجوجل بلاي */
 }
-.download-buttons a:hover img {
-    filter: brightness(0.7); /* تخفيف سطوع الصورة عند التمرير */
+
+.btn:hover {
+    transform: scale(1.1);
+    color: #f5f9f6;
 }
 
 video {
@@ -451,10 +455,8 @@ img {
 /* استعلامات الوسائط لتغيير الأبعاد على الهاتف */
 @media (max-width: 868px) {
     .map-container {
-        width: 400px;
-        height: 400px;
-        margin: 0 auto;
-        margin-bottom: 20px;
+        width: 90%; /* جعل الخريطة أكثر مرونة */
+        height: 300px; /* يمكنك تحديد ارتفاع مناسب */
     }
     .main-content {
         width: 100%;
@@ -468,15 +470,26 @@ img {
 }
 @media (max-width: 641px) {
     video {
-        height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
+        height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل */
+        width: 100vw; /* تأكد من ملء عرض الشاشة بالكامل */
     }
 }
 
-@media (max-width: 300px) {
+
+/* تحسين العرض للشاشات الصغيرة */
+@media (max-width: 768px) {
     .content h1 {
-        font-size: 60px; /* حجم النص على الشاشات الصغيرة */
+        font-size: 40px; /* حجم أصغر للنص */
+        margin-bottom: 20px; /* تقليل الهامش */
     }
+    
     .main-btn {
-        font-size: 18px; /* حجم الزر على الشاشات الصغيرة */
+        font-size: 16px; /* حجم أصغر للزر */
+        padding: 0.5em 1em; /* تقليل الحشوة */
+    }
+
+    .download-buttons {
+        flex-direction: column; /* تنظيم الأزرار عمودياً */
+        align-items: center; /* محاذاة الأزرار في المنتصف */
     }
 }
