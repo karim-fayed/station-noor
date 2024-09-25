@@ -1,5 +1,7 @@
+// التحكم في الفيديو وعناصر الصوت
 const video = document.getElementById('backgroundVideo');
 
+// طلب إذن الإشعارات
 function requestNotificationPermission() {
     Notification.requestPermission().then(permission => {
         if (permission === 'granted') {
@@ -10,45 +12,43 @@ function requestNotificationPermission() {
     });
 }
 
+// طلب إذن الصوت والتحكم في كتم الفيديو
 function requestAudioPermission() {
     video.muted = true; // كتم الصوت افتراضيًا
     video.play().catch(error => {
         console.error('Error playing video:', error);
     });
 
-    document.getElementById('unmuteButton')?.addEventListener('click', () => {
-        video.muted = false; // إلغاء كتم الصوت
+    // إلغاء كتم الصوت تلقائيًا إذا كان المستخدم قد منح الإذن
+    if (video.muted === false) {
         video.play().catch(error => {
             console.error('Error playing video:', error);
         });
-    });
-}
-
-// Initialize application on load
-window.onload = function() {
-    document.getElementById('loadingMessage')?.style.display = 'block';
-    getLocation(); // تأكد من وجود دالة getLocation
-    requestNotificationPermission(); // بدء طلب الإذن للإشعارات
-};
-
-// Reset data on button click
-document.getElementById('resetButton')?.addEventListener('click', resetSelections);
-
-// Reset selections
-function resetSelections() {
-    document.getElementById('regionSelect').selectedIndex = 0;
-    document.getElementById('startLocation').selectedIndex = 0;
-    document.getElementById('endLocation').selectedIndex = 0;
-    clearMarkers();
-    resetSelectedDistance();
-}
-
-// Check mobile compatibility
-function checkMobileCompatibility() {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-    if (isMobile) {
-        console.log('تطبيق متوافق مع الأجهزة المحمولة');
     }
 }
 
-checkMobileCompatibility();
+// طلب الموقع الجغرافي من المستخدم
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                console.log('الموقع:', position.coords.latitude, position.coords.longitude);
+            },
+            error => {
+                console.error('لم يتم السماح بالوصول إلى الموقع:', error.message);
+                alert('يرجى السماح بالوصول إلى الموقع لتفعيل الميزات.');
+            }
+        );
+    } else {
+        alert('الجهاز الخاص بك لا يدعم الموقع الجغرافي.');
+    }
+}
+
+// تهيئة التطبيق عند تحميل الصفحة
+window.onload = function() {
+    document.getElementById('loadingMessage').style.display = 'block';
+
+    // طلب الأذونات عند تحميل الصفحة
+    getLocation(); // طلب الموقع الجغرافي
+    requestNotificationPermission(); // بدء طلب الإذن للإشعارات
+};
