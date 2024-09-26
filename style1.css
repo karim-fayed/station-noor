@@ -234,9 +234,9 @@ video {
         height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
         width: 100%; /* تأكد من ملء عرض الشاشة بالكامل */
     }
-    .content h1 {
+    .content {
         position: absolute;
-        top: 80%; /* تحريك المحتوى إلى الثلث العلوي */
+        top: 20%; /* تحريك المحتوى إلى الثلث العلوي */
         left: 50%;
         transform: translateX(-50%);
         display: flex;
