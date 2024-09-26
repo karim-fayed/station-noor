@@ -236,7 +236,10 @@ video {
         width: 100%; /* تأكد من ملء عرض الشاشة بالكامل */
     }
     .content {
-        top: -180px;
+        top: -80px;
+    }
+    .h1 { 
+        top: 80px;
     }
     .content h1 {
         top: -180px;
@@ -272,9 +275,15 @@ video {
 }
 
 @media (max-width: 300px) {
-    .content h1 {
-        font-size: 20px; /* حجم النص على الشاشات الأصغر */
+    .h1 { 
+        top: 80px;
     }
+    .content h1 {
+        top: -180px;
+        left: 50%;
+        font-size: 20px !important; /* إجبار المتصفح على استخدام هذه القيمة */
+    }
+    
     .main-btn {
         font-size: 16px; /* حجم الزر على الشاشات الأصغر */
     }
