@@ -53,5 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // إضافة حدث لتفاعل المستخدم
     document.body.addEventListener('click', () => {
         requestAudioPermission(); // تشغيل الفيديو عند النقر
+        if (loadingMessage) {
+            loadingMessage.style.display = 'none'; // إخفاء رسالة التحميل بعد النقر
+        }
     });
 });
