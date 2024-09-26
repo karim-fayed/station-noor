@@ -229,6 +229,7 @@ video {
     margin-bottom: 20px;
 }
 
+/* التعديلات الخاصة بالجوال */
 @media (max-width: 641px) {
     video {
         height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
@@ -273,6 +274,7 @@ video {
         font-size: 16px; /* حجم الزر على الشاشات الأصغر */
     }
 }
+
 /* الألوان عند فتح الموقع على الهاتف */
 @media (max-width: 641px) {
     .social-icons a .fab.fa-whatsapp {
@@ -294,4 +296,3 @@ video {
         color: #FF0000; /* يوتيوب */
     }
 }
-
