@@ -236,7 +236,7 @@ video {
     }
     .content h1 {
         position: absolute;
-        top: 20%; /* تحريك المحتوى إلى الثلث العلوي */
+        top: 80%; /* تحريك المحتوى إلى الثلث العلوي */
         left: 50%;
         transform: translateX(-50%);
         display: flex;
