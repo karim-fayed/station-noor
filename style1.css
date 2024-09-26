@@ -4,12 +4,20 @@
     box-sizing: border-box;
     font-family: 'Poppins';
 }
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
+#favicon {
+    animation: spin 5s linear infinite; /* تعديل سرعة الدوران هنا */
+}
 body {
     display: flex;
     flex-direction: column;
     height: 100vh; 
     margin: 0; 
+    overflow: hidden; /* منع التمرير */
 }
 
 .logo {
@@ -24,41 +32,93 @@ body {
 .container {
     flex: 1; 
     display: flex;
-    background-color: rgba(0, 0, 0, 0.4);
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden; /* منع التمرير داخل الحاوية */
 }
 
 .content {
     text-align: center;
     position: relative; 
     z-index: 1; 
+    max-width: 90%; /* تجنب الحواف القريبة جداً */
 }
 
 .content h1 {
-    font-size: 95px; /* الحفاظ على الحجم الأصلي للنص */
-    color: #fff;
-    margin-bottom: 50px; 
+    font-size: 90px;
+    color: #de560d;
+    margin-bottom: 50px;
     transition: top 0.5s, opacity 0.5s; 
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* إضافة ظل للنص */
 }
 
 .main-btn {
-    font-size: 23px; 
-    color: #fff;
+    font-size: 18px; 
+    color: #de560d;
+    background-color: transparent;
     text-decoration: none;
     letter-spacing: 1px;
     display: inline-block;
-    border: 2px solid #fff;
+    border: 2px solid #bb0475;
     padding: 0.9375em 2.1875em;
     border-radius: 50px;
     transition: 0.9s ease; 
+    box-shadow: #000 0px 0px 10px 0px;
+    font-weight: bold; /* جعل الخط غامق */
 }
 
 .main-btn:hover {
     background-color: #1bad0d;
     color: #000;
     transform: scale(1.05); 
+}
+
+.download-buttons {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    margin: 24px 0;
+}
+
+.download-buttons .btn {
+    margin: 0 10px;
+    display: flex;
+    font-size: 16px;
+    color: #000000d1;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border: 2px solid #aeaaaa;
+    padding: 0.9375em;
+    min-width: 150px;
+    border-radius: 50px;
+    transition: 0.9s ease;
+    background-color: transparent;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    box-shadow: #000 0px 0px 10px 0px;
+    font-weight: bold; /* جعل الخط غامق */
+}
+
+.download-buttons a:hover .fab.fa-apple {
+    color: #535151; /* اللون الأصلي اب ستور */
+}
+
+.download-buttons a:hover .fab.fa-google-play {
+    color:  #34A853; /* اللون الأصلي لجوجل بلاي */
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    background-color: #000000;
+    color: #f5f9f6;
 }
 
 video {
@@ -70,18 +130,7 @@ video {
     object-fit: cover;
     z-index: -1;
     opacity: 0.8;
-
-    width: calc(100% ); /* تقليص 20 بكسل من كل جانب */
-    height: calc(100% ); /* تقليص 20 بكسل من الأعلى والأسفل (اختياري) */
-
-    object-fit: cover; /* يضمن تغطية الشاشة بالكامل مع الحفاظ على نسبة العرض إلى الارتفاع */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1; 
 }
-
-
 
 .background-clip {
     position: absolute;
@@ -99,7 +148,7 @@ video {
 }
 
 .social-icons a {
-    color: #fff;
+    color: #020202;
     font-size: 1.7em; 
     margin: 0 15px; 
     transition: color 0.3s;
@@ -143,13 +192,98 @@ video {
     color: #ee2f0e; 
 }
 
+/* تغيير لون الأيقونات عند التمرير */
+.social-icons a:hover {
+    color: transparent; /* اجعل اللون الأصلي غير مرئي */
+}
+
+/* تحديد الألوان الأصلية لكل أيقونة */
+.social-icons a:hover .fab.fa-whatsapp {
+    color: #00b944; /* واتساب */
+}
+
+.social-icons a:hover .fab.fa-facebook {
+    color: #0138af; /* فيسبوك */
+}
+
+.social-icons a:hover .fab.fa-twitter {
+    color: #1DA1F2; /* تويتر */
+}
+
+.social-icons a:hover .fab.fa-snapchat {
+    color: #FFFC00; /* سناب شات */
+}
+
+.social-icons a:hover .fab.fa-instagram {
+    color: #C13584; /* إنستغرام */
+}
+
+.social-icons a:hover .fab.fa-youtube {
+    color: #FF0000; /* يوتيوب */
+}
+
+#loadingMessage {
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 @media (max-width: 641px) {
     video {
-        height: 100vh; /* Ensure full screen height on mobile */
+        height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
+        width: 100%; /* تأكد من ملء عرض الشاشة بالكامل */
     }
-
     .content h1 {
-        font-size: 60px; /* Adjust heading size for smaller screens */
-        margin-bottom: 30px; /* Adjust margin for better spacing */
+        font-size: 50px; /* حجم النص على الشاشات الصغيرة */
+        margin-bottom: 30px; /* تقليل المسافة السفلية */
+    }
+    .main-btn {
+        font-size: 18px; /* حجم الزر على الشاشات الصغيرة */
+        padding: 0.75em 1.5em; /* تقليل الحشوة */
+    }
+    .download-buttons .btn {
+        font-size: 12px; /* حجم الخط للأزرار */
+        min-width: 120px; /* تقليل العرض الأدنى للأزرار */
+    }
+    .social-icons a {
+        font-size: 1.5em; /* حجم الأيقونات */
+    }
+    .footer {
+        padding: 10px; /* تقليل الحشوة في الفوتر */
+    }
+    .footer-title {
+        font-size: 0.9em; /* تقليل حجم النص في الفوتر */
     }
 }
+
+@media (max-width: 300px) {
+    .content h1 {
+        font-size: 40px; /* حجم النص على الشاشات الأصغر */
+    }
+    .main-btn {
+        font-size: 16px; /* حجم الزر على الشاشات الأصغر */
+    }
+}
+/* الألوان عند فتح الموقع على الهاتف */
+@media (max-width: 641px) {
+    .social-icons a .fab.fa-whatsapp {
+        color: #00b944; /* واتساب */
+    }
+    .social-icons a .fab.fa-facebook {
+        color: #0138af; /* فيسبوك */
+    }
+    .social-icons a .fab.fa-twitter {
+        color: #1DA1F2; /* تويتر */
+    }
+    .social-icons a .fab.fa-snapchat {
+        color: #FFFC00; /* سناب شات */
+    }
+    .social-icons a .fab.fa-instagram {
+        color: #C13584; /* إنستغرام */
+    }
+    .social-icons a .fab.fa-youtube {
+        color: #FF0000; /* يوتيوب */
+    }
+}
+
