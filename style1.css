@@ -236,12 +236,12 @@ video {
         width: 100%; /* تأكد من ملء عرض الشاشة بالكامل */
     }
     .content h1 {
-        font-size: 20px; /* حجم الخط المصغر على الجوال */
+        font-size: 40px !important; /* إجبار المتصفح على استخدام هذه القيمة */
     }
         /* جعل الزر في منتصف الشاشة */
     .main-btn {
         position: absolute;
-        top: 50%;
+        top: 60%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
