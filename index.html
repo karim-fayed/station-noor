@@ -9,15 +9,15 @@
     <link rel="stylesheet" href="style1.css">
     <title>محطات نور خوي</title>
 </head>
-<body> 
+<body>
     <img src="logo1.png" alt="شعار" class="logo">
+    <div id="loadingMessage">جاري التحميل...</div>
     <div class="container">
         <video id="backgroundVideo" autoplay loop playsinline class="background-clip" muted>
             <source src="https://raw.githubusercontent.com/karim-fayed/station-Noor/78e85c826644680d20b27a8e4f86bb2952545845/images/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
 
-        <div id="loadingMessage">جاري التحميل...</div>
 
         <div class="download-buttons">
             <a href="https://www.apple.com/app-store/" class="btn">
@@ -45,6 +45,7 @@
         <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
     </footer>
 
+    <button id="playButton"><i class="fas fa-play"></i> تشغيل الفيديو</button>
     <script src="video.js"></script>
 </body>
 </html>
