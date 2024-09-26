@@ -239,7 +239,7 @@ video {
         top: -80px;
     }
     .content h1 {
-        top: -80px;
+        top: -180px;
         left: 50%;
         font-size: 40px !important; /* إجبار المتصفح على استخدام هذه القيمة */
     }
