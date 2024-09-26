@@ -238,16 +238,25 @@ video {
         font-size: 50px; /* حجم النص على الشاشات الصغيرة */
         margin-bottom: 30px; /* تقليل المسافة السفلية */
     }
+        /* جعل الزر في منتصف الشاشة */
     .main-btn {
-        font-size: 18px; /* حجم الزر على الشاشات الصغيرة */
-        padding: 0.75em 1.5em; /* تقليل الحشوة */
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
-    .download-buttons .btn {
-        font-size: 12px; /* حجم الخط للأزرار */
-        min-width: 120px; /* تقليل العرض الأدنى للأزرار */
+       /* رفع أزرار التحميل بمقدار 50 بكسل */
+    .download-buttons {
+        bottom: 70px; /* رفع بمقدار 50 بكسل عن الوضع السابق */
     }
-    .social-icons a {
-        font-size: 1.5em; /* حجم الأيقونات */
+      /* وضع أيقونات السوشيال ميديا أسفل الزر */
+    .social-icons {
+        position: absolute;
+        top: 60%; /* أسفل الزر بمسافة */
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
     }
     .footer {
         padding: 10px; /* تقليل الحشوة في الفوتر */
