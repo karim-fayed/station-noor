@@ -236,12 +236,14 @@ video {
         width: 100%; /* تأكد من ملء عرض الشاشة بالكامل */
     }
     .content h1 {
+        top: 30%;
+        left: 50%;
         font-size: 40px !important; /* إجبار المتصفح على استخدام هذه القيمة */
     }
         /* جعل الزر في منتصف الشاشة */
     .main-btn {
         position: absolute;
-        top: 60%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
     }
