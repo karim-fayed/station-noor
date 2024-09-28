@@ -229,42 +229,25 @@ video {
     margin-bottom: 20px;
 }
 
-/* التعديلات الخاصة بالجوال */
 @media (max-width: 641px) {
     video {
         height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
         width: 100%; /* تأكد من ملء عرض الشاشة بالكامل */
     }
-    .content {
-        top: -80px;
-    }
-    .h1 { 
-        top: 80px;
-    }
     .content h1 {
-        top: -180px;
-        left: 50%;
-        font-size: 40px !important; /* إجبار المتصفح على استخدام هذه القيمة */
+        font-size: 50px; /* حجم النص على الشاشات الصغيرة */
+        margin-bottom: 30px; /* تقليل المسافة السفلية */
     }
-        /* جعل الزر في منتصف الشاشة */
     .main-btn {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        font-size: 18px; /* حجم الزر على الشاشات الصغيرة */
+        padding: 0.75em 1.5em; /* تقليل الحشوة */
     }
-       /* رفع أزرار التحميل بمقدار 50 بكسل */
-    .download-buttons {
-        bottom: 70px; /* رفع بمقدار 50 بكسل عن الوضع السابق */
+    .download-buttons .btn {
+        font-size: 12px; /* حجم الخط للأزرار */
+        min-width: 120px; /* تقليل العرض الأدنى للأزرار */
     }
-      /* وضع أيقونات السوشيال ميديا أسفل الزر */
-    .social-icons {
-        position: absolute;
-        top: 60%; /* أسفل الزر بمسافة */
-        left: 50%;
-        transform: translateX(-50%);
-        display: flex;
-        justify-content: center;
+    .social-icons a {
+        font-size: 1.5em; /* حجم الأيقونات */
     }
     .footer {
         padding: 10px; /* تقليل الحشوة في الفوتر */
@@ -275,20 +258,13 @@ video {
 }
 
 @media (max-width: 300px) {
-    .h1 { 
-        top: 80px;
-    }
     .content h1 {
-        top: -180px;
-        left: 50%;
-        font-size: 20px !important; /* إجبار المتصفح على استخدام هذه القيمة */
+        font-size: 40px; /* حجم النص على الشاشات الأصغر */
     }
-    
     .main-btn {
         font-size: 16px; /* حجم الزر على الشاشات الأصغر */
     }
 }
-
 /* الألوان عند فتح الموقع على الهاتف */
 @media (max-width: 641px) {
     .social-icons a .fab.fa-whatsapp {
@@ -310,3 +286,4 @@ video {
         color: #FF0000; /* يوتيوب */
     }
 }
+
