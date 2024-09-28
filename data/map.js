@@ -37,6 +37,7 @@ async function loadRegionsData() {
     }
 }
 
+// Process regions data
 function processRegionsData(jsonData) {
     jsonData.forEach(item => {
         const region = item['المنطقة'];
@@ -44,12 +45,14 @@ function processRegionsData(jsonData) {
         const location = {
             name: item['الموقع'],
             lat: parseFloat(item['خط العرض']),
-            lng: parseFloat(item['خط الطول'])
+            lng: parseFloat(item['خط الطول']),
+            fuelType: item['نوع الوقود'] || 'غير متوفر' // إضافة نوع الوقود
         };
         if (!regionsData[region]) regionsData[region] = [];
         regionsData[region].push(location);
     });
     populateRegionSelect();
+    populateFuelTypeSelect(); // تأكد من استدعاء هذه الدالة هنا
 }
 
 // Load city centers
@@ -76,11 +79,40 @@ function initMap() {
     directionsRenderer = new google.maps.DirectionsRenderer();
     directionsRenderer.setMap(map);
     document.getElementById('regionSelect').addEventListener('change', updateLocations);
+    document.getElementById('fuelTypeSelect').addEventListener('change', updateLocations); // إضافة الاستماع لتغيير نوع الوقود
+}
+
+// Populate region select
+function populateRegionSelect() {
+    const regionSelect = document.getElementById('regionSelect');
+    regionSelect.innerHTML = '';
+    cities.forEach(city => {
+        const option = new Option(city, city);
+        regionSelect.add(option);
+    });
+}
+
+// Populate fuel type select
+function populateFuelTypeSelect() {
+    const fuelTypeSelect = document.getElementById('fuelTypeSelect');
+    const fuelTypes = new Set();
+
+    for (const region in regionsData) {
+        regionsData[region].forEach(location => {
+            fuelTypes.add(location.fuelType);
+        });
+    }
+
+    fuelTypeSelect.innerHTML = '<option value="">اختر نوع الوقود</option>';
+    fuelTypes.forEach(type => {
+        fuelTypeSelect.add(new Option(type, type));
+    });
 }
 
 // Update locations based on selected region
 function updateLocations() {
     const selectedRegion = document.getElementById('regionSelect').value;
+    const selectedFuelType = document.getElementById('fuelTypeSelect').value;
     clearMarkers();
     const regionsTable = document.getElementById('regionsTable');
     regionsTable.innerHTML = '';
@@ -90,8 +122,12 @@ function updateLocations() {
         return;
     }
 
-    const regionLocations = regionsData[selectedRegion];
-    if (regionLocations) {
+    // تصفية المواقع بناءً على نوع الوقود
+    const regionLocations = regionsData[selectedRegion].filter(location => 
+        !selectedFuelType || location.fuelType === selectedFuelType
+    );
+
+    if (regionLocations.length > 0) {
         const bounds = new google.maps.LatLngBounds();
         const addedLocations = new Set();
 
@@ -105,10 +141,13 @@ function updateLocations() {
         });
 
         map.fitBounds(bounds);
-        calculateAverageDistances(selectedRegion);
+
+        // حساب المسافات فقط للمواقع المعروضة
+        calculateAverageDistances(selectedRegion, regionLocations);
         populateLocationSelects(regionLocations.map(loc => loc.name));
     }
 }
+
 
 // Clear markers from the map
 function clearMarkers() {
@@ -152,26 +191,36 @@ function addMarker(location) {
 }
 
 // Add a row to the regions table
+// Add a row to the regions table
 function addRowToRegionsTable(selectedRegion, location) {
     const row = document.createElement('tr');
+
+    // معالجة أنواع الوقود
+    const fuelTypes = location.fuelType.split(' '); // تقسيم الأنواع إلى مصفوفة
+    const coloredFuelTypes = fuelTypes.map(type => {
+        let color;
+        if (type === '91') {
+            color = 'green'; // اللون الأخضر لنوع الوقود 91
+        } else if (type === '95') {
+            color = 'red'; // اللون الأحمر لنوع الوقود 95
+        } else if (type.toLowerCase() === 'ديزل') {
+            color = 'orange'; // اللون الأصفر لنوع الوقود ديزل
+        } else {
+            color = 'black'; // لون افتراضي للأنواع الأخرى
+        }
+        return `<span style="color: ${color}; font-weight: bold;">${type}</span>`; // تلوين النوع وجعله غامق
+    });
+
     row.innerHTML = `
         <td>${selectedRegion}</td>
         <td>${location.name}</td>
         <td id="distance-${selectedRegion}-${location.name}">---</td>
+        <td>${coloredFuelTypes.join(' ')}</td> <!-- إضافة الأنواع الملونة -->
         <td><button class="show-map-button" onclick="centerMap(${location.lat}, ${location.lng})">عرض على الخريطة</button></td>
     `;
     document.getElementById('regionsTable').appendChild(row);
 }
 
-// Populate region select
-function populateRegionSelect() {
-    const regionSelect = document.getElementById('regionSelect');
-    regionSelect.innerHTML = '';
-    cities.forEach(city => {
-        const option = new Option(city, city);
-        regionSelect.add(option);
-    });
-}
 
 // Populate location selects
 function populateLocationSelects(locationNames) {
@@ -208,21 +257,21 @@ function centerMap(lat, lng) {
     map.setZoom(18);
 }
 
-// Calculate average distances to the city center
-function calculateAverageDistances(region) {
-    const locationsArray = regionsData[region];
+// تحديث دالة حساب المسافات
+function calculateAverageDistances(region, locationsArray) {
     const cityCenter = cityCenters[region];
+    if (!cityCenter) return;
 
-    if (cityCenter) {
-        const latLngCityCenter = new google.maps.LatLng(cityCenter.lat, cityCenter.lng);
-        locationsArray.forEach(location => {
-            const latLngLocation = new google.maps.LatLng(location.lat, location.lng);
-            const distanceToCenter = google.maps.geometry.spherical.computeDistanceBetween(latLngLocation, latLngCityCenter) / 1000;
-            document.getElementById(`distance-${region}-${location.name}`).innerText = distanceToCenter.toFixed(2);
-        });
-    }
+    const latLngCityCenter = new google.maps.LatLng(cityCenter.lat, cityCenter.lng);
+    locationsArray.forEach(location => {
+        const distance = computeDistance(latLngCityCenter, location);
+        document.getElementById(`distance-${region}-${location.name}`).innerText = distance.toFixed(2);
+    });
 }
-
+function computeDistance(latLngCityCenter, location) {
+    const latLngLocation = new google.maps.LatLng(location.lat, location.lng);
+    return google.maps.geometry.spherical.computeDistanceBetween(latLngLocation, latLngCityCenter) / 1000;
+}
 // Reset selected distances
 function resetSelectedDistance() {
     document.getElementById('selectedStart').innerText = '---';
@@ -292,3 +341,11 @@ function drawRoute(start, end) {
         }
     });
 }
+
+// Reset all
+function resetAll() {
+    window.location.reload();
+}
+
+// Link reset button to function
+document.getElementById('resetButton').addEventListener('click', resetAll);

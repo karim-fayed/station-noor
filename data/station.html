@@ -13,7 +13,7 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap"></script>
     <script src="map.js" defer></script>
 </head>
-<body>
+<body class="body">
     <img src="../logo1.png" alt="شعار" class="logo">
     <div class="map-container" id="map"></div>
     <div class="main-content">
@@ -40,6 +40,12 @@
                 </select>
             </div>
             <div>
+                <label for="fuelTypeSelect">اختر نوع الوقود</label>
+                <select id="fuelTypeSelect">
+                    <option value="">اختر نوع الوقود</option>
+                </select>
+            </div>
+            <div>
                 <button id="resetButton">إعادة تعيين</button>
             </div>
         </div>
@@ -52,6 +58,7 @@
                         <th>المنطقة</th>
                         <th>الموقع</th>
                         <th>المسافة المتوسطة (كم)</th>
+                        <th>نوع الوقود</th>
                         <th>الخريطة</th>
                     </tr>
                 </thead>
