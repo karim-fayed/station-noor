@@ -73,7 +73,16 @@ window.initMap = async function() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: defaultLocation,
         zoom: 11,
-        mapTypeId: 'hybrid'
+        scrollwheel: true,
+        gestureHandling: 'auto',
+        zoomControl: false, // إخفاء زر التكبير والتصغير
+        streetViewControl: false, // إخفاء زر التجول الافتراضي
+        fullscreenControl: false, // إخفاء زر الشاشة الكاملة
+        mapTypeControl: true, // اجعل زر نوع الخريطة ظاهرًا
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR, // استخدم الشريط الأفقي
+            position: google.maps.ControlPosition.TOP_CENTER // موقع التحكم
+        }   
     });
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
@@ -156,24 +165,45 @@ function clearMarkers() {
     directionsRenderer.setMap(null);
 }
 
-// Add a marker to the map
+// Add a marker to the map// Add a marker to the map
 function addMarker(location) {
     const latLng = new google.maps.LatLng(location.lat, location.lng);
+    
+    // Replace the default marker with the company logo (provided image file path)
     const marker = new google.maps.Marker({
         position: latLng,
         map: map,
         title: location.name,
-        icon: pinUrls.blue,
-        draggable: true
+        icon: {
+            url: '../data/image.png', // Image file for logo
+            scaledSize: new google.maps.Size(50, 50), // Resize the logo
+        },
+        draggable: false
     });
 
     const infoWindow = new google.maps.InfoWindow();
 
+    // Content of the infoWindow (company logo, title, description)
+    const contentString = `
+        <div style="text-align: center;">
+            <img src="../data/image.png" alt="Company Logo" style="width: 50px; height: 50px;">
+            <h3>${location.name}</h3>
+            <p>نوع الوقود: ${location.fuelType}</p>
+            <p>معلومات إضافية عن المحطة</p>
+        </div>
+    `;
+
     marker.addListener('click', () => {
-        if (activeMarker) activeMarker.setIcon(pinUrls.blue);
-        marker.setIcon(pinUrls.red);
+        if (activeMarker) activeMarker.setIcon({
+            url: '../data/image.png', 
+            scaledSize: new google.maps.Size(50, 50)
+        });
+        marker.setIcon({
+            url: '../data/image.png', 
+            scaledSize: new google.maps.Size(50, 50) // Change size when active
+        });
         activeMarker = marker;
-        infoWindow.setContent(`<div><strong>${location.name}</strong><br>${location.fuelType}</div>`);
+        infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
         map.setCenter(marker.getPosition());
         map.setZoom(12);
@@ -191,10 +221,13 @@ function addMarker(location) {
     locations[location.name] = latLng;
 }
 
+
 // Add a row to the regions table
 function addRowToRegionsTable(selectedRegion, location) {
     const row = document.createElement('tr');
 
+    // أزل هذا الجزء الذي يضيف نوع الوقود
+    /*
     const fuelTypes = location.fuelType.split(' ');
     const coloredFuelTypes = fuelTypes.map(type => {
         let color;
@@ -209,16 +242,18 @@ function addRowToRegionsTable(selectedRegion, location) {
         }
         return `<span style="color: ${color}; font-weight: bold;">${type}</span>`;
     });
+    */
 
+    // تعديل الكود لإضافة الصف بدون نوع الوقود
     row.innerHTML = `
         <td>${selectedRegion}</td>
         <td>${location.name}</td>
         <td id="distance-${selectedRegion}-${location.name}">---</td>
-        <td>${coloredFuelTypes.join(' ')}</td>
         <td><button class="show-map-button" onclick="centerMap(${location.lat}, ${location.lng})">عرض على الخريطة</button></td>
     `;
     document.getElementById('regionsTable').appendChild(row);
 }
+
 
 // Populate location selects
 function populateLocationSelects(locationNames) {

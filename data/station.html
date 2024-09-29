@@ -14,12 +14,14 @@
     <script src="map.js" defer></script>
 </head>
 <body class="body">
-    <img src="../logo1.png" alt="شعار" class="logo">
+    <header class="header">
+        <img src="../logo1.png" alt="شعار" class="logo">
+        <h1>عرض المناطق والمواقع محطات نور خوي</h1>
+    </header>
+    
     <div class="map-container" id="map"></div>
+    <div id="loadingMessage" aria-live="polite">جارٍ تحميل البيانات...</div>
     <div class="main-content">
-        <div id="loadingMessage" aria-live="polite">جارٍ تحميل البيانات...</div>
-        <p>عرض المناطق والمواقع محطات نور خوي</p>
-
         <div class="select-container">
             <div>
                 <label for="regionSelect">اختر منطقة</label>
@@ -49,7 +51,10 @@
                 <button id="resetButton">إعادة تعيين</button>
             </div>
         </div>
+    </div>
 
+    <div class="table">
+        <!-- قسم المناطق والمواقع -->
         <div class="table-container">
             <h3>المناطق والمواقع</h3>
             <table>
@@ -58,14 +63,15 @@
                         <th>المنطقة</th>
                         <th>الموقع</th>
                         <th>المسافة المتوسطة (كم)</th>
-                        <th>نوع الوقود</th>
+                        <!--<th>نوع الوقود</th>-->
                         <th>الخريطة</th>
                     </tr>
                 </thead>
                 <tbody id="regionsTable"></tbody>
             </table>
         </div>
-        
+    
+        <!-- قسم حساب المسافة -->
         <div class="table-container">
             <h4>حساب المسافة بين موقعين</h4>
             <table>
@@ -86,7 +92,7 @@
             </table>
         </div>
     </div>
-    
+
     <footer class="footer">
         <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
     </footer>
