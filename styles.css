@@ -346,7 +346,7 @@
         @media (max-width: 991.9px) {
             .header h1 {
                 position: absolute;
-                padding: 0px 60px;
+                padding: 3px 76px;
                 font-size: 18px;
             }
             .select-container {
