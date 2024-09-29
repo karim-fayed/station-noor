@@ -20,13 +20,16 @@
         }
 
         .header {
-            background-color: #d517bca2;
-            padding: 23px;
             display: flex;
-            color: white;
-            flex-direction: column-reverse;
             justify-content: center;
-
+            align-items: center;
+            flex-direction: column;
+            padding: 20px; /* تأكد من إضافة حشوة كافية */
+            background-color: #d517bca2; /* تأكد من وجود خلفية لرؤيته */
+        }
+        .header h1 {
+            margin: 0;
+            
         }
         /* تقليل حجم زر نوع الخريطة */
         .gm-svpc {
@@ -45,10 +48,7 @@
             max-height: 20px;
         }
 
-        h1 {
-            text-align: center;
-            margin-top: 6px;
-        }
+
         p {
             display: block;
             text-align: center;
