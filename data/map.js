@@ -78,11 +78,11 @@ window.initMap = async function() {
         zoomControl: false, // إخفاء زر التكبير والتصغير
         streetViewControl: false, // إخفاء زر التجول الافتراضي
         fullscreenControl: false, // إخفاء زر الشاشة الكاملة
-        mapTypeControl: true, // اجعل زر نوع الخريطة ظاهرًا
-        mapTypeControlOptions: {
-            style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR, // استخدم الشريط الأفقي
-            position: google.maps.ControlPosition.TOP_CENTER // موقع التحكم
-        }   
+        mapTypeControl: false, // اجعل زر نوع الخريطة ظاهرًا
+        //mapTypeControlOptions: {
+            //style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR, // استخدم الشريط الأفقي
+            //position: google.maps.ControlPosition.TOP_CENTER // موقع التحكم
+        //}   
     });
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
