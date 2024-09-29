@@ -4,493 +4,374 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-/* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', Arial, sans-serif; /* دمج الخطوط */
-
-
-body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: auto; /* تأكد من وجود شريط تمرير عند الحاجة */
-}
-
-.logo {
-    position: fixed;
-    top: 10px;
-    left: 10px;
-    max-width: 70px;
-    height: auto;
-    z-index: 999;
-}
-
-.container {
-    height: 100vh; /* تأكد من أن الحاوية تغطي الشاشة */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.content {
-    text-align: center;
-    position: relative; 
-    z-index: 1; 
-}
-
-.content h1 {
-    font-size: 95px; /* الحفاظ على الحجم الأصلي للنص */
-    color: #fff;
-    margin-bottom: 50px; 
-    transition: top 0.5s, opacity 0.5s; 
-}
-
-.main-btn {
-    font-size: 23px; 
-    color: #fff;
-    text-decoration: none;
-    letter-spacing: 1px;
-    display: inline-block;
-    border: 2px solid #fff;
-    padding: 0.9375em 2.1875em;
-    border-radius: 50px;
-    transition: 0.9s ease; 
-}
-
-.main-btn:hover {
-    background-color: #1bad0d;
-    color: #000;
-    transform: scale(1.05); 
-}
-
-.download-buttons {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1;
-    margin: 24px 0;
-}
-
-.download-buttons .btn {
-    margin: 0 10px; /* تباعد 10 بكسل بين الأزرار */
-    display: flex; /* استخدام flex لتسهيل توسيط المحتوى */
-    justify-content: center; /* توسيط المحتوى داخل الزر */
-    align-items: center; /* محاذاة المحتوى عمودياً */
-    font-size: 14px; /* حجم الخط */
-    color: #fff;
-    text-decoration: none;
-    letter-spacing: 1px;
-    border: 2px solid #fff; /* لون الحدود */
-    padding: 0.9375em; /* حشوة متساوية */
-    min-width: 150px; /* تحديد عرض أدنى لضمان تساوي الحجم */
-    border-radius: 50px; /* زوايا دائرية */
-    transition: 0.9s ease;
-    background-color: transparent; /* لون الخلفية شفاف */
-}
-
-
-.download-buttons a:hover .fab.fa-apple {
-    color: #535151; /* اللون الأصلي اب ستور */
-}
-
-.download-buttons a:hover .fab.fa-google-play {
-    color:  #34A853; /* اللون الأصلي لجوجل بلاي */
-}
-
-.btn:hover {
-    transform: scale(1.1);
-    color: #f5f9f6;
-}
-
-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-    opacity: 0.8;
-
-    width: calc(100% ); /* تقليص 20 بكسل من كل جانب */
-    height: calc(100% ); /* تقليص 20 بكسل من الأعلى والأسفل (اختياري) */
-
-    object-fit: cover; /* يضمن تغطية الشاشة بالكامل مع الحفاظ على نسبة العرض إلى الارتفاع */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1; 
-}
-
-
-
-.background-clip {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    z-index: -1;
-}
-
-.social-icons {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px; 
-    padding: 15px;
-    border-radius: 50px;
-}
-
-.social-icons a {
-    color: #fff;
-    font-size: 1.7em; 
-    margin: 0 15px; 
-    transition: color 0.3s;
-}
-
-.social-icons a:hover {
-    color: transparent; 
-}
-
-.footer {
-    position: fixed; 
-    bottom: 0; 
-    left: 0;
-    right: 0; 
-    background-color: #000016;
-    color: #fff;
-    padding: 15px; 
-    display: flex;
-    justify-content: center; 
-    align-items: center; 
-    height: 10px; 
-    z-index: 999; 
-}
-
-.footer-title {
-    font-size: 1em; 
-    font-weight: 600;
-}
-
-.footer .social-icons {
-    display: flex;
-    gap: 15px; 
-}
-
-.footer .social-icons a {
-    font-size: 1em; 
-    color: #fff; 
-}
-
-.footer .social-icons a:hover {
-    color: #ee2f0e; 
-}
-
-
-
-
-/* تغيير لون الأيقونات عند التمرير */
-.social-icons a:hover {
-    color: transparent; /* اجعل اللون الأصلي غير مرئي */
-}
-
-/* تحديد الألوان الأصلية لكل أيقونة */
-.social-icons a:hover .fab.fa-whatsapp {
-    color: #25D366; /* واتساب */
-}
-
-.social-icons a:hover .fab.fa-facebook {
-    color: #3b5998; /* فيسبوك */
-}
-
-.social-icons a:hover .fab.fa-twitter {
-    color: #1DA1F2; /* تويتر */
-}
-
-.social-icons a:hover .fab.fa-snapchat {
-    color: #FFFC00; /* سناب شات */
-}
-
-.social-icons a:hover .fab.fa-instagram {
-    color: #C13584; /* إنستغرام */
-}
-
-.social-icons a:hover .fab.fa-youtube {
-    color: #FF0000; /* يوتيوب */
-}
-
-#favicon {
-    animation: spin 5s linear infinite; /* تعديل سرعة الدوران هنا */
-}
-body {
-    direction: rtl;
-    display: flex;
-    flex-direction: row;
-    background-image: url('./Wallpaper.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #6b073e; /* اللون الرمادي */
-    align-items: flex-start;
-}
-
-.container {
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.background-clip {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-#resetButton {
-    background-color: #7c0872; /* لون خلفية الزر */
-    color: white; /* لون النص */
-    border: 2px solid #faf8f8; /* حدود */
-    padding: 10px 10px; /* الحشوة */
-    text-align: center; /* محاذاة النص إلى المنتصف */
-    
-    right: 10px; /* المسافة من اليمين */
-    text-decoration: none; /* إزالة التسطير */
-    display: inline-block; /* لعرض الزر بشكل مناسب */
-    font-size: 16px; /* حجم الخط */
-    margin: 5px 0; /* الهوامش */
-    cursor: pointer; /* تغيير شكل المؤشر عند التمرير فوق الزر */
-    border-radius: 200px; /* زوايا مدورة */
-    transition: 0.9s ease; /* تأثير التغير في الخلفية */
-}
-
-/* تأثير عند التمرير فوق الزر */
-#resetButton:hover {
-    background-color: #d22f0b; /* لون خلفية مختلف عند التمرير */
-    color: #f3e9e9;
-    transform: scale(1.1); 
-}
-
-.map-container {
-    width: 700px;
-    height: 700px;
-    position: fixed;
-    top: 20px;
-    left: 10px;
-    right: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.main-content {
-    margin-left: 90px;
-    margin-right: 25px;
-    margin-top: 20px;
-    padding: 5px;
-    width: calc(100% - 650px);
-    background: rgba(255, 255, 255, 0.8);
-    min-height: calc(100vh - 60px);
-    border-radius: 8px;
-    overflow-y: auto; /* إضافة التمرير العمودي */
-    padding-bottom: 70px;
-    overflow-x: hidden; /* لمنع التمرير الأفقي إذا لم يكن مطلوبًا */
-}
-
-h1 {
-    text-align: center;
-    margin-top: 6px;
-}
-p {
-    display: block;
-    text-align: center;
-    margin-top: 2px;
-    margin-bottom: 2px;
-    font-weight: bold;
-    font-size: 20px;
-    margin-right: 6px;
-} 
-h3 {
-    text-align: center;
-    margin-top: 0px;
-    padding: 10px;
-}
-h4 {
-    text-align: center;
-    margin-top: 6px;
-    padding: 10px ;
-}
-.select-container {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    align-items: center;
-}
-
-
-.select-container label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 15px;
-    margin-right: 6px;
-    
-}
-
-.table-container {
-    width: 100%;
-    margin-top: 5px;
-    
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-td, th {
-    border: 1px solid #ddd;
-    padding: 3px;
-    text-align: center;
-    display: table-cell;
-}
-
-th {
-    background-color: #f2f2f2;
-}
-
-
-img {
-    position: absolute; /* تحديد موضع مطلق */
-    top: 15px; /* المسافة من الأعلى */
-    left: 15px; /* المسافة من اليسار */
-    max-width: 50px; /* تحديد عرض الشعار */
-    height: auto; /* الحفاظ على نسبة الطول إلى العرض */
-    z-index: 1001; /* التأكد من أن الشعار فوق العناصر الأخرى */
-}
-
-/* تنسيق القائمة المنسدلة */
-.select-container select {
-    width: 150px; /* عرض ثابت للقوائم */
-    padding: 10px 40px 10px 15px; /* زيادة مساحة السهم */
-    font-size: 16px;
-    color: #333;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    appearance: none; /* إزالة التنسيق الافتراضي */
-    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 20 20"><path fill="%23333" d="M5.516 7.548l4.484 4.484 4.484-4.484-1.06-1.06-3.424 3.424-3.424-3.424z"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
-    cursor: pointer;
-    transition: border-color 0.3s, box-shadow 0.3s;
-    margin-right: 5px;
-}
-
-.select-container select:hover {
-    border-color: #918f8f;
-    box-shadow: 5px #333;
-}
-
-.select-container select:focus {
-    outline: none;
-    border-color: #666;
-    box-shadow: 0 0 5px rgba(102, 102, 102, 0.5);
-}
-
-.show-map-button {
-    color: #fff;
-    border: 2px solid #fff;
-    background-color: #3a6cf4;
-    text-decoration: none;
-    font-size: 0.91em;
-    font-weight: 8;
-    display: inline-block;
-    padding: 0.7em 0.875em;
-    letter-spacing: 1px;
-    border-radius: 15px;
-    margin-bottom: 5px;
-    transition: 0.7s ease;
-}
-
-.show-map-button:hover {
-    background-color: #10c210;
-    color: #000;
-    transform: scale(1.1);
-    font-size: 0.9em;
-    font-weight: bold;
-}
-
-#loadingMessage {
-    font-size: 18px;
-    color: #333;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-
-@media (min-aspect-ratio: 16/9) {
-    .background-clip {
-        width: 100%;
-        height: auto;
-    }
-}
-
-@media (max-aspect-ratio: 16/9) {
-    .background-clip {
-        width: auto;
-        height: 100%;
-    }
-}
-
-/* استعلامات الوسائط لتغيير الأبعاد على الهاتف */
-@media (max-width: 868px) {
-    .map-container {
-        width: 90%; /* جعل الخريطة أكثر مرونة */
-        height: 300px; /* يمكنك تحديد ارتفاع مناسب */
-    }
-    .main-content {
-        width: 100%;
-        margin-left: 0;
-        margin-right: 0;
-    }
-    .select-container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-@media (max-width: 641px) {
-    video {
-        height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل */
-        width: 100vw; /* تأكد من ملء عرض الشاشة بالكامل */
-    }
-}
-
-
-/* تحسين العرض للشاشات الصغيرة */
-@media (max-width: 768px) {
-    .content h1 {
-        font-size: 40px; /* حجم أصغر للنص */
-        margin-bottom: 20px; /* تقليل الهامش */
-    }
-    
-    .main-btn {
-        font-size: 16px; /* حجم أصغر للزر */
-        padding: 0.5em 1em; /* تقليل الحشوة */
-    }
-
-    .download-buttons {
-        flex-direction: column; /* تنظيم الأزرار عمودياً */
-        align-items: center; /* محاذاة الأزرار في المنتصف */
-    }
-}
+/* إعدادات عامة */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: auto;
+            /*direction: rtl;*/
+            font-family: Arial, sans-serif;
+            background-image: url('./Wallpaper.jpeg');   
+            background-size: cover; /* لتغطية الخلفية بالكامل */
+            background-position: center; /* لتوسيط الصورة */
+            background-repeat: no-repeat; /* لمنع تكرار الصورة */
+            background-attachment: fixed; /* اختياري لجعل الصورة ثابتة عند التمرير */
+        }
+
+        .header {
+            background-color: #d517bca2;
+            padding: 23px;
+            display: flex;
+            color: white;
+            flex-direction: column-reverse;
+            justify-content: center;
+
+        }
+        /* تقليل حجم زر نوع الخريطة */
+        .gm-svpc {
+            transform: scale(0.7); /* تعديل الحجم */
+            transform-origin: top left; /* نقطة الأصل للتكبير */
+        }
+
+        /* تقليل المسافات بين العناصر */
+        .gm-control-active {
+            margin: 5px; /* تقليل المسافة بين الأزرار */
+        }
+
+        /* تخصيص لون الأزرار (اختياري) */
+        .gm-control-active img {
+            max-width: 20px; /* تعديل حجم الصور داخل الأزرار */
+            max-height: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 6px;
+        }
+        p {
+            display: block;
+            text-align: center;
+            margin-top: -1px;
+            margin-bottom: 0px;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: 6px;
+        } 
+        h3, h4 {
+            text-align: center;
+            margin-top: 0px;
+            padding: 3px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .logo {
+            width: 40px;
+            height: auto;
+            position: absolute; /* موضع مطلق */
+            top: 2px; /* المسافة من الأعلى */
+            left: 10px; /* المسافة من اليسار */
+        }
+
+        /* حاوية الخريطة */
+        .map-container {
+            width: 95%;
+            height: 100%;
+            background-color: #e2e2e2;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        /* معلومات المحطة */
+        .station-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .station-info img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .station-info h3 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+        }
+
+        .station-info p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+        /* حاوية المحتوى الرئيسي */
+        .main-content {
+            margin: 20px;
+        }
+
+        /* حاوية القائمة */
+        .select-container {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-content: center;
+            align-items: flex-end;
+            justify-content: center;
+            direction: rtl;
+        }
+
+        .select-container label {
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+            margin-right: 20px;
+        }
+
+        .select-container select, 
+        .select-container button {
+            width: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .select-container button {
+            background-color: #20c997;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .select-container button:hover {
+            background-color: #17a085;
+        }
+        .show-map-button {
+            color: #fff;
+            border: 2px solid #fff;
+            background-color: #3a6cf4;
+            text-decoration: none;
+            font-size: 0.91em;
+            font-weight: 8;
+            display: inline-block;
+            padding: 0.8em 0.875em;
+            letter-spacing: 1px;
+            border-radius: 25px;
+            margin-bottom: 5px;
+            transition: 0.7s ease;
+        }
+        
+        .show-map-button:hover {
+            background-color: #00a100;
+            color: #000;
+            transform: scale(1.1);
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        /* الجداول */
+        .table-container {
+            margin-top: 20px;
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .table-container th, 
+        .table-container td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            
+        }
+        /* تحديد عرض العمود */
+        table-container th:nth-child(1),
+        table-container td:nth-child(1) {
+            width: 30%; /* عرض العمود الأول */
+        }
+
+        table-container th:nth-child(2),
+        table-container td:nth-child(2) {
+            width: 40%; /* عرض العمود الثاني */
+        }
+
+        table-container th:nth-child(3),
+        table-container td:nth-child(3) {
+            width: 20%; /* عرض العمود الثالث */
+        }
+
+        table-container th:nth-child(4),
+        table-container td:nth-child(4) {
+            width: 10%; /* عرض العمود الرابع */
+        }
+
+        .table-container th {
+            background-color: #f1f1f1;
+            font-size: 16px;
+        }
+
+        .table-container td {
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        td, th {
+            border: 1px solid #ddd;
+            padding: 3px;
+            text-align: center;
+            display: table-cell;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* تذييل الصفحة */
+        .footer {
+            position: fixed; 
+            bottom: 0; 
+            left: 0;
+            right: 0; 
+            background-color: #000016;
+            color: #fff;
+            padding: 15px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            height: 10px; 
+            z-index: 999; 
+        }
+        
+        .footer-title {
+            font-size: 1em; 
+            font-weight: 600;
+        }
+        /* استجابة للعرض الكبير */
+        @media (min-width: 992px) {
+            html[dir=rtl] .map-wrapper {
+                width: 95%;
+                height: 95%;
+                margin: 0 auto;
+                margin-top: 0px;
+                padding-right: 9rem;
+            }
+            html[dir=rtl] .select-container {
+                
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+                
+            }
+
+            /* إظهار الخريطة والجداول بشكل مناسب */
+            .map-container {
+                height: 400px; /* ارتفاع الخريطة على الشاشة الكبيرة */
+            }
+
+
+            .table-container {
+                
+                display: flex; /* عرض الجداول أسفل الخريطة */
+            }
+        }
+
+        /* استجابة للجوالات */
+        @media (max-width: 768px) {
+            .map-container {
+                width: 95%;
+                height: 100%;
+                margin: 0 auto;
+                height: 300px; /* ارتفاع الخريطة على الأجهزة الصغيرة */
+            }
+
+            .select-container select,
+            .select-container button {
+                display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-direction: column;
+                flex-wrap: wrap;
+                align-items: center;
+                direction: rtl;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .map-container {
+                height: 250px; /* ارتفاع الخريطة على الأجهزة الأصغر */
+            }
+            .select-container {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 991.9px) {
+            .header h1 {
+                position: absolute;
+                padding: 0px 35px;
+            }
+            .select-container {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 991.9px) {
+            .header .top-header h1 .brand-box img {
+                max-width: 90px;
+            }
+            .select-container {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+            }
+        }
