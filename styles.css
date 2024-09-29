@@ -376,3 +376,8 @@
                 flex-wrap: wrap;
             }
         }
+        @media (max-width: 768px) {
+            .header {
+                padding: 22px;
+            }
+        }
