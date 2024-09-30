@@ -6,10 +6,13 @@ const pinUrls = {
     green: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'
 };
 let activeMarker = null;
+let activeInfoWindow = null;
 let map, directionsService, directionsRenderer;
 let cityCenters = {};
 const regionsData = {};
 const cities = [];
+
+
 
 // Initialize app
 document.addEventListener('DOMContentLoaded', async () => {
@@ -39,6 +42,7 @@ async function loadRegionsData() {
 
 // Process regions data
 function processRegionsData(jsonData) {
+    console.log(jsonData); // هذا سيساعدك على رؤية البيانات
     jsonData.forEach(item => {
         const region = item['المنطقة'];
         if (!cities.includes(region)) cities.push(region);
@@ -46,7 +50,8 @@ function processRegionsData(jsonData) {
             name: item['الموقع'],
             lat: parseFloat(item['خط العرض']),
             lng: parseFloat(item['خط الطول']),
-            fuelType: item['نوع الوقود'] || 'غير متوفر'
+            fuelType: item['نوع الوقود'] || 'غير متوفر',
+            additionalInfo: item['معلومات إضافية'] || 'لا توجد معلومات إضافية' // تأكد من وجود العمود في شيت الإكسل
         };
         if (!regionsData[region]) regionsData[region] = [];
         regionsData[region].push(location);
@@ -82,7 +87,7 @@ window.initMap = async function() {
         //mapTypeControlOptions: {
             //style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR, // استخدم الشريط الأفقي
             //position: google.maps.ControlPosition.TOP_CENTER // موقع التحكم
-        //}   
+       // }   
     });
     directionsService = new google.maps.DirectionsService();
     directionsRenderer = new google.maps.DirectionsRenderer();
@@ -164,18 +169,15 @@ function clearMarkers() {
     locations = {};
     directionsRenderer.setMap(null);
 }
-
-// Add a marker to the map// Add a marker to the map
 function addMarker(location) {
     const latLng = new google.maps.LatLng(location.lat, location.lng);
     
-    // Replace the default marker with the company logo (provided image file path)
     const marker = new google.maps.Marker({
         position: latLng,
         map: map,
         title: location.name,
         icon: {
-            url: '../data/image.png', // Image file for logo
+            url: '../data/image.png', 
             scaledSize: new google.maps.Size(50, 50), // Resize the logo
         },
         draggable: false
@@ -183,43 +185,59 @@ function addMarker(location) {
 
     const infoWindow = new google.maps.InfoWindow();
 
-    // Content of the infoWindow (company logo, title, description)
     const contentString = `
-        <div style="text-align: center;">
-            <img src="../data/image.png" alt="Company Logo" style="width: 50px; height: 50px;">
+        <div style="text-align: center; white-space: nowrap; overflow: hidden; z-index: 1000;">
+            <img src="../data/image.png" alt="Company Logo" style="width:70px;">
             <h3>${location.name}</h3>
             <p>نوع الوقود: ${location.fuelType}</p>
-            <p>معلومات إضافية عن المحطة</p>
+            <p>${location.additionalInfo}</p>
         </div>
     `;
 
     marker.addListener('click', () => {
-        if (activeMarker) activeMarker.setIcon({
-            url: '../data/image.png', 
-            scaledSize: new google.maps.Size(50, 50)
-        });
+        if (activeInfoWindow) {
+            activeInfoWindow.close();
+        }
+        if (activeMarker) {
+            activeMarker.setIcon({
+                url: '../data/image.png',
+                scaledSize: new google.maps.Size(50, 50)
+            });
+        }
+
         marker.setIcon({
-            url: '../data/image.png', 
-            scaledSize: new google.maps.Size(50, 50) // Change size when active
+            url: '../data/image.png',
+            scaledSize: new google.maps.Size(60, 60) // Enlarge the active marker's icon
         });
+
         activeMarker = marker;
+        activeInfoWindow = infoWindow;
+
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
+
         map.setCenter(marker.getPosition());
-        map.setZoom(12);
+        map.setZoom(11);
     });
 
-    marker.addListener('dragend', (event) => {
-        const newLatLng = {
-            lat: event.latLng.lat(),
-            lng: event.latLng.lng()
-        };
-        console.log(`Marker moved to: ${newLatLng.lat}, ${newLatLng.lng}`);
+    // Listen for the closeclick event on the InfoWindow to reset map center to the current city center
+    infoWindow.addListener('closeclick', () => {
+        const selectedRegion = document.getElementById('regionSelect').value;
+
+        if (cityCenters[selectedRegion]) {
+            // Recenter the map to the selected city's center
+            const cityCenter = cityCenters[selectedRegion];
+            map.setCenter(new google.maps.LatLng(cityCenter.lat, cityCenter.lng));
+            map.setZoom(11); // تعيين التكبير الافتراضي مرة أخرى إذا لزم الأمر
+        } else {
+            console.error('City center not found for:', selectedRegion);
+        }
     });
 
     markers[location.name] = marker;
     locations[location.name] = latLng;
 }
+
 
 
 // Add a row to the regions table
