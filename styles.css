@@ -275,6 +275,20 @@
             height: 5px; /* تغيير الارتفاع حسب الحاجة */
             z-index: 999; 
         }
+        element.style {
+            background: none;
+            display: block;
+            border: 0px;
+            margin: -13px;
+            padding: 0px;
+            text-transform: none;
+            appearance: none;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            width: 48px;
+            height: 48px;
+        }
         
         
         .footer-title {
