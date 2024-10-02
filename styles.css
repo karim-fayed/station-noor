@@ -88,8 +88,8 @@
 
         /* حاوية الخريطة */
         .map-container {
-            width: 95%;
-            height: 100%;
+            width: 700px;
+            height: 700px;
             background-color: #e2e2e2;
             margin-top: 20px;
             border-radius: 15px;
@@ -146,14 +146,10 @@
             align-items: flex-end;
             justify-content: center;
             direction: rtl;
+
         }
 
-        .select-container label {
-            font-size: 18px;
-            color: #333;
-            font-weight: bold;
-            margin-right: 20px;
-        }
+
 
         .select-container select, 
         .select-container button {
@@ -311,13 +307,54 @@
             .map-container {
                 height: 400px; /* ارتفاع الخريطة على الشاشة الكبيرة */
             }
+            .main-content {
+                margin: 70px;
+                width: auto;
+            }
 
 
             .table-container {
+                position: relative; /* أو absolute */
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, 0%); /* مركزه تماماً */
+                display: flex;
                 flex-wrap: wrap;
                 justify-content: center;
-                display: flex; /* عرض الجداول أسفل الخريطة */
+                align-items: center;
+                width: 80%;
+                height: auto; /* يمكنك ضبط هذا حسب الحاجة */
             }
+            /* حاوية القائمة */
+            .select-container {
+                display: flex;
+                /* width: 250px; */
+                /* background-color: #666; */
+                flex-direction: row;
+                gap: 5px;
+                direction: rtl;
+                margin-right: 1193px;
+                margin-top: -352px;
+                margin-bottom: 79px;
+                transform: translate(350%, 21%);
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 48px;
+            }
+
         }
 
         /* استجابة للجوالات */
@@ -381,6 +418,20 @@
             }
             .gm-style img {
                 max-width: 100%; /* تعديل حجم الصور داخل الأزرار */
+            }
+            element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 48px;
             }
             .show-map-button {
                 color: #fff;
@@ -463,6 +514,20 @@
             .gm-style img {
                 max-width: 100%; /* تعديل حجم الصور داخل الأزرار */
             }
+            element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 48px;
+            }
             .show-map-button {
                 color: #fff;
                 border: 2px solid #fff;
@@ -529,6 +594,20 @@
             .gm-style img {
                 max-width: 100%; /* تعديل حجم الصور داخل الأزرار */
             }
+            element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 48px;
+            }
         }
 
         @media (max-width: 991.9px) {
@@ -544,6 +623,20 @@
                 justify-content: center;
                 direction: rtl;
                 flex-wrap: wrap;
+            }
+            element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 48px;
             }
         }
         @media (max-width: 768px) {
@@ -573,6 +666,20 @@
                 position: absolute;
                 top: 2px;
                 left: 10px;
+            }
+            element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 48px;
             }
             .gm-style .gm-style-iw-c {
                 position: absolute;
