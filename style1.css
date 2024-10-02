@@ -230,6 +230,16 @@ video {
 }
 
 @media (max-width: 641px) {
+    .download-buttons {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        z-index: 1;
+        margin: 24px 0;
+    }
     video {
         height: 100vh; /* تأكد من ملء ارتفاع الشاشة بالكامل على الجوال */
         width: 100%; /* تأكد من ملء عرض الشاشة بالكامل */
@@ -258,6 +268,16 @@ video {
 }
 
 @media (max-width: 300px) {
+    .download-buttons {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        z-index: 1;
+        margin: 24px 0;
+    }
     .content h1 {
         font-size: 40px; /* حجم النص على الشاشات الأصغر */
     }
@@ -267,6 +287,16 @@ video {
 }
 /* الألوان عند فتح الموقع على الهاتف */
 @media (max-width: 641px) {
+    .download-buttons {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translate(-50%, -40%);
+        z-index: 1;
+        margin: 24px 0;
+    }
     .social-icons a .fab.fa-whatsapp {
         color: #00b944; /* واتساب */
     }
