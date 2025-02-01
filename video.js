@@ -58,3 +58,96 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// الحصول على الأزرار وعناصر النماذج
+const loginButton = document.getElementById("loginButton");
+const signupButton = document.getElementById("signupButton");
+const loginFormContainer = document.getElementById("loginFormContainer");
+const signupFormContainer = document.getElementById("signupFormContainer");
+
+// عند النقر على زر تسجيل الدخول
+if (loginButton && loginFormContainer && signupFormContainer) {
+    loginButton.addEventListener("click", function () {
+        loginFormContainer.style.display = "block";
+        signupFormContainer.style.display = "none";
+    });
+}
+
+// عند النقر على زر تسجيل جديد
+if (signupButton && loginFormContainer && signupFormContainer) {
+    signupButton.addEventListener("click", function () {
+        loginFormContainer.style.display = "none";
+        signupFormContainer.style.display = "block";
+    });
+}
+
+// إرسال نموذج تسجيل الدخول
+const loginForm = document.getElementById("loginForm");
+if (loginForm) {
+    loginForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const username = document.getElementById("loginUsername").value;
+        const password = document.getElementById("loginPassword").value;
+
+        fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ username, password })
+        })
+            .then((response) => response.text())
+            .then((message) => alert(message))
+            .catch((err) => alert(err.message));
+    });
+}
+
+
+// إرسال نموذج تسجيل جديد
+const signupForm = document.getElementById("signupForm");
+if (signupForm) {
+    signupForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const username = document.getElementById("signupUsername").value;
+        const password = document.getElementById("signupPassword").value;
+        const email = document.getElementById("email").value;
+        const phone = document.getElementById("phone").value;
+
+        fetch("/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ firstName, lastName, username, password, email, phone })
+        })
+            .then((response) => response.text())
+            .then((message) => alert(message))
+            .catch((err) => alert(err.message));
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.sidebar');
+    const toggleButton = document.getElementById('toggleSidebar');
+    const sidebarBefore = document.querySelector('.sidebar.active::before');
+    // إظهار/إخفاء القائمة عند النقر على الزر
+    if (toggleButton) {
+        toggleButton.addEventListener('click', function(event) {
+            event.stopPropagation(); // منع انتشار الحدث إلى document
+            sidebar.classList.toggle('active');
+        });
+    }
+
+
+
+    // فتح القائمة عند النقر على الجزء الظاهر (::before)
+
+    if (sidebarBefore) {
+        sidebarBefore.addEventListener('click', function(event) {
+            event.stopPropagation(); // منع انتشار الحدث إلى document
+            sidebar.classList.add('active');
+        });
+    }
+});

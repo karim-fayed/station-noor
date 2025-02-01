@@ -1,0 +1,4 @@
+[
+    { "sender": "User1", "message": "مرحباً", "time": "10:00 AM" },
+    { "sender": "User2", "message": "مرحباً بك!", "time": "10:01 AM" }
+]

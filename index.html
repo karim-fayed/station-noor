@@ -5,21 +5,73 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="wb:op" content="6222541b3a070ea9cf395eb8b667ea85"/>
-    <link rel="icon" href="favicon.png" type="image/x-icon">
+    <link rel="icon" href="https://www.noorstations.com/favicon.ico" type="image/x-icon">
+    <meta name="description" content="موقع محطات نور خوي يقدم لك خدمات مبتكرة عبر تطبيقات Apple و Google Play، مع مزايا متعددة لاكتشاف المحطات.">
+
+    <!-- بيانات منظمة لتحديد الشعار -->
+    <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "Organization",
+      "name": "محطات نور خوي",
+      "url": "https://www.noorstations.com",
+      "logo": "https://www.noorstations.com/favicon.ico"
+    }
+    </script>
+    <!-- Open Graph -->
+    <meta property="og:title" content="محطات نور خوي | تطبيقات مميزة وخدمات مبتكرة">
+    <meta property="og:description" content="اكتشف محطات نور خوي عبر تطبيقات Apple و Google Play. تميز في الخدمات المبتكرة.">
+    <meta property="og:image" content="https://www.noorstations.com/favicon.ico">
+    <meta property="og:url" content="https://www.noorstations.com">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:title" content="محطات نور خوي | تطبيقات مميزة وخدمات مبتكرة">
+    <meta name="twitter:description" content="اكتشف محطات نور خوي عبر تطبيقات Apple و Google Play. تميز في الخدمات المبتكرة.">
+    <meta name="twitter:image" content="https://www.noorstations.com/favicon.ico">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style1.css">
-    <title>محطات نور خوي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="./style1.css">
+    <title>محطات نور خوي | تطبيقات مميزة وخدمات مبتكرة</title>
+    <!-- إضافة كود JavaScript لمنع النقر الأيمن ونسخ النصوص -->
+    <script type="text/javascript">
+        // منع النقر بزر الفأرة الأيمن
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+
+        // منع نسخ النصوص
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+            alert("تم منع النسخ!");
+        });
+
+        // منع تحديد النصوص
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+    </script>
 </head>
 <body>
+    <!-- زر فتح/إغلاق القائمة -->
+    <button id="toggleSidebar" class="toggle-sidebar"><i class="fas fa-bars"></i></button>
+
+    <!-- القائمة الجانبية -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+            <li><a href="station.html"><i class="fas fa-gas-pump"></i> المحطات</a></li>
+            <li><a href="contact.html"><i class="fas fa-phone"></i> اتصل بنا</a></li>
+        </ul>
+    </nav>
+
     <img src="logo1.png" alt="شعار" class="logo">
-    <div id="loadingMessage">جاري التحميل...</div>
     <div class="container">
-        <video id="backgroundVideo" autoplay loop playsinline class="background-clip" muted>
-            <source src="../images/video.mp4" type="video/mp4">
+        <video id="backgroundVideo" autoplay loop playsinline class="background-clip" muted poster="https://www.noorstations.com/images/video-thumbnail.jpg">
+            <source src="https://www.noorstations.com/images/video.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
-
-
         <div class="download-buttons">
             <a href="https://apps.apple.com/us/app/noor-khoy-%D9%86%D9%88%D8%B1-%D8%AE%D9%88%D9%8A/id1570127609?l=ar" class="btn">
                 <i class="fab fa-apple"></i> Apple
@@ -30,20 +82,49 @@
         </div>
         <div class="content">
             <h1>Explore More</h1>
-            <a href="data/station.html" class="main-btn">Show Stations</a>
+            <a href="station.html" class="main-btn">Show Stations</a>
+            <h3>noor نـــــور</h3>
+            <span>يسعدنا تواصلكم معنا <a href="tel:8003033313" class="phone-link">8003033313</a></span>
             <div class="social-icons">
-                <a href="https://api.whatsapp.com/send?phone=966500702080" class="whatsapp"><i class="fab fa-whatsapp"></i></a>
-                <a href="https://www.facebook.com/profile.php?id=100083210234910&mibextid=ZbWKwL" class="facebook"><i class="fab fa-facebook"></i></a>
-                <a href="https://x.com/al_noorunited" class="twitter"><i class="fab fa-twitter"></i></a>
-                <a href="https://www.snapchat.com/add/al_noorunited?share_id=jnhL_MBv_ks&locale=ar-AE" class="snapchat"><i class="fab fa-snapchat"></i></a>
-                <a href="https://www.instagram.com/al_noorunited/" class="instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://youtube.com/@alnoorunitedforfuel?si=NhOiqEaZAmlHnecC" class="youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://noor.com.sa/" class="wabsite">
+                    <i class="fas fa-globe"></i>
+                    <span class="tooltip">Website</span>
+                </a>
+                <a href="https://api.whatsapp.com/send?phone=966500702080" class="whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="tooltip">WhatsApp</span>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=100083210234910&mibextid=ZbWKwL" class="facebook">
+                    <i class="fab fa-facebook"></i>
+                    <span class="tooltip">Facebook</span>
+                </a>
+                <a href="https://x.com/al_noorunited" class="twitter">
+                    <i class="fab fa-twitter"></i>
+                    <span class="tooltip">Twitter</span>
+                </a>
+                <a href="https://www.snapchat.com/add/al_noorunited?share_id=jnhL_MBv_ks&locale=ar-AE" class="snapchat">
+                    <i class="fab fa-snapchat"></i>
+                    <span class="tooltip">Snapchat</span>
+                </a>
+                <a href="https://www.instagram.com/al_noorunited/" class="instagram">
+                    <i class="fab fa-instagram"></i>
+                    <span class="tooltip">Instagram</span>
+                </a>
+                <a href="https://youtube.com/@alnoorunitedforfuel?si=NhOiqEaZAmlHnecC" class="youtube">
+                    <i class="fab fa-youtube"></i>
+                    <span class="tooltip">YouTube</span>
+                </a>
+            </div>
+            <div class="survey-button">
+                <a href="https://survey.porsline.com/s/ShjbuHyS" class="btn" target="_blank">
+                    رأيكم يهمنا
+                </a>
             </div>
         </div>
     </div>
 
     <footer class="footer">
-        <p class="footer-title">Copyrights @ <span>Noor Khoy</span></p>
+        <p class="footer-title">Copyrights @ <span>Noor Khoy</span> <span id="currentYear"></span></p>
     </footer>
 
     <button id="playButton"><i class="fas fa-play"></i> تشغيل الفيديو</button>

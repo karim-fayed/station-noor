@@ -1,0 +1,792 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+/* إعدادات عامة */
+        html,       
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            /*overflow: auto;*/
+            padding-bottom: 40px; /* يضمن وجود مساحة كافية فوق الفوتر */
+            /*direction: rtl;*/
+            font-family: Arial, sans-serif;
+            background-image: url('./AboutNoor.jpg');   
+            background-size: cover; /* لتغطية الخلفية بالكامل */
+            background-position: center; /* لتوسيط الصورة */
+            background-repeat: no-repeat; /* لمنع تكرار الصورة */
+            background-attachment: fixed; /* اختياري لجعل الصورة ثابتة عند التمرير */
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 5px;
+            background-color: #bdb4bd97;
+        }
+        .header h1 {
+            margin: 0;
+            
+        }
+        /* تقليل حجم زر نوع الخريطة */
+        .gm-svpc {
+            transform: scale(0.7); /* تعديل الحجم */
+            transform-origin: top left; /* نقطة الأصل للتكبير */
+        }
+
+        /* تقليل المسافات بين العناصر */
+        .gm-control-active {
+            margin: 5px; /* تقليل المسافة بين الأزرار */
+        }
+
+        /* تخصيص لون الأزرار (اختياري) */
+        .gm-control-active img {
+            max-width: 20px; /* تعديل حجم الصور داخل الأزرار */
+            max-height: 20px;
+        }
+
+        
+        
+
+        
+        p {
+            display: block;
+            text-align: center;
+            margin-top: -1px;
+            margin-bottom: 0px;
+            font-weight: bold;
+            font-size: 11px;
+            margin-right: auto;
+        } 
+        h3, h4 {
+            text-align: center;
+            margin-top: 0px;
+            padding: 3px;
+            margin-bottom: auto;
+            color: #000000;
+            font-weight: bold;
+        }
+        #regionsTableContainer {
+            max-height: calc(100vh - 60px); /* اجعل ارتفاع الحاوية أقل من ارتفاع نافذة العرض بمقدار ارتفاع الفوتر */
+            overflow-y: auto; /* السماح بالتمرير العمودي */
+            margin-bottom: 60px; /* إضافة مسافة تساوي ارتفاع الفوتر */
+        }
+        
+
+
+
+        .logo {
+            width: 40px;
+            height: auto;
+            position: absolute; /* موضع مطلق */
+            top: 2px; /* المسافة من الأعلى */
+            left: 10px; /* المسافة من اليسار */
+        }
+
+        /* حاوية الخريطة */
+        .map-container {
+            width: 700px;
+            height: 700px;
+            background-color: #e2e2e2;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+            margin-left: auto;
+            margin-right: auto;
+
+        }
+        /* معلومات المحطة */
+        .station-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+
+        .station-info img {
+            width: 50px;
+            height: 50px;
+            margin-right: 15px;
+        }
+
+        .station-info h3 {
+            font-size: 18px;
+            margin: 0;
+            color: #333;
+        }
+
+        .station-info p {
+            margin: 5px 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+        /* حاوية المحتوى الرئيسي */
+        .main-content {
+            margin: 20px;
+        }
+
+        /* حاوية القائمة */
+        .select-container {
+            display: flex;
+            flex-direction: row;
+            gap: 10px;
+            align-content: center;
+            align-items: flex-end;
+            justify-content: center;
+            direction: rtl;
+
+        }
+
+
+
+        .select-container select, 
+        .select-container button {
+            width: 150px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .select-container button {
+            background-color: #20c997;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .select-container button:hover {
+            background-color: #17a085;
+        }
+        .show-map-button {
+            color: #fff;
+            border: 2px solid #fff;
+            background-color: #3a6cf4;
+            text-decoration: none;
+            font-size: 0.91em;
+            font-weight: 8;
+            display: inline-block;
+            padding: 0.8em 0.875em;
+            letter-spacing: 1px;
+            border-radius: 25px;
+            margin-bottom: 5px;
+            transition: 0.7s ease;
+        }
+        
+        .show-map-button:hover {
+            background-color: #00a100;
+            color: #000;
+            transform: scale(1.1);
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        /* الجداول */
+        .table-container {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #000000;
+        }
+
+        .table-container table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            text-align: center;
+            direction: rtl;
+        }
+
+        .table-container th, 
+        .table-container td {
+            padding: 6px;
+            border: 1px solid #9c9797;
+            background-color: #6d71707c;
+            
+        }
+        /* تحديد عرض العمود */
+        table-container th:nth-child(1),
+        table-container td:nth-child(1) {
+            width: 30%; /* عرض العمود الأول */
+        }
+
+        table-container th:nth-child(2),
+        table-container td:nth-child(2) {
+            width: 40%; /* عرض العمود الثاني */
+        }
+
+        table-container th:nth-child(3),
+        table-container td:nth-child(3) {
+            width: 20%; /* عرض العمود الثالث */
+        }
+
+        table-container th:nth-child(4),
+        table-container td:nth-child(4) {
+            width: 10%; /* عرض العمود الرابع */
+        }
+
+        .table-container th {
+            background-color: #f1f1f1;
+            font-size: 16px;
+        }
+
+        .table-container td {
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        td, th {
+            border: 1px solid #ddd;
+            padding: 3px;
+            text-align: center;
+            display: table-cell;
+        }
+        
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* تذييل الصفحة */
+        .footer {
+            position: fixed; 
+            bottom: 0; 
+            left: 0;
+            right: 0; 
+            background-color: #56565b00;
+            color: #fff;
+            padding: 0px; 
+            display: flex;
+            justify-content: center; 
+            align-items: center; 
+            /*height: 5px; /* تغيير الارتفاع حسب الحاجة */
+            z-index: 999; 
+        }
+        /*element.style {
+            background: none;
+            display: block;
+            border: 0px;
+            margin: -13px;
+            padding: 0px;
+            text-transform: none;
+            appearance: none;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+            width: 48px;
+            height: 26px;
+            top: -10px;
+        }*/
+        
+        
+        .footer-title {
+            /*font-size: 1em;*/ 
+            font-weight: 600;
+        }
+        /* استجابة للعرض الكبير */
+        @media (min-width: 992px) {
+            html[dir=rtl] .map-wrapper {
+                width: 95%;
+                height: 95%;
+                margin: 0 auto;
+                margin-top: 0px;
+                padding-right: 9rem;
+            }
+            html[dir=rtl] .select-container {
+                
+                display: flex;
+                flex-direction: row;
+                gap: 10px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+
+                
+            }
+
+            /* إظهار الخريطة والجداول بشكل مناسب */
+            .map-container {
+                height: 400px; /* ارتفاع الخريطة على الشاشة الكبيرة */
+            }
+            .main-content {
+                margin: 0 auto;
+                width: 280px;
+                height: -50%;
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+            }
+
+
+            .table-container {
+                position: relative; /* أو absolute */
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, 0%); /* مركزه تماماً */
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                width: 80%;
+                height: auto; /* يمكنك ضبط هذا حسب الحاجة */
+            }
+            /* حاوية القائمة */
+            .select-container {
+                display: flex;
+                /* width: 250px; */
+                /* background-color: #666; */
+                flex-direction: row;
+                gap: 5px;
+                direction: rtl;
+                margin-right: 884px;
+                margin-top: -380px;
+                margin-bottom: 79px;
+                transform: translate(4%, 0%);
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            /*element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 26px;
+                top: -10px;
+            }*/
+
+        }
+
+        /* استجابة للجوالات */
+        @media (max-width: 768px) {
+            .map-container {
+                width: 95%;
+                height: 100%;
+                margin: 0 auto;
+                height: 300px; /* ارتفاع الخريطة على الأجهزة الصغيرة */
+            }
+            h3 {
+                text-align: center;
+                margin-top: 0px;
+                padding: 3px;
+                margin-bottom: auto;
+                font-size: 15px;
+                
+            }
+            h4 {
+                text-align: center;
+                margin-top: 0px;
+                padding: 3px;
+                margin-bottom: auto;
+                font-size: 20px;
+                color: #000000;
+                font-weight: bold;
+            }
+            .select-container select,
+            .select-container button {
+                display: flex;
+                align-content: center;
+                justify-content: center;
+                flex-direction: column;
+                flex-wrap: wrap;
+                align-items: center;
+                direction: rtl;
+                font-size: 15px;
+            }
+            /*.gm-style .gm-style-iw-c {
+                position: absolute;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                overflow: hidden;
+                top: 0;
+                left: 0;
+                -webkit-transform: translate3d(-50%,-100%,0);
+                transform: translate3d(-50%,-100%,0);
+                background-color: white;
+                border-radius: 8px;
+                padding: 5px;
+                -webkit-box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -webkit-flex-direction: column;
+                flex-direction: column;
+
+            }*/
+            /*.gm-ui-hover-effect {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: 0px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 42px;
+                height: 24px;
+                top: -10px;
+            }*/
+            .gm-style img {
+                max-width: 100%; /* تعديل حجم الصور داخل الأزرار */
+            }
+            /*.element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 26px;
+                top: -10px;
+            }*/
+            .show-map-button {
+                color: #fff;
+                border: 2px solid #fff;
+                background-color: #3a6cf4;
+                text-decoration: none;
+                font-size: 0.91em;
+                font-weight: 8;
+                display: inline-block;
+                padding: 0.4em 0.865em;
+                letter-spacing: 1px;
+                border-radius: 25px;
+                margin-bottom: 5px;
+                transition: 0.7s ease;
+            }
+            
+            .show-map-button:hover {
+                background-color: #00a100;
+                color: #000;
+                transform: scale(1.1);
+                font-size: 0.9em;
+                font-weight: bold;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .map-container {
+                height: 250px; /* ارتفاع الخريطة على الأجهزة الأصغر */
+            }
+            h3 {
+                text-align: center;
+                margin-top: 0px;
+                padding: 3px;
+                margin-bottom: auto;
+                font-size: 15px;
+                
+            }
+            h4 {
+                text-align: center;
+                margin-top: 0px;
+                padding: 3px;
+                margin-bottom: auto;
+                font-size: 20px;
+                color: #000000;
+                font-weight: bold;
+            }
+            .select-container {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+            }
+            /*.gm-style .gm-style-iw-c {
+                position: absolute;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                overflow: hidden;
+                top: 0;
+                left: 0;
+                -webkit-transform: translate3d(-50%,-100%,0);
+                transform: translate3d(-50%,-100%,0);
+                background-color: white;
+                border-radius: 8px;
+                padding: 5px;
+                -webkit-box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -webkit-flex-direction: column;
+                flex-direction: column;
+
+            }*/
+            .gm-style img {
+                max-width: 100%; /* تعديل حجم الصور داخل الأزرار */
+            }
+            /*element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 26px;
+                top: -10px;
+            }*/
+            .show-map-button {
+                color: #fff;
+                border: 2px solid #fff;
+                background-color: #3a6cf4;
+                text-decoration: none;
+                font-size: 0.91em;
+                font-weight: 8;
+                display: inline-block;
+                padding: 0.4em 0.865em;
+                letter-spacing: 1px;
+                border-radius: 25px;
+                margin-bottom: 5px;
+                transition: 0.7s ease;
+            }
+            
+            .show-map-button:hover {
+                background-color: #00a100;
+                color: #000;
+                transform: scale(1.1);
+                font-size: 0.9em;
+                font-weight: bold;
+            }
+        }
+
+        @media (max-width: 991.9px) {
+            .header h1 {
+                position: absolute;
+                padding: 0px 60px;
+                font-size: 18px;
+            }
+            .select-container {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+            }
+            /*.gm-style .gm-style-iw-c {
+                position: absolute;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                overflow: hidden;
+                top: 0;
+                left: 0;
+                -webkit-transform: translate3d(-50%,-100%,0);
+                transform: translate3d(-50%,-100%,0);
+                background-color: white;
+                border-radius: 8px;
+                padding: 5px;
+                -webkit-box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -webkit-flex-direction: column;
+                flex-direction: column;
+
+            }*/
+            .gm-style img {
+                max-width: 100%; /* تعديل حجم الصور داخل الأزرار */
+            }
+            /*element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 26px;
+                top: -10px;
+            }*/
+        }
+
+        @media (max-width: 991.9px) {
+            .header .top-header h1 .brand-box img {
+                max-width: 90px;
+            }
+            .select-container {
+                display: flex;
+                flex-direction: row;
+                gap: 6px;
+                align-content: center;
+                align-items: flex-end;
+                justify-content: center;
+                direction: rtl;
+                flex-wrap: wrap;
+            }
+            /*element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 26px;
+                top: -10px;
+            }*/
+        }
+        @media (max-width: 768px) {
+            .header {
+                padding: 22px; /* تعديل الحشوة لشاشة الجوال إذا لزم الأمر */
+            }
+            h3 {
+                text-align: center;
+                margin-top: auto;
+                padding: 0px;
+                margin-bottom: auto;
+                font-size: 15px;
+                
+            }
+            h4 {
+                text-align: center;
+                margin-top: 0px;
+                padding: 3px;
+                margin-bottom: auto;
+                font-size: 20px;
+                color: #000000;
+                font-weight: bold;
+            }
+            .logo{
+                width: 40px;
+                height: auto;
+                position: absolute;
+                top: 2px;
+                left: 10px;
+            }
+            /*element.style {
+                background: none;
+                display: block;
+                border: 0px;
+                margin: -13px;
+                padding: 0px;
+                text-transform: none;
+                appearance: none;
+                position: relative;
+                cursor: pointer;
+                user-select: none;
+                width: 48px;
+                height: 26px;
+                top: -10px;
+            }*/
+            /*.gm-style .gm-style-iw-c {
+                position: absolute;
+                -webkit-box-sizing: border-box;
+                box-sizing: border-box;
+                overflow: hidden;
+                top: 0;
+                left: 0;
+                -webkit-transform: translate3d(-50%,-100%,0);
+                transform: translate3d(-50%,-100%,0);
+                background-color: white;
+                border-radius: 8px;
+                padding: 5px;
+                -webkit-box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                box-shadow: 0 2px 7px 1px rgba(0,0,0,.3);
+                display: -webkit-box;
+                display: -webkit-flex;
+                display: flex;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -webkit-flex-direction: column;
+                flex-direction: column;
+
+            }*/
+            .gm-style .gm-style-iw-tc::after {
+                background: #fff;
+                -webkit-clip-path: polygon(0 0, 50% 100%, 100% 0);
+                clip-path: polygon(0 0, 50% 100%, 100% 0);
+                content: "";
+                height: 22px;
+                left: 0;
+                position: absolute;
+                top: -1px;
+                width: 31px;
+            }
+            .gm-style img {
+                max-width: 100%; /* تعديل حجم الصور داخل الأزرار */
+            }
+            .show-map-button {
+                color: #fff;
+                border: 2px solid #fff;
+                background-color: #3a6cf4;
+                text-decoration: none;
+                font-size: 0.91em;
+                font-weight: 8;
+                display: inline-block;
+                padding: 0.4em 0.865em;
+                letter-spacing: 1px;
+                border-radius: 25px;
+                margin-bottom: 5px;
+                transition: 0.7s ease;
+            }
+            
+            .show-map-button:hover {
+                background-color: #00a100;
+                color: #000;
+                transform: scale(1.1);
+                font-size: 0.9em;
+                font-weight: bold;
+            }
+
+        }

@@ -4,6 +4,9 @@
     box-sizing: border-box;
     font-family: 'Poppins';
 }
+html {
+    scroll-behavior: smooth;
+}
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
@@ -12,6 +15,7 @@
 #favicon {
     animation: spin 5s linear infinite; /* تعديل سرعة الدوران هنا */
 }
+
 body {
     display: flex;
     flex-direction: column;
@@ -20,11 +24,99 @@ body {
     overflow: hidden; /* منع التمرير */
 }
 
+/* تحسين تصميم الأزرار */
+.auth-buttons {
+    position: absolute;
+    top: 20px;  /* تحديد المسافة من الأعلى */
+    left: 50%;
+    transform: translateX(-50%); /* توسيط الأزرار أفقياً */
+    z-index: 10; /* وضع الأزرار فوق المحتوى */
+}
+
+.auth-buttons .btn {
+    background-color: #4caf4f1b;
+    color: rgb(182, 182, 182);
+    padding: 15px 30px;
+    font-size: 16px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: transparent;
+    text-decoration: none;
+    letter-spacing: 1px;
+    display: inline-block;
+    border: 2px solid #bb0475;
+    padding: 0.9375em 2.1875em;
+    border-radius: 50px;
+    transition: 0.9s ease; 
+    box-shadow: #000 0px 0px 10px 0px;
+    font-weight: bold; /* جعل الخط غامق */
+}
+
+.auth-buttons .btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.auth-buttons .btn:active {
+    transform: scale(0.98);
+}
+
+/* تحسين تنسيق النماذج */
+.form-container {
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 30px;
+    border-radius: 10px;
+    width: 300px;
+    margin: 20px auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: none; /* إخفاء النماذج في البداية */
+}
+
+/* تخصيص النماذج بشكل خاص */
+#loginFormContainer,
+#signupFormContainer {
+    width: 300px;
+    margin-top: 80px;
+}
+
+.form-container h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4caf4fe1;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
 .logo {
     position: fixed;
-    top: 10px;
+    top: 8px;
     left: 10px;
-    max-width: 70px;
+    max-width: 40px;
     height: auto;
     z-index: 999;
 }
@@ -139,6 +231,97 @@ video {
     z-index: -1;
 }
 
+.phone-link {
+    color: orange; /* لون برتقالي */
+    text-decoration: none; /* إزالة الخط التحتي */
+    font-weight: bold; /* جعل النص عريضًا */
+}
+
+.phone-link:hover {
+    color: darkorange; /* تغيير اللون عند التمرير */
+}
+
+/* تنسيق القائمة الجانبية */
+.sidebar {
+    position: fixed;
+    top: 19%;
+    right: -75px;
+    transform: translateY(-20%);
+    background-color: rgba(0, 0, 0, 0.911);
+    padding: 18px;
+    border-radius: 24px 0px 0px 24px;
+    box-shadow: 2px 2px 10px rgba(243, 241, 241, 0.5);
+    z-index: 999;
+    transition: right 0.3s ease; /* إضافة انتقال سلس */
+}
+
+.sidebar.active {
+    right: 0;
+    transition: right 0.3s ease;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+.sidebar ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.sidebar ul li a i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.sidebar ul li a:hover {
+    color: orange;
+}
+
+.toggle-sidebar {
+    position: fixed;
+    top: 0px;
+    right: 5px;
+    background-color: rgb(243 234 234 / 0%);
+    color: rgb(17, 16, 16);
+    border: none;
+    padding: 8px;
+    border-radius: 9px;
+    cursor: pointer;
+    z-index: 1001;
+    font-size: 17px;
+    transition: background-color 0.3s ease;
+}
+
+.toggle-sidebar:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.sidebar.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 17%;
+    height: 100%;
+    border-radius: 54px 0px 0px 47px;
+    background-color: rgba(0, 0, 0, 0.8);
+    cursor: pointer;
+}
+
+.sidebar.active:hover::before {
+    background-color: rgba(0, 0, 0, 0.9); /* تغيير اللون عند التمرير */
+}
 .social-icons {
     display: flex;
     justify-content: center;
@@ -157,20 +340,127 @@ video {
 .social-icons a:hover {
     color: transparent; 
 }
-
-.footer {
-    position: fixed; 
-    bottom: 0; 
-    left: 0;
-    right: 0; 
-    background-color: #000016;
-    color: #fff;
-    padding: 15px; 
+/*------------------------------------------*/
+.social-icons a {
+    position: relative;
+    background: #ffffff15;
+    border-radius: 50%;
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+    /*font-size: 18px;*/
+    text-decoration: none; /* إلغاء الخط التحتي */
     display: flex;
-    justify-content: space-between; 
-    align-items: center; 
-    height: 40px; 
-    z-index: 999; 
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+/* التلميحات المنبثقة (tooltip) */
+.social-icons a .tooltip {
+    position: absolute;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    background: #3703f5fa;
+    color: #ffffffe8;
+    padding: 5px 8px;
+    border-radius: 5px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.164);
+    opacity: 0;
+    pointer-events: none;
+    pointer-events: auto;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.social-icons a .tooltip::before {
+    position: absolute;
+    content: "";
+    height: 10px;
+    width: 10px;
+    background: #ffffff00;
+    bottom: -3px;
+    left: 50%;
+    transform: translate(-50%) rotate(45deg);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.social-icons a:hover .tooltip {
+    top: -45px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+
+/* تخصيص الألوان عند التمرير لكل أيقونة */
+
+.social-icons .facebook:hover .tooltip,
+.social-icons .facebook:hover .tooltip::before {
+    background: #1877f2;
+    color: #fff;
+}
+
+
+.social-icons .twitter:hover .tooltip,
+.social-icons .twitter:hover .tooltip::before {
+    background: #1da1f2;
+    color: #fff;
+}
+
+
+.social-icons .instagram:hover .tooltip,
+.social-icons .instagram:hover .tooltip::before {
+    background: #e4405f;
+    color: #fff;
+}
+
+
+.social-icons .youtube:hover .tooltip,
+.social-icons .youtube:hover .tooltip::before {
+    background: #ff0000;
+    color: #fff;
+}
+
+/*.social-icons .wabsite:hover,*/
+.social-icons .website:hover .tooltip,
+.social-icons .website:hover .tooltip::before {
+    background: #0004d463;
+    color: #f05d07;
+}
+
+
+.social-icons .whatsapp:hover .tooltip,
+.social-icons .whatsapp:hover .tooltip::before {
+    background: #25d366;
+    color: #fff;
+}
+
+
+.social-icons .snapchat:hover .tooltip,
+.social-icons .snapchat:hover .tooltip::before {
+    background: #fffc00;
+    color: #000000;
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000016ea;
+    color: #e2e2e2;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    z-index: 999;
+    justify-content: space-around;
 }
 
 .footer-title {
@@ -198,6 +488,9 @@ video {
 }
 
 /* تحديد الألوان الأصلية لكل أيقونة */
+.social-icons a:hover .fas.fa-globe {
+    color: #eb7210; /* ويب */
+}
 .social-icons a:hover .fab.fa-whatsapp {
     color: #00b944; /* واتساب */
 }
@@ -227,6 +520,25 @@ video {
     color: #333;
     text-align: center;
     margin-bottom: 20px;
+}
+
+.survey-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.survey-button .btn {
+    background-color: #4CAF50; /* اللون الأخضر */
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.survey-button .btn:hover {
+    background-color: #45a049; /* تغير اللون عند التمرير */
 }
 
 @media (max-width: 641px) {
@@ -285,6 +597,7 @@ video {
         font-size: 16px; /* حجم الزر على الشاشات الأصغر */
     }
 }
+
 /* الألوان عند فتح الموقع على الهاتف */
 @media (max-width: 641px) {
     .download-buttons {
@@ -296,6 +609,9 @@ video {
         transform: translate(-50%, -50%);
         z-index: 1;
         margin: 24px 0;
+    }
+    .social-icons a .fas.fa-globe {
+        color: #eb7210; /* ويب */
     }
     .social-icons a .fab.fa-whatsapp {
         color: #00b944; /* واتساب */
@@ -317,3 +633,76 @@ video {
     }
 }
 
+/*.chat-container {
+    width: 50%;
+    max-width: 250px;
+    margin: 20px auto;
+    border: 1px solid #b9b9b9a1;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff00;
+}
+
+.messages {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    height: 400px;
+    background: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.message.user1 {
+    background-color: #d1ecf1;
+    text-align: left;
+}
+
+.message.user2 {
+    background-color: #f8d7da;
+    text-align: right;
+}
+
+.input-container {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+.input-container input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+.input-container button {
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}*/
+
+/* تعديل على الزر "رأيكم يهمنا" */
+.survey-button {
+    margin-top: 20px;
+}
+
+.survey-button .btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 24px;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+}
+
+.survey-button .btn:hover {
+    background-color: #45a049;
+}
