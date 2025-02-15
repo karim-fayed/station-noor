@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "station-noor",
+  "private_key_id": "9effde2201c47d06a969d2ebee812330bffeb1e0",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDf4D5CAQQ0oDUh\ngJy6rOG4fv7/6VESDFZCkrkrVsbLZveP+Ri1lagPW9eWcy++eLOgsityNIVjub+1\nlrL2hKlwcaG94LxpUjQGwOm6Tquhg68UuXuFjBTe0CrIr40Z5mUWsMxOz6EFX3O9\nRi/bhxC9Ms/y1EYON7Plx47uRgLxIfj5JZS0iLe3nEp0sOXbC3xIItl1gY0JGLN/\nemJA9qg2OHQvWRa8xKTzfUj1kftbaljX+gl7Mul6RZzsS2YgJdxQI6F9phtJ7QdB\nomIh8PnUG0XB0FemrM+dEXxhNPZ2O2/WLK6iL3VzCPy+NORHN+M1mPiFyIS/isGS\nHhhIQpyXAgMBAAECggEADg6Teit8Kx3AGEluDd6bEa2Pr1vkBkEWDXoO/GSneNAP\nTU/zuDscYVJ/9+dloQ0NIlLtnW8kzP01x14eAJKV3QSVhkmdKvPJZn8obdVQu4R8\nMs3urpT8Hn1toko7jtvDjygsu+oXjzHOH51PlfYmG+sb2YBwoaXnus7L77QfrSo5\nzNOUdUEzo34jBBpI5Ng1ZmcLtsSgPaJWGfsU8zbIBoAGVtTuQyjKG8/RhtT1xCgR\n9cjFI6jly89/UJcrj1b7pi4SALXeiIH5px22BikpnjQl9xaWfdlWbNeFqZuRbSBl\nXKWgvjRP1Y7rLsPkbkkrJyRotES3KErAopmckqkN2QKBgQD+GYudP1qFjYHPPkyq\nPEiEt1hbVAPYk10qPB8rctNiVG0Lw/SAx0iBdgPzo6epyVNpLjHWt98JCdwGpaeA\nqNf49QdxzCW3kkc9PqlCHow4DOM9On6XS/p6KlEd4CxqKIHE4j/jQMDaIIa4w9Eo\n6RsZgi26URT4kRfJ9Wmod7CT9QKBgQDhjNYraiDD0gaqmkjMQPC9TDTOBZljccb/\n4WyTS5Kd1Nn5sS1l/QJfzDz3ltC2aHr3A2IdNgsPnQ/ezxoWtKxTY3bBODJ8VGOG\nIh5Rmo5EBrBm43t1jInhGgqOVifGrUsGhn7nopBil/PBWpBTRt7MS13QnAIoBUVO\n/0tpw2ei2wKBgG/Vdmki9QhKm5NG7B8QoSooN68abwbm9N4dz+ojg32Hgubmu7nh\n+7te4aZdpPFJNnjYZ/8EthkYScpzJiGuLj/YOAqRuxfsPYZrCbucDkKtCWZtVEHq\norcZ4NGxVFr0sQiiO1Qdr8NRBXpUVL4YumCjttSF0yEDWuD8LiCDbSfxAoGBAMcs\niEAEUvS5dhuXbOu5+R0gu4ynEyHm6lUxqqCT3uAzg11koXNrrnoMMFZvPtWlg9i3\nix/Chpf+GXKnLiGY4Igu0EKmLqbuGojrfhyPwEvAIGxrO629MlCun128JRnkE9mq\nUUyZmKkICD/ZipOPhNWhRDIgYiMXLHIrLVwzK0R7AoGBAPpyIdxA3umIfMfSF6ry\n7ISscw4Q9KVYLRTEsK+L1Ra3H4KyhFV3anCQufa8/+jjGzypWSXl19+w9cK6sg4V\nhlPhCE7GnX3ooEHZoxQR5hRVS6s4uONEJ/+9qmRY98qcwtDCZXPz1rLmQX2veaXz\nIttrO5KUgJo8ZLwTbaeerZ79\n-----END PRIVATE KEY-----\n",
+  "client_email": "github-action-859831432@station-noor.iam.gserviceaccount.com",
+  "client_id": "116638816283509324772",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/github-action-859831432%40station-noor.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
