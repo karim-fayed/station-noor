@@ -2,6 +2,10 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.21.2",
-    "mysql": "^2.18.1"
+    "firebase": "^11.3.0",
+    "mysql": "^2.18.1",
+    "openai": "^4.83.0",
+    "pg": "^8.13.2",
+    "vite": "^6.1.0"
   }
 }

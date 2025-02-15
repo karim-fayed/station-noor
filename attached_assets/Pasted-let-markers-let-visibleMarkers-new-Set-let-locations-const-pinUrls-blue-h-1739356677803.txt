@@ -17,25 +17,11 @@ let pollingInterval;
 
 // Initialize app
 document.addEventListener("DOMContentLoaded", async () => {
-    try {
-        // Wait for the necessary data to load first
-        await loadCityCenters();
-        await loadRegionsData();
-        
-        // Call your polling and map functions after the initial data is loaded
-        startPolling(); 
-        
-        // Show loading animation (if this is part of the flow)
-        showLoading();
-        
-        // Initialize the map once the loading is complete
-        initMap();
-    } catch (error) {
-        // Handle any errors in the loading process
-        console.error('Error during initialization:', error);
-    }
+    await loadCityCenters();
+    await loadRegionsData();
+    startPolling(); 
+    initMap();
 });
-
 
 // Load regions data
 async function loadRegionsData() {
@@ -90,14 +76,8 @@ function stopPolling() {
 
 // إظهار انميشن التحميل
 function showLoading() {
-    const loadingElement = document.querySelector('.loadingMessage');
-    if (loadingElement) {
-        loadingElement.style.display = 'block';
-    } else {
-        console.error("Loading message element not found!");
-    }
+    document.getElementById("loadingMessage").style.display = "block";
 }
-
 
 // إخفاء انميشن التحميل
 function hideLoading() {
@@ -602,14 +582,8 @@ function debounce(func, delay) {
 
 // Show loading message
 function showLoading() {
-    const loadingMessage = document.getElementById('loadingMessage');
-    if (loadingMessage) {
-        loadingMessage.style.display = 'block'; // Or your intended manipulation
-    } else {
-        console.error("loadingMessage element not found!");
-    }
+    document.getElementById("loadingMessage").style.display = "block";
 }
-
 
 // Hide loading message
 function hideLoading() {

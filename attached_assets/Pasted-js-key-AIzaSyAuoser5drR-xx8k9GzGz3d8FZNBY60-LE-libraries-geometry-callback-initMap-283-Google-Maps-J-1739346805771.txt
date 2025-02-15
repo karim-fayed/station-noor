@@ -1,0 +1,37 @@
+js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap:283 Google Maps JavaScript API has been loaded directly without loading=async. This can result in suboptimal performance. For best-practice loading patterns please see https://goo.gle/js-api-loading
+wga @ js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap:283
+js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap:180 Uncaught (in promise) InvalidValueError: initMap is not a function
+    at Object.Kj (js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap:180:373)
+    at vga (js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap:288:211)
+    at js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap:287:267
+maps.googleapis.com/maps/api/mapsjs/gen_204?csp_test=true:1 
+            
+            
+           Failed to load resource: net::ERR_BLOCKED_BY_CLIENT
+script.js:137 Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    at script.js:137:42
+script.js:56 Updating texts for language: ar
+script.js:80 العنصر 'pageTitle' غير موجود.
+updateElementText @ script.js:80
+script.js:77 Updating element loadingMessage with text: undefined
+script.js:87 Updating select regionSelect with placeholder: اختر منطقة
+script.js:90 القائمة المنسدلة 'fuelTypeSelect' غير موجودة أو لا تحتوي على خيارات.
+updateSelectPlaceholder @ script.js:90
+script.js:87 Updating select startLocation with placeholder: موقعي الحالي
+script.js:87 Updating select endLocation with placeholder: موقعي الحالي
+script.js:80 العنصر 'resetButton' غير موجود.
+updateElementText @ script.js:80
+script.js:77 Updating element .table-container h4:first-child with text: المناطق والمواقع
+script.js:80 العنصر '.table-container h4:last-child' غير موجود.
+updateElementText @ script.js:80
+script.js:100 Updating table header region with text: المنطقة
+script.js:100 Updating table header location with text: الموقع
+script.js:100 Updating table header avgDistance with text: المسافة المتوسطة (كم)
+script.js:100 Updating table header map with text: الخريطة
+script.js:100 Updating table header startLocation with text: الموقع الأول
+script.js:100 Updating table header endLocation with text: الموقع الثاني
+script.js:100 Updating table header distance with text: المسافة (كم)
+script.js:122 Google Maps initialized successfully.
+map.js:113 Object
+map.js:63 البيانات المُعالجة: Array(291)[0 … 99][100 … 199][200 … 290]length: 291[[Prototype]]: Array(0)
+js?key=AIzaSyAuoser5drR-xx8k9GzGz3d8FZNBY60_LE&libraries=geometry&callback=initMap:206 As of February 21st, 2024, google.maps.Marker is deprecated. Please use google.maps.marker.AdvancedMarkerElement instead. At this time, google.maps.Marker is not scheduled to be discontinued, but google.maps.marker.AdvancedMarkerElement is recommended over google.maps.Marker. While google.maps.Marker will continue to receive bug fixes for any major regressions, existing bugs in google.maps.Marker will not be addressed. At least 12 months notice will be given before support is discontinued. Please see https://developers.google.com/maps/deprecations for additional details and https://developers.google.com/maps/documentation/javascript/advanced-markers/migration for the migration guide.

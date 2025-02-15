@@ -233,6 +233,74 @@ h3, h4 {
     font-weight: bold;
 }
 
+.custom-alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    z-index: 1000;
+    text-align: center;
+    width: 320px;
+    font-family: 'Arial', sans-serif;
+}
+
+.alert-content {
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.welcome-message {
+    color: #4CAF50;
+    font-weight: bold;
+    margin-top: 15px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+    font-size: 18px;
+}
+/*.data-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 1000;
+}*/
+.alert-body {
+    margin: 15px 0;
+    line-height: 1.6;
+}
+
+.technical-details {
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.fa-info-circle {
+    margin-left: 5px;
+}
+.fa-spin {
+    margin-left: 10px;
+}
 /* الجداول */
 .table-container {
     margin-top: 20px;
@@ -248,7 +316,7 @@ h3, h4 {
     direction: rtl;
 }
 
-.table-container th, 
+.table-container th, th1, 
 .table-container td {
     padding: 6px;
     border: 1px solid #9c9797;
@@ -257,7 +325,7 @@ h3, h4 {
     direction: rtl;
 }
 
-.table-container th {
+.table-container th,th1 {
     background-color: #f1f1f1;
     font-size: 16px;
 }
@@ -272,14 +340,14 @@ table {
     direction: rtl; /* للغة العربية */
 }
 
-td, th {
+td, th ,th1 {
     border: 1px solid #ddd;
     padding: 3px;
     text-align: center;
     display: table-cell;
 }
 
-th {
+th, th1 {
     background-color: #f2f2f2;
 }
 
