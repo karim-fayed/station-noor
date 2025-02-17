@@ -19,6 +19,29 @@ let pollingInterval;
 // متغيرات لتخزين الموقع الحالي مؤقتاً
 let cachedUserLocation = null;
 let lastLocationFetchTime = 0;
+/* ---------------------------------------------
+   وظائف عرض وإخفاء التحميل والتنبيهات
+--------------------------------------------- */
+function showLoading(message = 'جاري التحميل...') {
+    const loadingMessage = document.getElementById("loadingMessage");
+    if (loadingMessage) {
+      loadingMessage.innerHTML = `
+        <div class="loading-spinner"></div>
+        <div>${message}</div>
+      `;
+      loadingMessage.style.display = "flex";
+      loadingMessage.style.flexDirection = "column";
+      loadingMessage.style.alignItems = "center";
+    }
+  }
+  
+  function hideLoading() {
+    const loadingMessage = document.getElementById("loadingMessage");
+    if (loadingMessage) {
+      loadingMessage.style.display = "none";
+      loadingMessage.innerHTML = '';
+    }
+  }
 /**
  * دالة لجلب موقع المستخدم مع استخدام التخزين المؤقت (cache) لفترة محددة (مثلاً 60 ثانية)
  */
@@ -46,22 +69,25 @@ function getUserLocation(geoOptions, onSuccess, onError) {
    وظائف عرض وإخفاء التحميل والتنبيهات
 --------------------------------------------- */
 function showLoading() {
-  const loadingMessage = document.getElementById("loadingMessage");
-  if (loadingMessage) {
-    loadingMessage.style.display = "block";
-  } else {
-    console.error("Loading message element not found!");
+    const loadingMessage = document.getElementById("loadingMessage");
+    if (loadingMessage) {
+      loadingMessage.innerHTML = `
+        <div class="loading-spinner"></div>
+        <div>جاري البحث عن أقرب محطة...</div>
+      `;
+      loadingMessage.style.display = "flex";
+      loadingMessage.style.flexDirection = "column";
+      loadingMessage.style.alignItems = "center";
+    }
   }
-}
-
-function hideLoading() {
-  const loadingMessage = document.getElementById("loadingMessage");
-  if (loadingMessage) {
-    loadingMessage.style.display = "none";
-  } else {
-    console.error("Loading message element not found!");
+  
+  function hideLoading() {
+    const loadingMessage = document.getElementById("loadingMessage");
+    if (loadingMessage) {
+      loadingMessage.style.display = "none";
+      loadingMessage.innerHTML = ''; // تنظيف المحتوى
+    }
   }
-}
 
 function showCustomAlert(title, message) {
   const alertDiv = document.getElementById("customAlert");
@@ -579,28 +605,56 @@ document.addEventListener("DOMContentLoaded", function () {
 /* ---------------------------------------------
    البحث عن أقرب محطة بناءً على موقع المستخدم
 --------------------------------------------- */
-/*function findNearestStation() {
-  if (navigator.geolocation) {
+function findNearestStation() {
+    if (Object.keys(regionsData).length === 0) {
+      showCustomAlert("تحذير", "البيانات قيد التحميل... الرجاء الانتظار");
+      return;
+    }
+  
+    showLoading("جاري البحث عن أقرب محطة...");
+    
+    if (!navigator.geolocation) {
+      hideLoading();
+      showCustomAlert("خطأ", "المتصفح لا يدعم تحديد الموقع");
+      return;
+    }
+  
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const userLatLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-        let nearestStation = null;
-        let shortestDistance = Infinity;
-
+        const userLatLng = new google.maps.LatLng(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+  
         const selectedRegion = document.getElementById("regionSelect").value;
-        const stationsToSearch = selectedRegion
+        let stationsToSearch = selectedRegion
           ? regionsData[selectedRegion]
           : Object.values(regionsData).flat();
-
-        stationsToSearch.forEach((location) => {
-          const stationLatLng = new google.maps.LatLng(location.lat, location.lng);
-          const distance = google.maps.geometry.spherical.computeDistanceBetween(userLatLng, stationLatLng);
+  
+        if (!stationsToSearch || stationsToSearch.length === 0) {
+          hideLoading();
+          showCustomAlert("تنبيه", "لا توجد محطات متاحة للبحث");
+          return;
+        }
+  
+        let nearestStation = null;
+        let shortestDistance = Infinity;
+        
+        stationsToSearch.forEach((station) => {
+          const stationLatLng = new google.maps.LatLng(station.lat, station.lng);
+          const distance = google.maps.geometry.spherical.computeDistanceBetween(
+            userLatLng,
+            stationLatLng
+          );
+          
           if (distance < shortestDistance) {
             shortestDistance = distance;
-            nearestStation = location;
+            nearestStation = station;
           }
         });
-
+  
+        hideLoading();
+        
         if (nearestStation) {
           centerMap(nearestStation.lat, nearestStation.lng);
           showCustomAlert(
@@ -612,14 +666,21 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       },
       (error) => {
+        hideLoading();
         console.error("Geolocation error:", error);
-        showCustomAlert("خطأ", "يرجى السماح بالوصول إلى الموقع");
+        const errorMessage = error.code === error.PERMISSION_DENIED 
+          ? "يرجى السماح بالوصول إلى الموقع" 
+          : "فشل في الحصول على الموقع";
+        showCustomAlert("خطأ", errorMessage);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 60000
       }
     );
-  } else {
-    showCustomAlert("خطأ", "المتصفح لا يدعم تحديد الموقع");
   }
-}*/
+  
 function findNearestStation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
