@@ -1,4 +1,4 @@
-// تحسين الكود للتعامل مع عدد كبير من المستخدمين وتحميل البيانات بشكل متزامن
+// map.js
 
 let markers = {};
 let visibleMarkers = new Set();
@@ -12,13 +12,27 @@ let activeMarker = null;
 let activeInfoWindow = null;
 let map, directionsService, directionsRenderer;
 let cityCenters = {};
+// ------ نظام التخزين المؤقت ------
+const dataCache = {
+  regions: null,
+  lastUpdated: null,
+  
+  async getRegionsData() {
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 دقائق
+    
+    if (!this.regions || Date.now() - this.lastUpdated > CACHE_DURATION) {
+      this.regions = await loadRegionsData();
+      this.lastUpdated = Date.now();
+    }
+    return this.regions;
+  }
+};
+
 const regionsData = {};
 const cities = [];
 let currentRoute = null;
 let pollingInterval;
-// متغيرات لتخزين الموقع الحالي مؤقتاً
-let cachedUserLocation = null;
-let lastLocationFetchTime = 0;
+
 /* ---------------------------------------------
    وظائف عرض وإخفاء التحميل والتنبيهات
 --------------------------------------------- */
@@ -123,6 +137,12 @@ function closeCustomAlert() {
    تحميل البيانات من Google Sheets وملف مراكز المدن
 --------------------------------------------- */
 // تحميل بيانات المناطق من Google Sheets API
+/* ---------------------------------------------
+   وظائف التحميل والكاش المحسنة
+--------------------------------------------- */
+/* ---------------------------------------------
+   وظائف التحميل والكاش المحسنة
+--------------------------------------------- */
 async function loadRegionsData() {
   const SHEET_ID = '1NItFn79G46YMoqdyeBvGO-oGiPqfR-oXzHEi1i-OxHM';
   const API_KEY = 'AIzaSyAL2-JNGE6oTtgVWaQH2laI45G__2nop-8';
@@ -140,8 +160,8 @@ async function loadRegionsData() {
 
     const rows = data.values
       .slice(1)
-      .filter((row) => row.length >= 4) // تصفية الصفوف الناقصة
-      .map((row) => ({
+      .filter(row => row.length >= 4)
+      .map(row => ({
         "المنطقة": row[0] || "غير محدد",
         "الموقع": row[1] || "غير معروف",
         "خط العرض": parseFloat(row[2]) || 0,
@@ -151,12 +171,12 @@ async function loadRegionsData() {
       }));
 
     processRegionsData(rows);
+    return regionsData; // إرجاع البيانات المعالجة للتخزين في الكاش
+
   } catch (error) {
-    showCustomAlert(
-      "خطأ فني",
-      `تعذر تحميل البيانات بسبب:<br>${error.message}<br>يرجى مراجعة هيكلية الجدول`
-    );
     console.error("تفاصيل الخطأ:", error);
+    showCustomAlert("خطأ فني", `تعذر تحميل البيانات بسبب:<br>${error.message}`);
+    return null;
   }
 }
 
@@ -219,14 +239,13 @@ function processRegionsData(jsonData) {
   populateRegionSelect();
 }
 
-// بدء التحديث التلقائي للبيانات كل دقيقة
+// بدء التحديث التلقائي للبيانات كل 5 دقائق
 function startPolling() {
   pollingInterval = setInterval(() => {
     showLoading();
-    loadRegionsData().finally(() => hideLoading());
-  }, 60000); // التحديث كل 1 دقيقة
+    dataCache.getRegionsData().finally(() => hideLoading());
+  }, 300000); // التحديث كل 5 دقائق
 }
-
 /* ---------------------------------------------
    تهيئة الخريطة والإعدادات الخاصة بها
 --------------------------------------------- */
@@ -586,19 +605,19 @@ function debounce(func, delay) {
 /* ---------------------------------------------
    إدارة القائمة الجانبية (Sidebar)
 --------------------------------------------- */
-document.addEventListener("DOMContentLoaded", function () {
-  const sidebar = document.querySelector(".sidebar");
-  const toggleButton = document.getElementById("toggleSidebar");
-  if (toggleButton) {
-    toggleButton.addEventListener("click", function (event) {
-      event.stopPropagation();
-      sidebar.classList.toggle("active");
-    });
-  }
-  if (sidebar) {
-    sidebar.addEventListener("click", function (event) {
-      event.stopPropagation();
-    });
+document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    showLoading();
+    await Promise.all([
+      loadCityCenters(),
+      dataCache.getRegionsData() // استخدام الكاش هنا
+    ]);
+    startPolling();
+    await initMap();
+  } catch (error) {
+    console.error("Error during initialization:", error);
+  } finally {
+    hideLoading();
   }
 });
 
