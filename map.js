@@ -73,7 +73,7 @@ function showLoading() {
     if (loadingMessage) {
       loadingMessage.innerHTML = `
         <div class="loading-spinner"></div>
-        <div>جاري البحث عن أقرب محطة...</div>
+        <div></div>
       `;
       loadingMessage.style.display = "flex";
       loadingMessage.style.flexDirection = "column";
@@ -611,7 +611,7 @@ function findNearestStation() {
       return;
     }
   
-    showLoading("جاري البحث عن أقرب محطة...");
+    showLoading("");
     
     if (!navigator.geolocation) {
       hideLoading();
