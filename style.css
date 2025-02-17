@@ -865,7 +865,22 @@ th, th1 {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
+#cookieConsent {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    display: none;
+    align-items: center;
+    gap: 15px;
+    z-index: 1000;
+    font-family: 'Arial', sans-serif;
+    border: 1px solid #ddd;
+}
 .contact-form {
     flex: 1;
     margin-right: 20px;
@@ -960,16 +975,16 @@ th, th1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(255, 255, 255, 0);
     padding: 25px 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.034);
     z-index: 1000;
     display: none;
     font-family: 'Arial', sans-serif;
     color: #2c3e50;
     text-align: center;
-    border: 1px solid #eee;
+    /*border: 1px solid #eeeeee00;*/
   }
   
   .loading-spinner {
@@ -991,4 +1006,33 @@ th, th1 {
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0.5px;
+  }
+  /* From Uiverse.io by AbanoubMagdy1 */ 
+.loader {
+    --dim: 6rem;
+    background-color: #ED8A19;
+    width: var(--dim);
+    height: var(--dim);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    animation: spin_412 5s infinite;
+  }
+  
+  .loader .loader-svg {
+    transform: translateY(-2px) scale(.7);
+  }
+  
+  @keyframes spin_412 {
+    0% {
+      transform: rotate(0) scale(1);
+    }
+  
+    50% {
+      transform: rotate(720deg) scale(1.3);
+    }
+  
+    100% {
+      transform: rotate(0) scale(1);
+    }
   }
