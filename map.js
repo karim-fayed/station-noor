@@ -882,7 +882,7 @@ function requestLocationPermission() {
         maximumAge: 60000          // استخدام الموقع المخزن لمدة تصل إلى دقيقة
       }
     );
-    document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.querySelector('.sidebar');
     const toggleButton = document.getElementById('toggleSidebar');
     const sidebarBefore = document.querySelector('.sidebar.active::before');
