@@ -882,30 +882,5 @@ function requestLocationPermission() {
         maximumAge: 60000          // استخدام الموقع المخزن لمدة تصل إلى دقيقة
       }
     );
-  document.addEventListener('DOMContentLoaded', function () {
-    const sidebar = document.querySelector('.sidebar');
-    const toggleButton = document.getElementById('toggleSidebar');
-    const sidebarHandle = document.querySelector('.sidebar-handle');
 
-    if (toggleButton && sidebar && sidebarHandle) {
-        toggleButton.addEventListener('click', function (event) {
-            event.stopPropagation(); // منع انتشار الحدث إلى document
-            sidebar.classList.toggle('active');
-        });
-
-        sidebarHandle.addEventListener('click', function (event) {
-            event.stopPropagation(); // منع انتشار الحدث إلى document
-            sidebar.classList.add('active');
-        });
-
-        // إغلاق القائمة عند النقر خارجها
-        document.addEventListener('click', function (event) {
-            if (sidebar.classList.contains('active') && !sidebar.contains(event.target)) {
-                sidebar.classList.remove('active');
-            }
-        });
-    } else {
-        console.error("عناصر القائمة الجانبية غير موجودة!");
-    }
-});
   
