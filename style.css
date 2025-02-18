@@ -5,6 +5,7 @@
     100% { transform: rotate(360deg); }
 }
 
+
 /* إعدادات عامة */
 html, body {
     margin: 0;
@@ -270,17 +271,7 @@ h3, h4 {
     padding-top: 10px;
     font-size: 18px;
 }
-/*.data-status {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    display: none;
-    z-index: 1000;
-}*/
+
 .alert-body {
     margin: 15px 0;
     line-height: 1.6;
@@ -302,6 +293,7 @@ h3, h4 {
     margin-left: 10px;
 }
 /* الجداول */
+/* الجداول */
 .table-container {
     margin-top: 20px;
     font-weight: bold;
@@ -316,7 +308,7 @@ h3, h4 {
     direction: rtl;
 }
 
-.table-container th, th1, 
+.table-container th, 
 .table-container td {
     padding: 6px;
     border: 1px solid #9c9797;
@@ -325,7 +317,7 @@ h3, h4 {
     direction: rtl;
 }
 
-.table-container th,th1 {
+.table-container th {
     background-color: #f1f1f1;
     font-size: 16px;
 }
@@ -340,14 +332,14 @@ table {
     direction: rtl; /* للغة العربية */
 }
 
-td, th ,th1 {
+td, th {
     border: 1px solid #ddd;
     padding: 3px;
     text-align: center;
     display: table-cell;
 }
 
-th, th1 {
+th {
     background-color: #f2f2f2;
 }
 
@@ -373,19 +365,19 @@ th, th1 {
 /* تنسيق القائمة الجانبية */
 .sidebar {
     position: fixed;
-    top: 19%;
-    right: -100px;
+    top: 13%;
+    right: -95px;
     transform: translateY(-20%);
     background-color: rgba(0, 0, 0, 0.911);
-    padding: 18px;
+    padding: 19px;
     border-radius: 24px 0px 0px 24px;
     box-shadow: 2px 2px 10px rgba(243, 241, 241, 0.5);
     z-index: 999;
-    transition: right 0.3s ease; /* إضافة انتقال سلس */
+    transition: right 0.3sease; /* إضافة انتقال سلس */
 }
 
 .sidebar.active {
-    right: 0;
+    right: -22px;
     transition: right 0.3s ease;
 }
 
@@ -441,8 +433,8 @@ th, th1 {
     position: absolute;
     top: 0;
     left: 0;
-    width: 17%;
-    height: 100%;
+    width: 19%;
+    height: 79%;
     border-radius: 54px 0px 0px 47px;
     background-color: rgba(0, 0, 0, 0.8);
     cursor: pointer;
@@ -544,7 +536,27 @@ th, th1 {
         color: #000000;
         font-weight: bold;
     }
-
+    #sidebar {
+        width: 250px;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: -250px; /* إخفاء القائمة خارج الشاشة */
+        background-color: #333;
+        transition: left 0.3s ease;
+    }
+    
+    #sidebar.active {
+        left: 0; /* إظهار القائمة عند التفعيل */
+    }
+    
+    #sidebarToggle {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        cursor: pointer;
+    }
     .select-container select,
     .select-container button {
         display: flex;
@@ -1037,3 +1049,14 @@ th, th1 {
       transform: rotate(0) scale(1);
     }
   }
+  /*.data-status {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 1000;
+}*/
