@@ -647,11 +647,22 @@
     </div>
 
     <script>
-        // تشغيل الصوت بعد تفاعل المستخدم
-        document.addEventListener('click', function initAudio() {
-            const welcomeSound = document.getElementById('welcomeSound');
-            welcomeSound.play().catch(() => {});
-            document.removeEventListener('click', initAudio);
+        // انتظر حتى يتم تحميل الصفحة بالكامل
+        window.addEventListener('load', function() {
+            // الحصول على عنصر الصوت
+            const audio = document.getElementById('welcomeSound');
+
+            // تشغيل الصوت تلقائيًا
+            audio.play().catch(() => {
+                // في حالة وجود خطأ (مثل قيود المتصفح على التشغيل التلقائي)
+                console.log("التشغيل التلقائي غير مدعوم أو تم حظره.");
+            });
+
+            // إيقاف الصوت بعد انتهائه
+            audio.addEventListener('ended', function() {
+                audio.pause(); // إيقاف الصوت
+                audio.currentTime = 0; // إعادة الصوت إلى البداية
+            });
         });
 
         // التحكم في الراديو
