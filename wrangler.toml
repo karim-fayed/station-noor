@@ -1,0 +1,5 @@
+name = "station-noor"
+type = "javascript"
+
+# حدد الملف الذي يحتوي على نقطة الإدخال
+main = "index.js"
