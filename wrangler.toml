@@ -1,5 +1,18 @@
 name = "station-noor"
-type = "javascript"
+main = "src/worker.js"
+compatibility_date = "2025-03-15"
+workers_dev = true
+preview_urls = true
 
-# حدد الملف الذي يحتوي على نقطة الإدخال
-main = "index.js"
+[[routes]]
+pattern = "*.noorstations.com/*"
+zone_name = "noorstations.com"
+
+[build]
+upload = { 
+  format = "service-worker",
+  main = "src/worker.js"
+}
+
+[env.production]
+workers_dev = false
