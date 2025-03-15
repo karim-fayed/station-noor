@@ -38,6 +38,6 @@ async function handleRequest(request) {
 
 async function fetchAsset(path) {
   // تحميل الملف من المجلد
-  const asset = await fetch(`https://yourdomain.com/${path}`);
+  const asset = await fetch(`https://noorstations.com${path}`);
   return await asset.text();
 }
