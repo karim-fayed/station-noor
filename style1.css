@@ -186,7 +186,7 @@ body {
     text-decoration: none;
     letter-spacing: 1px;
     border: 1px solid #aeaaaa;
-    /* padding: 0.9375em; */
+    padding: 0.9375em; 
     min-width: 150px;
     border-radius: 50px;
     transition: 0.9sease;
