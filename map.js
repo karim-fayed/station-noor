@@ -371,17 +371,26 @@ function updateLocations() {
 function addRowToRegionsTable(selectedRegion, location) {
   const row = document.createElement("tr");
   row.innerHTML = `
-    <td>${selectedRegion}</td>
-    <td>${location.name}</td>
-    <td id="distance-${selectedRegion}-${location.name}">---</td>
-    <td>
-      <button class="show-map-button" onclick="centerMap(${location.lat}, ${location.lng})">عرض على الخريطة</button>
-      <button class="show-map-button" onclick="navigateToStation(${location.lat}, ${location.lng})">عرض الاتجاهات</button>
-    </td>
+      <td data-label="المنطقة">${selectedRegion}</td>
+      <td data-label="الموقع">${location.name}</td>
+      <td data-label="المسافة" id="distance-${selectedRegion}-${location.name}">---</td>
+      <td data-label="الإجراءات">
+          <div class="button-group">
+              <button class="show-map-button" 
+                      onclick="centerMap(${location.lat}, ${location.lng})"
+                      aria-label="عرض على الخريطة">
+                  <i class="fas fa-map-marker-alt">  عرض على الخريطة</i>
+              </button>
+              <button class="show-map-button" 
+                      onclick="navigateToStation(${location.lat}, ${location.lng})"
+                      aria-label="عرض الاتجاهات">
+                  <i class="fas fa-route">  عرض الاتجاهات</i>
+              </button>
+          </div>
+      </td>
   `;
   document.getElementById("regionsTable").appendChild(row);
 }
-
 /* ---------------------------------------------
    وظائف التنقل والرسم على الخريطة
 --------------------------------------------- */
@@ -779,81 +788,119 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
 // Function to find the nearest station
-function showCustomAlert(title, message) {
-    const alertDiv = document.getElementById("customAlert");
-    alertDiv.innerHTML = `
-        <div class="alert-content">
-            <span class="close-btn" onclick="closeCustomAlert()">&times;</span>
-            <h3>${title}</h3>
-            <div class="alert-body">
-                ${message}
-                <div class="technical-details">
-                    <i class="fas fa-info-circle"></i>
-                    تم تسجيل التفاصيل في وحدة التحكم
-                </div>
-            </div>
-            <p class="welcome-message">نتشرف بتواجدك</p>
-        </div>
-    `;
-    alertDiv.style.display = "block";
+function showCustomAlert(title, message, showDirectionsButton = false, destination = null) {
+  const alertDiv = document.getElementById("customAlert");
+  const directionsButton = showDirectionsButton ? `
+      <button class="directions-btn" onclick="openDirections('${destination.lat}', '${destination.lng}')">
+          <i class="fas fa-route"></i>
+          عرض الاتجاهات
+      </button>
+  ` : '';
+
+  alertDiv.innerHTML = `
+      <div class="alert-content">
+          <span class="close-btn" onclick="closeCustomAlert()">&times;</span>
+          <h3>${title}</h3>
+          <div class="alert-body">
+              ${message}
+              ${directionsButton}
+              <div class="technical-details">
+                  <i class="fas fa-info-circle"></i>
+                  تم تسجيل التفاصيل في وحدة التحكم
+              </div>
+          </div>
+          <p class="welcome-message">نتشرف بتواجدك</p>
+      </div>
+  `;
+  alertDiv.style.display = "block";
 }
 
 function closeCustomAlert() {
     document.getElementById("customAlert").style.display = "none";
 }
+// Function to open directions in Google Maps
+function openDirections(lat, lng) {
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              const userLat = position.coords.latitude;
+              const userLng = position.coords.longitude;
+              const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLat},${userLng}&destination=${lat},${lng}&travelmode=driving`;
+              
+              // For mobile devices
+              if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+                  window.location.href = `geo:${lat},${lng}?q=${lat},${lng}`;
+              } else {
+                  window.open(mapsUrl, '_blank');
+              }
+          },
+          (error) => {
+              console.error("Geolocation error:", error);
+              showCustomAlert("خطأ", "يرجى السماح بالوصول إلى الموقع");
+          }
+      );
+  } else {
+      showCustomAlert("خطأ", "المتصفح لا يدعم تحديد الموقع");
+  }
+}
 
-// Find nearest station function
+// Updated find nearest station function
 function findNearestStation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const userLatLng = new google.maps.LatLng(
-                    position.coords.latitude,
-                    position.coords.longitude,
-                );
-                let nearestStation = null;
-                let shortestDistance = Infinity;
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              const userLatLng = new google.maps.LatLng(
+                  position.coords.latitude,
+                  position.coords.longitude,
+              );
+              let nearestStation = null;
+              let shortestDistance = Infinity;
 
-                const selectedRegion =
-                    document.getElementById("regionSelect").value;
-                const stationsToSearch = selectedRegion
-                    ? regionsData[selectedRegion]
-                    : Object.values(regionsData).flat();
+              const selectedRegion = document.getElementById("regionSelect").value;
+              const stationsToSearch = selectedRegion 
+                  ? regionsData[selectedRegion]
+                  : Object.values(regionsData).flat();
 
-                stationsToSearch.forEach((location) => {
-                    const stationLatLng = new google.maps.LatLng(
-                        location.lat,
-                        location.lng,
-                    );
-                    const distance =
-                        google.maps.geometry.spherical.computeDistanceBetween(
-                            userLatLng,
-                            stationLatLng,
-                        );
-                    if (distance < shortestDistance) {
-                        shortestDistance = distance;
-                        nearestStation = location;
-                    }
-                });
+              stationsToSearch.forEach((location) => {
+                  const stationLatLng = new google.maps.LatLng(
+                      location.lat,
+                      location.lng,
+                  );
+                  const distance =
+                      google.maps.geometry.spherical.computeDistanceBetween(
+                          userLatLng,
+                          stationLatLng,
+                      );
+                  if (distance < shortestDistance) {
+                      shortestDistance = distance;
+                      nearestStation = location;
+                  }
+              });
 
-                if (nearestStation) {
-                    centerMap(nearestStation.lat, nearestStation.lng);
-                    showCustomAlert(
-                        "أقرب محطة إليك",
-                        `اسم المحطة: ${nearestStation.name}<br>المسافة: ${(shortestDistance / 1000).toFixed(2)} كم`,
-                    );
-                } else {
-                    showCustomAlert("تنبيه", "لم يتم العثور على محطات قريبة");
-                }
-            },
-            (error) => {
-                console.error("Geolocation error:", error);
-                showCustomAlert("خطأ", "يرجى السماح بالوصول إلى الموقع");
-            },
-        );
-    } else {
-        showCustomAlert("خطأ", "المتصفح لا يدعم تحديد الموقع");
-    }
+              if (nearestStation) {
+                  centerMap(nearestStation.lat, nearestStation.lng);
+                  showCustomAlert(
+                      "أقرب محطة إليك",
+                      `اسم المحطة: ${nearestStation.name}<br>المسافة: ${(shortestDistance / 1000).toFixed(2)} كم`,
+                      true,
+                      {
+                          lat: nearestStation.lat,
+                          lng: nearestStation.lng,
+                          name: nearestStation.name
+                      }
+                  );
+              } else {
+                  showCustomAlert("تنبيه", "لم يتم العثور على محطات قريبة");
+              }
+          },
+          (error) => {
+              console.error("Geolocation error:", error);
+              showCustomAlert("خطأ", "يرجى السماح بالوصول إلى الموقع");
+          },
+      );
+  } else {
+      showCustomAlert("خطأ", "المتصفح لا يدعم تحديد الموقع");
+  }
 }
 function requestLocationPermission() {
     if (!navigator.geolocation) {
