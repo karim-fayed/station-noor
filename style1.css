@@ -140,7 +140,8 @@ body {
 .content h1 {
     font-size: 90px;
     color: #de560d;
-    margin-bottom: 50px;
+    margin-bottom: 45px;
+    margin-top: -152px;
     transition: top 0.5s, opacity 0.5s; 
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* إضافة ظل للنص */
 }
