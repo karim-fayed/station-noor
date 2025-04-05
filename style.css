@@ -4,7 +4,10 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
-
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
 
 /* إعدادات عامة */
 html, body {
@@ -93,7 +96,65 @@ html, body {
 #languageToggle:hover {
     color: #00ff62a9;
 }
+/*------------------------*/
+/* تنسيقات رسالة التحميل */
+.loading-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
 
+.loader {
+    width: 80px;
+    height: 80px;
+    animation: rotate 2s linear infinite;
+}
+
+.loader-svg {
+    enable-background: new 0 0 47.94 47.94; /* إذا كانت ضرورية */
+}
+
+.loader-path {
+    fill: #fff;
+    stroke: none;
+}
+
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+.directions-btn {
+    background: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 9px 23%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.directions-btn:hover {
+    background: #357abd;
+}
+
+.directions-btn i {
+    font-size: 16px;
+}
+/*----------------------*/
 p {
     display: block;
     text-align: center;
@@ -191,8 +252,7 @@ h3, h4 {
     direction: rtl;
 }
 
-.select-container select, 
-.select-container button {
+.select-container select {
     width: 150px;
     padding: 10px;
     font-size: 16px;
@@ -201,10 +261,15 @@ h3, h4 {
 }
 
 .select-container button {
-    background-color: #20c997;
-    color: white;
-    border: none;
-    cursor: pointer;
+    width: 150px;
+    padding: 10px;
+    font-size: 16px;
+    font: 1em sans-serif;
+    color: #ffffff;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #cccccc00;
+    background-color:  #3a6cf4 
 }
 
 .select-container button:hover {
@@ -241,7 +306,7 @@ h3, h4 {
     left: 50%;
     transform: translate(-50%, -50%);
     background: #fff;
-    padding: 25px;
+    padding: 15px;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0,0,0,0.2);
     z-index: 1000;
@@ -500,7 +565,7 @@ th {
         left: 50%;
         right: -30%;
         transform: translate(-50%, 0%);
-        display: flex;
+
         flex-wrap: wrap;
         width: 80%;
         height: auto;
@@ -571,12 +636,12 @@ th {
     }
     .select-container select,
     .select-container button {
-        display: flex;
+/*        display: flex;*/
         align-content: center;
-        justify-content: center;
+/*        justify-content: center;
         flex-direction: column;
         flex-wrap: wrap;
-        align-items: center;
+        align-items: center;*/
         direction: rtl;
         font-size: 15px;
     }
@@ -924,7 +989,7 @@ th {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .form-group label {
@@ -1016,7 +1081,7 @@ th {
     width: 50px;
     height: 50px;
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #3498db;
+    border-top: 4px solid #da4500;
     border-radius: 50%;
     animation: spin 1.2s linear infinite;
     margin-bottom: 15px;
@@ -1072,3 +1137,13 @@ th {
     display: none;
     z-index: 1000;
 }*/
+.error-message {
+    color: #dc3545;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+    display: none;
+}
+
+.show-error {
+    display: block;
+}
