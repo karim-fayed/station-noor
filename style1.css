@@ -171,11 +171,11 @@ body {
     display: flex;
     justify-content: center;
     position: absolute;
-    bottom: 20px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1;
-    margin: 24px 0;
+    margin: 4px 0;
 }
 
 .download-buttons .btn {
@@ -185,11 +185,11 @@ body {
     color: #000000d1;
     text-decoration: none;
     letter-spacing: 1px;
-    border: 2px solid #aeaaaa;
-    padding: 0.9375em;
+    border: 1px solid #aeaaaa;
+    /* padding: 0.9375em; */
     min-width: 150px;
     border-radius: 50px;
-    transition: 0.9s ease;
+    transition: 0.9sease;
     background-color: transparent;
     justify-content: space-evenly;
     align-items: center;
@@ -197,7 +197,7 @@ body {
     flex-wrap: nowrap;
     flex-direction: column;
     box-shadow: #000 0px 0px 10px 0px;
-    font-weight: bold; /* جعل الخط غامق */
+    /*font-weight: bold;  جعل الخط غامق */
 }
 
 .download-buttons a:hover .fab.fa-apple {
