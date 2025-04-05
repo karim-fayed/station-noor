@@ -1,3 +1,5 @@
+//script.js
+
 // النصوص باللغتين
 const translations = {
     ar: {
@@ -6,6 +8,7 @@ const translations = {
         selectFuel: "اختر نوع الوقود",
         currentLocation: "موقعي الحالي",
         resetButton: "إعادة تعيين",
+        nearestStationButton:"عرض أقرب محطة",
         regionsTableTitle: "المناطق والمواقع",
         calculateDistanceTitle: "حساب المسافة بين موقعين",
         tableHeaders: {
@@ -24,6 +27,7 @@ const translations = {
         selectFuel: "Select Fuel Type",
         currentLocation: "My Current Location",
         resetButton: "Reset",
+        nearestStationButton:"Show the nearest station",
         regionsTableTitle: "Regions and Locations",
         calculateDistanceTitle: "Calculate Distance Between Two Locations",
         tableHeaders: {
@@ -38,43 +42,62 @@ const translations = {
     }
 };
 
-// اللغة الافتراضية
+// إدارة حالة اللغة
 let currentLanguage = localStorage.getItem('language') || 'ar';
-
+// تهيئة أولية
+function initLanguage() {
+    // تأكيد استخدام العربية كافتراضية
+    currentLanguage = localStorage.getItem('language') || 'ar';
+    document.getElementById('languageToggle').addEventListener('click', toggleLanguage);
+    updatePageDirection();
+    updateTexts();
+}
 // تبديل اللغة
 function toggleLanguage() {
     currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
     localStorage.setItem('language', currentLanguage);
     updateTexts();
+    updatePageDirection();
 }
-
+// تحديث اتجاه الصفحة
+function updatePageDirection() {
+    document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = currentLanguage;
+}
 // تحديث النصوص
 function updateTexts() {
     console.log("Updating texts for language:", currentLanguage); // تحقق من اللغة الحالية
-    updateElementText('pageTitle', translations[currentLanguage].pageTitle);
-    updateElementText('loadingMessage', translations[currentLanguage].loadingMessage);
-
+    // تحديث عنوان الصفحة
+    updateElementText('pageTitle', translations[currentLanguage].pageTitle);    updateElementText('.table-container:nth-child(1) h4', translations[currentLanguage].regionsTableTitle, true);
+    // تحديث عناوين الجداول
+    updateElementText('regionsTableTitle', translations[currentLanguage].regionsTableTitle);
+    updateElementText('distanceTableTitle', translations[currentLanguage].calculateDistanceTitle);
+    updateElementText('.table-container:nth-child(2) h4', translations[currentLanguage].calculateDistanceTitle, true);
+    // تحديث القوائم المنسدلة
     updateSelectPlaceholder('regionSelect', translations[currentLanguage].selectRegion);
-    updateSelectPlaceholder('fuelTypeSelect', translations[currentLanguage].selectFuel);
     updateSelectPlaceholder('startLocation', translations[currentLanguage].currentLocation);
     updateSelectPlaceholder('endLocation', translations[currentLanguage].currentLocation);
 
+    // تحديث الأزرار
     updateElementText('resetButton', translations[currentLanguage].resetButton);
+    updateElementText('nearestStationButton', translations[currentLanguage].nearestStationButton);
 
-    updateElementText('.table-container h4:first-child', translations[currentLanguage].regionsTableTitle, true);
-    updateElementText('.table-container h4:last-child', translations[currentLanguage].calculateDistanceTitle, true);
-
-    updateTableHeaders('thead tr:first-child th', translations[currentLanguage].tableHeaders, ['region', 'location', 'avgDistance', 'map']);
-    updateTableHeaders('thead tr:last-child th', translations[currentLanguage].tableHeaders, ['startLocation', 'endLocation', 'distance']);
+    // تحديث رؤوس الجداول
+    updateTableHeaders('.regions-table thead th', translations[currentLanguage].tableHeaders, ['region', 'location', 'avgDistance', 'map']);
+    updateTableHeaders('.distance-table thead th', translations[currentLanguage].tableHeaders, ['startLocation', 'endLocation', 'distance']);
 }
 // تحديث النصوص لعناصر فردية
 function updateElementText(selector, text, isQuerySelector = false) {
-    const element = isQuerySelector ? document.querySelector(selector) : document.getElementById(selector);
-    if (element) {
-        console.log(`Updating element ${selector} with text: ${text}`); // تحقق من النص الذي يتم تحديثه
+    try {
+        const element = isQuerySelector ? 
+            document.querySelector(selector) : 
+            document.getElementById(selector);
+        
+        if (!element) throw new Error('Element not found');
+        
         element.textContent = text;
-    } else {
-        console.error(`العنصر '${selector}' غير موجود.`);
+    } catch (error) {
+        console.warn(`Failed to update ${selector}:`, error.message);
     }
 }
 // تحديث العناصر الافتراضية للقوائم المنسدلة
@@ -95,7 +118,9 @@ function updateTableHeaders(selector, headers, keys) {
         elements.forEach((element, index) => {
             if (keys[index] && headers[keys[index]]) {
                 console.log(`Updating table header ${keys[index]} with text: ${headers[keys[index]]}`); // تحقق من النص الذي يتم تحديثه
-                element.textContent = headers[keys[index]];
+                if (element) {
+                    element.textContent = headers[keys[index]];
+                }
             }
         });
     } else {
@@ -105,35 +130,7 @@ function updateTableHeaders(selector, headers, keys) {
 
 // تطبيق النصوص عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
-    updateTexts();
-    initMap(); // تأكد من تشغيل الخريطة فقط بعد تحميل DOM
-});
-
-// تهيئة الخريطة
-function initMap() {
-    try {
-        const map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: 24.7136, lng: 46.6753 },
-            zoom: 11
-        });
-        console.log("Google Maps initialized successfully.");
-    } catch (error) {
-        console.error("Error initializing Google Maps:", error);
-    }
-}
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
-    });
-});
-
-// تحديث النصوص عند تغيير اللغة
-document.getElementById('languageSelect').addEventListener('change', function () {
-    currentLanguage = this.value;
-    localStorage.setItem('language', currentLanguage);
-    updateTexts();
+    initLanguage();
+    initMap();
 });
 
