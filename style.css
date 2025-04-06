@@ -569,7 +569,7 @@ th {
     }
     .welcome {
         font-size: 25px;
-        margin-bottom: 5px;
+        margin-bottom: 0;
         color: #23262e;
         letter-spacing: -1px;
     }
@@ -640,7 +640,7 @@ th {
     }
     .welcome {
         font-size: 18px;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         color: #23262e;
         letter-spacing: -1px;
     }
