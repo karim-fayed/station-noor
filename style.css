@@ -538,6 +538,41 @@ th {
     .col-4 {
         flex-grow: 1; /* تأكد من أن العناصر تأخذ المساحة المتاحة */
     }
+    header .header-top-bar .widget {
+        display: inline-block;
+    }
+    .widget {
+        display: flex;
+        align-items: center;
+    }
+    
+    .widget img {
+        margin-right: 8px; /* المسافة بين الأيقونة والنص */
+    }
+    .col-4 {
+        display: flex;
+        align-items: center; /* تأكد من محاذاة العناصر بشكل رأسي */
+        justify-content: flex-start; /* تأكد من محاذاة العناصر إلى اليسار */
+    }
+    /* تطبيق الأنميشن على الصورة */
+    .welcome img {
+        width: 25px;
+        margin-right: 10px;
+        -webkit-animation: rotation 8s infinite linear; /* خاصية متصفح WebKit */
+        animation: rotation 8s infinite linear; /* خاصية الأنميشن القياسية */
+    }
+    
+    /* ضبط تنسيق الصورة بشكل عام */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    .welcome {
+        font-size: 25px;
+        margin-bottom: 0;
+        color: #23262e;
+        letter-spacing: -1px;
+    }
     html[dir=rtl] .select-container {
         display: flex;
         flex-direction: row;
@@ -603,7 +638,12 @@ th {
         margin: 0 auto;
         height: 300px;
     }
-
+    .welcome {
+        font-size: 18px;
+        margin-bottom: 0;
+        color: #23262e;
+        letter-spacing: -1px;
+    }
     h3 {
         text-align: center;
         margin-top: 0px;
@@ -856,9 +896,43 @@ th {
 
 @media (max-width: 768px) {
     .header {
-        padding: 22px;
+        padding: 0px;
     }
-
+    header .header-top-bar .widget {
+        display: inline-block;
+    }
+    .widget {
+        display: flex;
+        align-items: center;
+    }
+    
+    .widget img {
+        margin-right: 8px; /* المسافة بين الأيقونة والنص */
+    }
+    .col-4 {
+        display: flex;
+        align-items: center; /* تأكد من محاذاة العناصر بشكل رأسي */
+        justify-content: flex-start; /* تأكد من محاذاة العناصر إلى اليسار */
+    }
+    /* تطبيق الأنميشن على الصورة */
+    .welcome img {
+        width: 25px;
+        margin-right: 10px;
+        -webkit-animation: rotation 8s infinite linear; /* خاصية متصفح WebKit */
+        animation: rotation 8s infinite linear; /* خاصية الأنميشن القياسية */
+    }
+    
+    /* ضبط تنسيق الصورة بشكل عام */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    .welcome {
+        font-size: 25px;
+        margin-bottom: 0;
+        color: #23262e;
+        letter-spacing: -1px;
+    }
     h3 {
         text-align: center;
         margin-top: auto;
@@ -970,41 +1044,7 @@ th {
         transform: rotate(360deg);
     }
 }
-header .header-top-bar .widget {
-    display: inline-block;
-}
-.widget {
-    display: flex;
-    align-items: center;
-}
 
-.widget img {
-    margin-right: 8px; /* المسافة بين الأيقونة والنص */
-}
-.col-4 {
-    display: flex;
-    align-items: center; /* تأكد من محاذاة العناصر بشكل رأسي */
-    justify-content: flex-start; /* تأكد من محاذاة العناصر إلى اليسار */
-}
-/* تطبيق الأنميشن على الصورة */
-.welcome img {
-    width: 25px;
-    margin-right: 10px;
-    -webkit-animation: rotation 8s infinite linear; /* خاصية متصفح WebKit */
-    animation: rotation 8s infinite linear; /* خاصية الأنميشن القياسية */
-}
-
-/* ضبط تنسيق الصورة بشكل عام */
-img {
-    max-width: 100%;
-    height: auto;
-}
-.welcome {
-    font-size: 25px;
-    margin-bottom: 0;
-    color: #23262e;
-    letter-spacing: -1px;
-}
 /* تنسيق صفحة الاتصال */
 .contact-container {
     display: flex;
