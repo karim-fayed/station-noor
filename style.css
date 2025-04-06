@@ -917,7 +917,7 @@ th {
     /* تطبيق الأنميشن على الصورة */
     .welcome img {
         width: 25px;
-        margin-right: 10px;
+        margin-right: 5px;
         -webkit-animation: rotation 8s infinite linear; /* خاصية متصفح WebKit */
         animation: rotation 8s infinite linear; /* خاصية الأنميشن القياسية */
     }
@@ -929,7 +929,7 @@ th {
     }
     .welcome {
         font-size: 25px;
-        margin-bottom: 0;
+        margin-bottom: 5px;
         color: #23262e;
         letter-spacing: -1px;
     }
