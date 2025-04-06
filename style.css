@@ -15,21 +15,27 @@ html, body {
     padding: 0;
     height: 100%;
     padding-bottom: 40px;
-    font-family: Arial, sans-serif;
+    font-family: var(--primary-font);
+    word-break: break-word;
+    -webkit-font-smoothing: antialiased;
+    direction: rtl;
     background-image: url('./AboutNoor.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
 }
-
+.dir-ltr {
+    direction: ltr;
+    display: inline-block;
+}
 .header {
     display: flex;
-    justify-content: center;
+
     align-items: center;
     flex-direction: column;
     padding: 5px;
-
+    justify-content: space-between; /* توزيع المحتويات على الجانبين */
     background-color: #bdb4bd97;
 }
 
@@ -529,7 +535,9 @@ th {
         margin-top: 0px;
         padding-right: 9rem;
     }
-
+    .col-4 {
+        flex-grow: 1; /* تأكد من أن العناصر تأخذ المساحة المتاحة */
+    }
     html[dir=rtl] .select-container {
         display: flex;
         flex-direction: row;
@@ -944,6 +952,59 @@ th {
         font-weight: bold;
     }
 }
+/* تعريف الأنميشن مع البادئات المختلفة لتغطية المتصفحات المختلفة */
+@-webkit-keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+header .header-top-bar .widget {
+    display: inline-block;
+}
+.widget {
+    display: flex;
+    align-items: center;
+}
+
+.widget img {
+    margin-right: 8px; /* المسافة بين الأيقونة والنص */
+}
+.col-4 {
+    display: flex;
+    align-items: center; /* تأكد من محاذاة العناصر بشكل رأسي */
+    justify-content: flex-start; /* تأكد من محاذاة العناصر إلى اليسار */
+}
+/* تطبيق الأنميشن على الصورة */
+.welcome img {
+    width: 25px;
+    margin-right: 10px;
+    -webkit-animation: rotation 8s infinite linear; /* خاصية متصفح WebKit */
+    animation: rotation 8s infinite linear; /* خاصية الأنميشن القياسية */
+}
+
+/* ضبط تنسيق الصورة بشكل عام */
+img {
+    max-width: 100%;
+    height: auto;
+}
+.welcome {
+    font-size: 25px;
+    margin-bottom: 0;
+    color: #23262e;
+    letter-spacing: -1px;
+}
 /* تنسيق صفحة الاتصال */
 .contact-container {
     display: flex;
@@ -954,6 +1015,10 @@ th {
     background-color: #f9f9f9;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.a:hover {
+    color: var(--base-color);
+    transform: scale(1.05);
 }
 #cookieConsent {
     position: fixed;
