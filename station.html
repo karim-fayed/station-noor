@@ -177,7 +177,7 @@
                 </select>
             </div>
             <div>
-                <button onclick="resetAll()" aria-label="إعادة التعيين">إعادة التعيين</button>
+                <button id="resetButton" onclick="resetAll()" aria-label="إعادة التعيين">إعادة التعيين</button>
             </div>
             <div>
                 <button id="nearestStationButton" onclick="findNearestStation()" aria-label="عرض أقرب محطة">
@@ -190,22 +190,23 @@
     <!-- Tables -->
     <div class="table">
         <div class="table-container">
-            <h4>المناطق والمواقع</h4>
-            <table>
+            <h4 id="regionsTableTitle">المناطق والمواقع</h4>
+            <table class="regions-table">
                 <thead>
                     <tr>
                         <th>المنطقة</th>
                         <th>الموقع</th>
-                        <th>من مركز المدينة (كم)</th>
+                        <th>المسافة (كم)</th>
                         <th>الخريطة</th>
                     </tr>
                 </thead>
                 <tbody id="regionsTable"></tbody>
             </table>
         </div>
+        
         <div class="table-container">
-            <h4>حساب المسافة بين موقعين</h4>
-            <table>
+            <h4 id="distanceTableTitle">حساب المسافة بين موقعين</h4>
+            <table class="distance-table">
                 <thead>
                     <tr>
                         <th>الموقع الأول</th>
@@ -223,7 +224,6 @@
             </table>
         </div>
     </div>
-
     <!-- Footer -->
     <footer class="footer">
         <p class="footer-title">حقوق النشر © <span>Noor Khoy</span> <span id="currentYear"></span></p>
