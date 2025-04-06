@@ -3,18 +3,19 @@
 // النصوص باللغتين
 const translations = {
     ar: {
-        pageTitle: "محطات نور خوي",
+        pageTitle: "محطات نور",
+        welcome: "اهلا و مرحباً بكم في محطات نور",
         selectRegion: "اختر منطقة",
         selectFuel: "اختر نوع الوقود",
         currentLocation: "موقعي الحالي",
         resetButton: "إعادة تعيين",
-        nearestStationButton:"عرض أقرب محطة",
+        nearestStationButton: "عرض أقرب محطة",
         regionsTableTitle: "المناطق والمواقع",
         calculateDistanceTitle: "حساب المسافة بين موقعين",
         tableHeaders: {
             region: "المنطقة",
             location: "الموقع",
-            avgDistance: "المسافة المتوسطة (كم)",
+            avgDistance: "من مركز المدينة (كم)",
             map: "الخريطة",
             startLocation: "الموقع الأول",
             endLocation: "الموقع الثاني",
@@ -22,18 +23,19 @@ const translations = {
         }
     },
     en: {
-        pageTitle: "Noor Khoy Stations",
+        pageTitle: "Noor Stations",
+        welcome: "Welcome to Noor Stations",
         selectRegion: "Select Region",
         selectFuel: "Select Fuel Type",
         currentLocation: "My Current Location",
         resetButton: "Reset",
-        nearestStationButton:"Show the nearest station",
+        nearestStationButton: "Nersa Station",
         regionsTableTitle: "Regions and Locations",
         calculateDistanceTitle: "Calculate Distance Between Two Locations",
         tableHeaders: {
             region: "Region",
             location: "Location",
-            avgDistance: "Average Distance (km)",
+            avgDistance: "From City Center (km)",
             map: "Map",
             startLocation: "Start Location",
             endLocation: "End Location",
@@ -41,6 +43,8 @@ const translations = {
         }
     }
 };
+
+
 
 // إدارة حالة اللغة
 let currentLanguage = localStorage.getItem('language') || 'ar';
@@ -56,9 +60,11 @@ function initLanguage() {
 function toggleLanguage() {
     currentLanguage = currentLanguage === 'ar' ? 'en' : 'ar';
     localStorage.setItem('language', currentLanguage);
-    updateTexts();
+    updateTexts(); // تحديث النصوص بعد تغيير اللغة
     updatePageDirection();
+    updateLanguageToggleText(); // تحديث النص في زر التبديل
 }
+
 // تحديث اتجاه الصفحة
 function updatePageDirection() {
     document.documentElement.dir = currentLanguage === 'ar' ? 'rtl' : 'ltr';
@@ -66,13 +72,19 @@ function updatePageDirection() {
 }
 // تحديث النصوص
 function updateTexts() {
-    console.log("Updating texts for language:", currentLanguage); // تحقق من اللغة الحالية
+    console.log("Updating texts for language:", currentLanguage);
+
     // تحديث عنوان الصفحة
-    updateElementText('pageTitle', translations[currentLanguage].pageTitle);    updateElementText('.table-container:nth-child(1) h4', translations[currentLanguage].regionsTableTitle, true);
+    updateElementText('pageTitle', translations[currentLanguage].pageTitle);
+
     // تحديث عناوين الجداول
-    updateElementText('regionsTableTitle', translations[currentLanguage].regionsTableTitle);
-    updateElementText('distanceTableTitle', translations[currentLanguage].calculateDistanceTitle);
+    updateElementText('.table-container:nth-child(1) h4', translations[currentLanguage].regionsTableTitle, true);
     updateElementText('.table-container:nth-child(2) h4', translations[currentLanguage].calculateDistanceTitle, true);
+
+    // تحديث رؤوس الجداول
+    updateTableHeaders('.regions-table thead th', translations[currentLanguage].tableHeaders, ['region', 'location', 'avgDistance', 'map']);
+    updateTableHeaders('.distance-table thead th', translations[currentLanguage].tableHeaders, ['startLocation', 'endLocation', 'distance']);
+
     // تحديث القوائم المنسدلة
     updateSelectPlaceholder('regionSelect', translations[currentLanguage].selectRegion);
     updateSelectPlaceholder('startLocation', translations[currentLanguage].currentLocation);
@@ -81,11 +93,9 @@ function updateTexts() {
     // تحديث الأزرار
     updateElementText('resetButton', translations[currentLanguage].resetButton);
     updateElementText('nearestStationButton', translations[currentLanguage].nearestStationButton);
-
-    // تحديث رؤوس الجداول
-    updateTableHeaders('.regions-table thead th', translations[currentLanguage].tableHeaders, ['region', 'location', 'avgDistance', 'map']);
-    updateTableHeaders('.distance-table thead th', translations[currentLanguage].tableHeaders, ['startLocation', 'endLocation', 'distance']);
 }
+
+
 // تحديث النصوص لعناصر فردية
 function updateElementText(selector, text, isQuerySelector = false) {
     try {
@@ -124,7 +134,14 @@ function updateTableHeaders(selector, headers, keys) {
             }
         });
     } else {
-        console.error(`رؤوس الجداول '${selector}' غير موجودة.`);
+        console.error(`Table headers '${selector}' not found.`);
+    }
+}
+
+function updateLanguageToggleText() {
+    const toggleButton = document.getElementById('languageToggle');
+    if (toggleButton) {
+        toggleButton.textContent = currentLanguage === 'ar' ? 'English' : 'عربي';
     }
 }
 
@@ -133,4 +150,3 @@ document.addEventListener('DOMContentLoaded', () => {
     initLanguage();
     initMap();
 });
-
