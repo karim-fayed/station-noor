@@ -557,7 +557,7 @@ th {
     /* تطبيق الأنميشن على الصورة */
     .welcome img {
         width: 25px;
-        margin-right: 10px;
+        margin-right: 13px;
         -webkit-animation: rotation 8s infinite linear; /* خاصية متصفح WebKit */
         animation: rotation 8s infinite linear; /* خاصية الأنميشن القياسية */
     }
